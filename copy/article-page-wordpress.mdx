@@ -1,0 +1,193 @@
+---
+
+title: 'Article ou Page, que choisir ?'
+lastmod: '2020-01-02T15:06:58+00:00'
+slug: article-page-wordpress
+draft: false
+categories:
+  - Conseils
+tags:
+  - SEO
+  - WordPress
+description: "Deux formats de publication cohabitent sous WordPress : la page et l'article. Lequel doit on choisir ou privilégier ? Y a-t-il une norme, ou un usage ?"
+image: /image/pages-articles.avif
+pubDate: '2020-01-02'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+WordPress offre par défaut deux types de publications : les articles et les pages. Les deux partagent une même interface d'édition, et la différence lors de la publication ne saute pas forcément aux yeux.
+
+
+
+Mais ils n'ont pas la même finalité. Nous allons voir les points communs, les différences et l'usage de chacun.
+
+
+
+## Les points communs entre page et article
+
+
+
+En tout premier lieu, les deux bénéficient d'une interface commune d’édition sous Gutenberg, et il est possible d'utiliser un constructeur de page pour rédiger un article, même si ce n'est pas vraiment la norme.
+
+
+
+Pour une page comme pour un article, nous avons un contenu structuré / structurable, avec des titres, des sous-titres, des paragraphes, des images…
+
+
+
+Et à l'affichage du contenu, il n'y aura pas non plus de différence entre un article ou une page, les deux partageant un même environnement.
+
+
+
+Et pourtant… je vous l'ai dit dès les premières lignes : page et article n'ont pas la même finalité. Voyons donc…
+
+
+
+## Les différences entre page et article
+
+
+
+### L'article
+
+
+
+Ce contenu est publié sous forme d'article, c'est même **le format le plus utilisé** sur ce blog. Le blog est un journal ou un magazine en ligne, et pour l'un comme pour l'autre, le **contenu est structuré sous forme d'articles**, regroupés au sein de **rubriques**. Ces rubriques vont être **intégrées au menu** pour que le visiteur puisse parcourir chacune d'entre elles.
+
+
+
+Voyons l'interface d'édition d'un article, avec les éléments spécifiques à l'article mis en évidence via la numérotation :
+
+
+
+<OptImg src="/image/nouvel-article" alt="Interface d'édition d'un article" caption="Interface d'édition d'un article" align="center" />
+
+
+
+Les articles sont généralement datés et signés par leur auteur (je ne signe pas mes articles, vu que je suis le seul et unique rédacteur pour ce blog, mais c'est un cas particulier). Et dans l'édition de *Géo* (ou de *Terre Sauvage*, ou de n'importe quel mensuel) de décembre 2019, le contenu des articles n'est pas le même que dans l'édition de novembre ou d'octobre 2019.
+
+
+
+Vous trouverez dans certains journaux et magazines une rubrique *"Droit de réponse"* où l'article original est cité comme point de référence. Ce droit de réponse trouve en quelque sorte une équivalence dans les commentaires - même si les commentaires sont le plus souvent utilisés à d'autres fins, en fonction du blog et de l'article.
+
+
+
+Dans WordPress, l'article sert à publier un contenu pour lequel une interaction avec le lecteur est souhaitable, ou tout au moins possible - que ce soit sous forme de commentaires ou de partage sur les réseaux sociaux.
+
+
+
+Les articles peuvent être classés par rubriques (les catégories) et être étiquetés, il peut aussi être **mis en avant** (épinglé), pour lui donner plus de visibilité, exactement comme l'article À la Une d'un magazine ou d'un journal (papier ou télévisé).
+
+
+
+### La page
+
+
+
+Commençons par nous intéresser à l'interface d'édition de la page, exactement comme nous l'avons fait pour l'article :
+
+
+
+<OptImg src="/image/nouvelle-page" alt="Interface d'édition d'une page" caption="Interface d'édition d'une page" align="center" />
+
+
+
+Pour reprendre l'analogie entre un blog et un journal ou un magazine, vous avez dans l'un comme dans l'autre du contenu qui ne change pas, quelle que soit la date de parution : les mentions légales par exemple, ou l'encart destiné à l'abonnement. Ce contenu est **un contenu statique, intemporel**.
+
+
+
+Le directeur de publication, l'adresse, les coordonnées ne changent pas au gré des éditions, même s'ils peuvent effectivement varier dans la durée : le siège social peut être déplacé, le directeur remplacé, etc. Mais ces modifications vont rester ponctuelles et en général perdurer.
+
+
+
+Et la plupart du temps, vous n'allez pas chercher à partager ces informations sur les réseaux sociaux ni à créer des interactions sur ces pages.
+
+
+
+Si un de vos lecteurs a une remarque à vous faire quant à la politique de confidentialité de votre site par exemple, ce n'est pas via un commentaire qu'il vous interpellera, mais en se rendant sur la page *Contact* (tiens donc, une page !) ou en vous envoyant directement un email.
+
+
+
+La page est également l'élément de base d'une présentation, comme, par exemple, une plaquette commerciale ou encore un flyer : sur chaque page, vous allez trouver **une information figée, intemporelle**.
+
+
+
+La discothèque y met en avant l'entrée gratuite du vendredi soir, la quincaillerie ses outils de jardin et ses batteries de casseroles, l'artisan son domaine de compétences et / ou d'intervention.
+
+
+
+WordPress reprend la même logique : la page sera utilisée **pour créer un contenu statique** et qui n'est pas amené à varier dans le temps.
+
+
+
+Les pages WordPress ne peuvent pas être regroupées au sein de rubriques, à la différence des articles. Par contre, il est possible de **structurer l'information**, avec des pages enfant liées à une page principale. Et les pages sont ajoutées au menu, pour que votre lecteur puisse y accéder.
+
+
+
+Une entreprise, par exemple, peut créer une page principale *À propos de nous* et ses satellites : *Notre activité*, *Nos dirigeants*, *Nos valeurs*, etc.
+
+
+
+Cette hiérarchisation peut s'avérer intéressante pour créer **une architecture en silos**, recommandée pour améliorer votre SEO.
+
+
+
+## Et les autres types de contenu ?
+
+
+
+La question est pertinente. Quand on crée un autre type de contenu, un produit par exemple avec WooCommerce, ou un portfolio avec Jetpack, est-ce une page ou un article ?
+
+
+
+En fait, il s'agit bel et bien d'articles, de types différents. C'est ce que l'on appelle les *Custom Post Types*. Nous ne nous attarderons pas sur ce concept, nous y reviendrons prochainement dans un autre article (un article, tiens donc !) dédié aux articles, ou nous verrons également les formats d'articles.
+
+
+
+## L'heure des choix
+
+
+
+Alors, page ou article ? Faisons un bref récapitulatif.
+
+
+
+Je choisis l'article pour :
+
+
+
+* un contenu pour lequel j'attends une interaction avec mon lectorat
+* des tutoriels, ou des nouvelles dont la durée de vie ou la période d'intérêt est limitée
+* les nouvelles d'une entreprise, s'il y a une mise à jour régulière
+* [le blog d'une entreprise](/blogging/conseils/blog-entreprise/)…
+
+
+
+Mais vous l'avez compris, nous aurons toujours besoin des pages.
+
+
+
+Je choisis la page pour :
+
+
+
+* les mentions légales, les conditions générales de vente, la page de contact, la page *À propos…*
+* un site statique, présentant une entreprise ou un événement par exemple
+* une présentation annuelle de résultats
+
+
+
+Pour finir, je hiérarchise mon contenu :
+
+
+
+* en classant les articles dans des catégories et en les étiquetant
+* en créant une page principale et des pages enfant
+
+
+
+Cet article vous a été utile ? Vous voulez poser une question, apporter une précision ? Direction les commentaires !

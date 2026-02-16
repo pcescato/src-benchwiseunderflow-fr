@@ -1,0 +1,352 @@
+---
+
+title: La création d'un thème enfant
+lastmod: '2019-03-06T09:02:58+00:00'
+slug: la-creation-dun-theme-enfant
+draft: false
+categories:
+  - Thèmes
+tags:
+  - thème enfant
+  - twenty nineteen
+description: "Je vous emmène aujourd'hui dans les coulisses de la création d'un thème. Vous allez suivre les étapes que j'ai moi-même suivi pour créer i2019, un thème enfant de Twenty Nineteen."
+image: /image/i2019-theme-enfant.avif
+pubDate: '2019-03-06'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Lors de la rédaction de l'article [Personnaliser Twenty Nineteen](/blogging/themes/personnaliser-twenty-nineteen/), j'ai voulu offrir un thème enfant à mes lecteurs, tout comme je l'avais fait avec [Twenty Seventeen](/blogging/themes/bible-twenty-seventeen/).
+
+
+
+Je n'ai pas de statistiques précises sur le nombre d'installations actives, ni sur le nombre total de téléchargements de ce premier thème enfant, extrêmement basique, mais je trouve parfois au détour de mes recherches un site qui l'utilise, le blog de [Nogent le Rotrou](https://blog.nogent-le-rotrou.com/) par exemple.
+
+
+
+Pour *Twenty Nineteen*, j'ai voulu aller plus loin et proposer un thème plus abouti, tout au moins en ce qui concerne l'utilisation et la mise à jour. C'est ainsi qu'est né *i2019* (pour *i[mproved]2019*).
+
+
+
+Je vous livre ici les différentes étapes de la création de ce thème. Au commencement donc était…
+
+
+
+## Le thème par défaut pour WordPress 5, Twenty Nineteen
+
+
+
+Excellent thème par défaut, généraliste (aux dires de ses créateurs), **très bleu et très basique quand même**.
+
+
+
+Pas forcément déplaisant, mais déroutant.
+
+
+
+Un conteneur plutôt étroit, qui n'exploite pas l'espace mis à disposition sur un écran de bureau, ni même sur une tablette prise en mode paysage. De grands espaces un peu partout.
+
+
+
+Un menu pas spécialement clair, un peu… beaucoup… beaucoup trop tassé. Entre l'ellipse [icon name="ellipsis-h"] pour les éléments en trop dans l'espace réservé et le manque de séparation visuelle entre chaque entrée, on n'a pas vraiment l'impression d'avoir face à soi le menu.
+
+
+
+J'ai donc effectué quelques recherches, pour trouver…
+
+
+
+## Comment changer l'apparence de Twenty Nineteen
+
+
+
+Le thème est encore tout neuf, il n'y a pas beaucoup d'articles qui lui soient consacrés, et on trouve peu d'extensions ou de thèmes enfants dans le dépôt WordPress ni même ailleurs. Tout ce que j'ai trouvé, vous le trouverez dans l'article cité dans l’introduction, P[ersonnaliser Twenty Nineteen](/blogging/themes/personnaliser-twenty-nineteen/).
+
+
+
+Et en fin de compte, le thème n'est pas si vilain que ça, si on se donne la peine de le personnaliser. Voyez par vous-même le rendu d'un article avec Twenty Nineteen et avec i2019 :
+
+
+
+![Page d'article avec Twenty Nineteen](/blog/wp-content/uploads/2019/03/apparence-twenty-nineteen.jpg)
+
+![Page d'article avec i2019](/blog/wp-content/uploads/2019/03/i2019-apparence.jpg)
+
+
+
+Les points en rouge vous indiquent les principales modifications apportées à Twenty Nineteen.
+
+
+
+Une fois ces ajustements trouvés, je les ai intégrés à l'article que je rédigeais. Et je me suis attaqué à…
+
+
+
+## La création du thème enfant
+
+
+
+À ce moment-là, je ne savais pas encore ce que j'allais intégrer dans le thème enfant. Je ne pensais pas à intégrer l'ensemble des modifications, encore moins à les rendre facilement accessibles depuis l'outil de personnalisation. Et surtout pas à ajouter des fonctionnalités supplémentaires.
+
+
+
+Après tout, il ne s'agissait que d'un canevas destiné à faciliter l'utilisation de ces bouts de code par mes lecteurs.
+
+
+
+Que dire du nom ? Il n'était pas encore à l'ordre du jour, je peux même dire que c'est un des derniers points sur lesquels je me suis arrêté.
+
+
+
+Je l'ai rapidement nommé *tsw2019* pour *Tout Sur WordPress Twenty Nineteen*, parce que j'avais besoin d'un nom pour générer le thème enfant via une extension telle que [Child Theme Generator](https://wordpress.org/plugins/child-theme-generator/). Une extension simple à utiliser. Et que j'ai désactivée et supprimée une fois le thème enfant créé.
+
+
+
+Un thème enfant, au tout départ de l'aventure, c'est la copie conforme du thème parent. Pour le personnaliser, il me fallait…
+
+
+
+### Rassembler les bouts de code
+
+
+
+Je les ai mis ~~en vrac~~ dans le fichier `style.css` et dans le fichier des fonctions, `functions.php`. Avec un commentaire explicatif à chaque fois, disant que pour tel usage il fallait garder ou supprimer le code suivant.
+
+
+
+Il fallait également…
+
+
+
+### Créer les modèles du thème enfant
+
+
+
+Il fallait effectivement modifier le code de certains modèles. Donc supprimer du code, opérer certains ajustements.
+
+
+
+Mais tout le monde ne veut pas forcément la même chose. Je ne me voyais pas proposer du tout blanc ou du tout noir (ni du tout bleu).
+
+
+
+Tout le monde n'a pas les compétences techniques pour aller revoir le code `HTML` / `PHP` des modèles modifiés. Et le thème était pour les débutants, tout autant que pour un développeur à qui il pourrait plaire et qui n'aurait pas à réinventer la roue. J'ai donc décidé de…
+
+
+
+### Définir des options activables via l'outil de personnalisation
+
+
+
+J'ai donc créé des onglets pour ajouter chaque modification sous forme d'une option activable via l'outil de configuration, en les regroupant par thème : CSS, page d'archive, page d'article, pied de page, etc.
+
+
+
+Cet outil, imposé par WordPress pour les thèmes inclus dans son dépôt, n'a pas fait l'unanimité lors de sa mise en place. Mais on ne touchait pas au cœur du système. C'est la grande différence avec Gutenberg. ~~Les~~ Certains développeurs ont râlé, mais l'utilisateur y trouvait son compte. Et quelques années plus tard, qui voudrait revenir en arrière ?
+
+
+
+Le thème commençait à prendre forme, mais il était indispensable de…
+
+
+
+### Tester en conditions réelles d'utilisation
+
+
+
+Parce que bien sûr, je sais coder, mais une virgule en trop ou manquante, une accolade mal placée… le thème est cassé et n'est pas utilisable. Et certains ajustements peuvent ne pas avoir un effet très heureux.
+
+
+
+Le test fait partie intégrante du processus de développement, que le temps de développement se compte en minutes, en heures, en jours, en mois ou en années / homme, qu'il y ait un ou cent développeurs qui soient affectés à ce projet.
+
+
+
+J'ai donc mis en ligne un site de test. Rien d'extraordinaire, un blog avec deux pages et trois articles.
+
+
+
+Tout fonctionnait correctement, la rédaction de l'article touchait à sa fin. Le temps était venu de passer à l'étape suivante…
+
+
+
+## Le lancement du thème i2019
+
+
+
+Au moment de publier l'article *Personnaliser Twenty Nineteen*, j'ai choisi le nom du thème : i*2019* pour *i[mproved]2019*. À ce moment-là, j'avais le nom, j'avais le thème, mais il n'y avait pas encore de logo, et encore moins une capture d'écran pour remplacer le fichier `screenshot.png` du thème parent.
+
+
+
+Mais l'article était en ligne, le thème lancé et proposé dans l'article. Vous pouvez d'ailleurs le télécharger, que ce soit depuis l'article [Personnaliser Twenty Nineteen](/blogging/themes/personnaliser-twenty-nineteen/), ou depuis la page d'accueil [du site de démo](https://i2019.wp-xp.xyz).
+
+
+
+Mais je n'étais pas vraiment satisfait, vu que mon blog est en français, et que la grande majorité des utilisateurs de WordPress parlent plutôt anglais (que ce soit leur langue maternelle, ou parce qu'ils ont l'habitude de chercher l'information là où elle est la plus accessible).
+
+
+
+D'où ma décision de…
+
+
+
+## Créer un site dédié au thème i2019
+
+
+
+Je venais de renouveler un nom de domaine, wp-xp.xyz - sans savoir ce que je pourrais bien en faire (*W*P *XP* comme ***W**ord**P**ress e**XP**erience*). J'ai donc créé un mini-site promotionnel en sous-domaine, [i2019.wp-xp.xyz](https://i2019.wp-xp.xyz).
+
+
+
+WordPress 5 et Gutenberg, Twenty Nineteen (le thème enfant a besoin du thème parent pour être utilisable), mon thème enfant et Elementor. C'est à peu près tout ce dont j'avais besoin pour mettre en ligne le site. D'autres extensions sont venues se greffer sur ce noyau dur, mais j'avais déjà l'essentiel pour créer mon site - qui me servait par la même occasion de test et de démo.
+
+
+
+Et bien évidemment, WordPress version d'origine, en anglais. Avec des textes en anglais.
+
+
+
+<OptImg src="/image/i2019-logo" alt="logo i2019" caption="logo i2019" align="left" />
+
+
+
+Forcément, arrivé à ce point, il me fallait des visuels. Ce fut donc l'étape suivante.
+
+
+
+### Le logo et la capture d'écran
+
+
+
+Il me fallait un logo. Pour le site, et pour le thème bien sûr. J'ai créé le logo, et j'ai choisi une image d'arrière plan pour donner une identité graphique au thème, pour proposer une capture d'écran différente de celle du thème parent, qui permette de différencier les deux thèmes dans l'interface d'administration de WordPress :
+
+
+
+![](/blog/wp-content/uploads/2019/03/capture-ecran-twenty-nineteen.jpg)
+
+![i2019](/blog/wp-content/uploads/2019/02/screenshot.jpg)
+
+
+
+
+Je ne suis pas graphiste, je n'ai pas la prétention de faire beau. Mais j'ai tenté. J'ai choisi la police [Saint George](https://www.pixelsurplus.com/freebies/saint-george-free-typeface), et j'ai gardé la couleur bleue qui rappelait la démo du thème parent (la capture d'écran de *Twenty Nineteen* est plutôt dans des tons de gris), et qui me plaisait bien.
+
+
+
+**Même si j'ai gardé le bleu** pour la démo, j'ai choisi **un noir "enrichi"** pour le texte et un blanc "adouci" pour l'arrière plan (les couleurs utilisées dans cet encart).
+
+
+
+Avoir le logo et la capture d'écran, c'était un bon début. Mais il me restait à créer une page d'appel (la page d'accueil), quelques articles pour montrer les archives et le blog, et une page, a minima. J'aurais éventuellement pu créer la page d'accueil avec Gutenberg, mais j'ai préféré utiliser…
+
+
+
+### Elementor pour la page d'accueil
+
+
+
+Et montrer ainsi que le constructeur de page - même en version gratuite - est parfait pour créer des mises en page complexes avec le thème *i2019*. Avec *Twenty Nineteen* aussi, mais avec le thème parent, sans personnalisation, vous serez limité à une largeur de moitié.
+
+
+
+La page d'accueil mise en place, j'ai pris le parti de continuer avec…
+
+
+
+### Gutenberg pour les pages et les articles
+
+
+
+*Twenty Nineteen* est prévu pour être utilisé avec Gutenberg. Pour un site qui servira de démo, autant montrer ce qui est possible avec cet éditeur. Il y a un moment que je n'utilise plus que lui pour rédiger mes articles, même si le début de notre histoire n'a pas été [sans anicroches](/blogging/ghost-alternative-wordpress/).
+
+
+
+Mais les semaines et les mois passant, l'équipe Gutenberg corrigeant les bugs, l'expérience devient agréable et bien plus fluide. Et force est de constater que ses capacités et l'expérience utilisateur sont sans commune mesure avec l'éditeur classique.
+
+
+
+Il n'y a pas 36 pages et articles sur ce nouveau site. Il faut un début à tout, alors j'ai pris le parti de mettre en place l'essentiel. Page de contact, page d'erreur 404, page d'accueil. Un article avec image mise en avant pour présenter la genèse du thème, une sans pour informer des modifications. Une page d'archive générée automatiquement à partir des entrées du blog.
+
+
+
+Elementor donc, Gutenberg, et…
+
+
+
+### Les extensions nécessaires
+
+
+
+Je n'ai pas 36 extensions non plus sur ce site (24 en fait, en tout et pour tout, dont plus de la moitié n'est active que dans l'administration).
+
+
+
+Il y a évidemment les indispensables, pour la sécurité, le blocage des spams, la mise en cache, le formulaire de contact, le poids des images… et celles dont j'avais besoin pour des actions spécifiques, comme un gestionnaire de téléchargements, ou pour l'apparence, comme celle qui donne un look *material design* au formulaire de contact.
+
+
+
+Grâce à *Perfmatters*, je ne charge sur chaque page que les extensions nécessaires pour celle-ci. Ce qui réduit considérablement l'empreinte des extensions dans le poids total de la page, et donc accélère son chargement.
+
+
+
+Voyez plutôt les performances relevées pour le thème parent et pour i2019, avec GTmetrix :
+
+
+<OptImg src="/image/gtmetrix-twenty-nineteen" alt="" caption="Performances du thème Twenty Nineteen" align="wide" />
+
+<OptImg src="/image/gtmetrix-i2019" alt="Performances du thème i2019" caption="Performances du thème i2019" align="wide" />
+
+
+Honnêtement, je ne suis pas mécontent de voir les temps de chargement et le score PageSpeed pour une page créée avec Elementor.
+
+
+
+[Voir le thème enfant](https://i2019.wp-xp.xyz)
+
+
+
+Voila pour la partie technique. Mais le lancement d'un produit, c'est créer le produit, y associer un mini-site, et ~~attendre~~ en faire la promotion. C'est donc l'étape suivante.
+
+
+
+## La promotion… oops, vous avez dit quoi ?
+
+
+
+La promotion, c'est la partie que je ne maîtrise pas vraiment. Pour les conseils en marketing, je passe mon tour. Ce ne sont pas les quelques articles, tweets, publications sur LinkedIn, Facebook qui font de moi un expert dans ce domaine, ni qui suffiront à assurer la promotion d'un produit, quel qu'il soit, quelle que soit sa valeur et quel que soit son prix.
+
+
+
+Si un as du marketing passe par là et est intéressé par une collaboration, je suis ouvert à toute proposition (honnête, il va de soi). [Le formulaire de contact](/contact/) est opérationnel, tout indiqué pour cela, et je répondrais aussi rapidement que possible.
+
+
+
+## Et après…
+
+
+
+Un thème n'est jamais fini. D'une part, il y a toujours la possibilité de découvrir un bug, même si le risque est moindre dans un thème enfant - la majorité des fonctionnalités viennent du thème parent.
+
+
+
+Mais il y a aussi les améliorations que l'on peut apporter à son propre code, et les fonctionnalités supplémentaires que l'on va ajouter au thème.
+
+
+
+Depuis la version de lancement (1.0), il y a eu 6 versions apportant chacune son lot d'ajustements et de nouvelles fonctionnalités, dont l'affichage du nombre de mots et du temps de lecture, le réglage des couleurs du texte et de l'arrière plan, la mise à jour automatisée depuis l'interface d'administration de votre site… et d'autres modifications sont à l'étude, et seront pour certaines intégrées dans le thème au fil du temps.
+
+
+
+C'est d'ailleurs une des raisons qui devraient vous inciter à vous abonner à la lettre d'information  
+– et c'est promis, je n'enverrai jamais de lettre à des fins publicitaires.
+
+
+[newsletter\_signup\_form id=1]
+
+
+
+Et si vous avez des questions, ou envie de partager votre propre expérience de la création de thème ou de l'utilisation du thème i2019 (ou d'un autre thème enfant), l'article continue dans les commentaires !

@@ -1,0 +1,411 @@
+---
+
+title: 13 points essentiels pour optimiser la SEO sous WordPress
+lastmod: '2019-03-20T20:27:33+00:00'
+slug: conseils-seo-wordpress
+draft: false
+categories:
+  - Conseils
+tags:
+  - Optimisation
+  - référencement
+  - SEO
+description: "WordPress est SEO friendly. Mais une optimisation - même basique - sera la bienvenue pour vous faire gagner en visibilité auprès des moteurs de recherche. Passons en revue les points essentiels à mettre en œuvre."
+image: /image/conseils-seo.avif
+pubDate: '2019-03-20'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Si WordPress fait tourner plus du tiers des sites web aujourd'hui, c'est en bonne partie dû à sa réputation de CMS "SEO friendly". Et c'est vrai, WordPress est naturellement doué pour optimiser le référencement de vos pages et articles, à condition d'utiliser à bon escient ses capacités.
+
+
+
+Mais avec le nombre croissant de sites propulsés par WordPress, il est indispensable d'aller plus loin que le simple usage des capacités naturelles du CMS.
+
+
+
+Cet article ne se veut pas "le guide ultime du référencement", c'est une première approche, rapide et basique, des indispensables. Je n'aborde pas le contenu de l'article en tant que tel, je me limite ici aux aspects techniques.
+
+
+
+Nous allons passer en revue les outils inclus dans WordPress pour optimiser notre référencement, ainsi que les extensions qui nous permettrons d'affiner ce que WordPress nous offre.
+
+
+
+Cet article voit arriver, tout droit du blog [pour pas un rond](https://www.pourpasunrond.fr), le concept de participation d'un second blogueur, en l’occurrence Jean, le créateur et auteur du blog précité. Ses interventions sont dans des blocs de même couleur d'arrière-plan que celui-ci. Un grand merci à lui pour sa participation.
+
+
+
+*Si vous aussi souhaitez mettre en place une collaboration croisée entre votre blog et le mien, sous quelque forme que ce soit, [n'hésitez pas à me contacter](/contact/), je prendrai le temps d’étudier votre proposition et d'y répondre.*
+
+
+
+## Les outils inclus dans WordPress
+
+
+
+### 1 - le slogan du site
+
+
+
+Rien de pire que de laisser le slogan par défaut : *Un site utilisant WordPress*. Mieux vaut encore ne pas avoir de slogan que de laisser ce texte qui donnera une impression d'amateurisme au plus professionnel des sites.
+
+
+
+Pour le modifier, rendez-vous dans *Réglages > Généraux* et saisissez votre propre phrase d'accroche.
+
+
+
+### 2 - la gestion des permaliens
+
+
+
+Par défaut, la structure de l'URL n'est pas *SEO friendly*, loin s'en faut. Pour une raison simple : tous les serveurs web ne gèrent pas la réécriture d'URL. Concrètement, quand vous affichez cet article, l'URL est `/blogging/conseils/conseils-seo/`. Mais la page en tant que telle n'existe pas. C'est WordPress qui va déterminer que cette url correspond en fait à `/index.php?id=9313`.
+
+
+
+Si donc votre serveur gère la réécriture (il devrait) le permalien va autoriser des URL *SEO friendly*, plus parlantes que celles proposées par défaut.
+
+
+
+Pour gérer la structure des permaliens, rendez-vous dans le menu *Réglages > Permaliens*.
+
+
+
+<OptImg src="/image/permaliens" alt="Réglages des permaliens" caption="Réglages des permaliens" align="center" />
+
+
+
+En 1, vous voyez la structure par défaut, appelée structure simple, ainsi que les différentes structures proposées par WordPress, dont la dernière totalement personnalisable.
+
+
+
+En 2, vous avez les préfixes, pour les catégories et les étiquettes. Pour ma part, j'ai choisi `rubrique` (parce que dans le monde de l'édition, d'où vient le blog, on ne parle pas de *catégories* mais de *rubriques*) et `etiquette` plus parlant que `tag`.
+
+
+
+Mon conseil : appliquez le principe *KISS* (*Keep It Simple, Stupid*).
+
+
+
+Le conseil de Jean : Si vous ne publiez pas quotidiennement, je recommande d'aller vers l'**URL la plus simple sans catégorie**. Les liens sont ainsi directement lisibles. Les catégories n'apportent généralement pas grand chose à la compréhension. Le choix de la structure du permalien sera dans ce cas *Titre de la publication*.
+
+
+
+### 3 - le slug de l'URL
+
+
+
+Le *slug* peut être traduit par *jeton*. C'est un identifiant unique pour votre article ou votre page, qui, dans l'URL, permettra d'accéder à la bonne ressource.
+
+
+
+Il est directement lié aux permaliens, puisque c'est lui qui s'affichera en fin d'URL si vous définissez le permalien à `/%postname%/`.
+
+
+
+Pour caresser les moteurs de recherche dans le sens du poil, le slug doit être court et parlant. C'est pour cela que j'ai choisi *conseils-seo* pour cet article, ou [*visual-portfolio*](/blogging/extensions/visual-portfolio/) pour l'article dédié à l'extension du même nom.
+
+
+
+Si vous avez deux articles similaires, que vous avez nommés de manière identique, le slug permet de les différencier. Le second sera suffixé d'un tiret suivi du chiffre 2. Le slug de cet article, par exemple, est *conseils-seo*. Si je le duplique, le slug ne pourra pas être *~~conseils-seo~~* qui entrerait en conflit avec le premier. WordPress lui adjoindra automatiquement un suffixe, le slug par défaut sera donc *conseils-seo-2*.
+
+
+
+Mais pour les moteurs de recherche, cette approche n'est pas parlante. Si vous avez deux articles sur un même sujet, cherchez **le point qui rend chaque article unique**. Pour reprendre l'exemple précédent, si le deuxième article permet d'aller plus loin, vous pourrez garder *conseils-seo* pour le premier article, et définir le slug du deuxième avec *conseils-seo-avance*.
+
+
+
+Le slug est généré automatiquement, mais **vous pouvez et devez l'optimiser**. N'oubliez pas qu'il ne contient que des caractères alphanumériques simples (pas d'accents ni de caractères spéciaux), ainsi que des traits d'union (-) et des traits de soulignement(\_) qui ne sont plus en odeur de sainteté actuellement.
+
+
+
+Le conseil de Jean : Je rejoins Pascal. Le plus court sera le mieux.  
+Le plus simple est d'utiliser le **mot-clé principal de l'article**. Celui-ci résumera efficacement le contenu : */confiture-orange-violette* sera plus lisible pour Google et les lecteurs que */la-recette-merveilleuse-de-confiture-de-ma-grand-mere-a-l-orange-et-a-la-violette*. Vous modifiez facilement le slug avec Gutenberg dans l'onglet *Document* du menu à droite. Vous visualisez l'aperçu du résultat directement en-dessous.
+
+
+
+### 4 - l'extrait
+
+
+
+Vous avez certainement entendu parler de l'*excerpt*. C'est le terme anglais pour *extrait*. Il peut être généré automatiquement, si vous ajoutez une balise *Lire la suite* dans votre article, ou rédigé à part, dans l'onglet *Document / Extrait* de la colonne latérale droite de Gutenberg.
+
+
+
+C'est cette deuxième approche que je vous recommande pour optimiser la SEO de vos articles et pages. Bien pensé et bien rédigé, **il offre un vrai plus à votre article**. Vous remarquerez que je l'affiche toujours au-dessus du sommaire, pour donner un aperçu rapide de l'article au lecteur.
+
+
+
+L'extrait sert pour les balises de métadonnées *html* et *opengraph* `description` et est affiché en dessous du titre dans les moteurs de recherche. **Il est donc crucial de penser et de rédiger soigneusement ce texte court**.
+
+
+
+### 5 - La description des catégories et des étiquettes
+
+
+
+Pour chaque taxonomie, WordPress vous propose de renseigner le nom, le slug, et la description. Ce n'est pas obligatoire, mais autant utiliser pleinement les fonctionnalités du CMS.
+
+
+
+L'avantage à renseigner cette description, c'est de pouvoir afficher la description dans vos pages d'archives, et donc d'apporter une plus-value à ces pages qui, sinon, ne font que lister les articles correspondant à l'étiquette, à la catégorie, à l'auteur.
+
+
+
+### 6 - Le flux de syndication
+
+
+
+Ce flux, aussi appelé flux RSS, sert à alimenter les banques d'articles, à afficher un extrait de vos articles sur les sites qui vous suivent ou à générer un flux personnalisé par et pour vos lecteurs. Le plus connu des gestionnaires d'abonnement à ces flux étant [feedburner](https://feedburner.google.com).
+
+
+
+Dans *Réglages > Lecture*, vous pouvez choisir d'afficher le contenu complet de l'article, ou l'extrait. Cette deuxième option permet de mettre en avant vos articles avec l'extrait que vous avez vous même rédigé, donnant ainsi au lecteur l'envie de découvrir l'article complet sur votre site.
+
+
+
+En général, le flux de votre site est récupérable à l'url `https://monsite.com/rss/`. Le flux de ce site est donc récupérable via l'url [/rss/](/rss/<tsw.ovh/rss/).
+
+
+
+Par défaut, ce flux ne comporte pas d'image. Pour ajouter l'image à la Une et permettre la création de flux plus accrocheurs, je vous propose un bout de code à insérer via [Code Snippets](/blogging/code/centralisez-code-snippets/) :
+
+<Code code={`function featuredtoRSS(\$content) {
+global \$post;
+if ( has\_post\_thumbnail( \$post->ID ) ){
+\$content = '<div>' . get\_the\_post\_thumbnail( \$post->ID, 'large', array( 'style' => 'margin-bottom: 15px;' ) ) . '</div>lt;/div</div>gt;' . \$content;
+}
+return \$content;
+}
+add\_filter('the\_excerpt\_rss', 'featuredtoRSS');
+add\_filter('the\_content\_feed', 'featuredtoRSS');
+`} lang="php" />
+
+L'avis de Jean : les catégories ne sont pas obligatoires mais permettent **de définir efficacement une thématique**.
+
+
+
+## Les extensions SEO
+
+
+
+Il en existe plusieurs, d'assez complètes, pour aider à l'optimisation SEO de votre site.
+
+
+
+Mais attention ! Ces extensions constituent une aide, **elles ne feront pas le travail à votre place** ! C'est vous et vous seul qui êtes maître à bord.
+
+
+
+La plus connue de toutes, c'est incontestablement [Yoast SEO](https://fr.wordpress.org/plugins/wordpress-seo/). Dire que c'est la meilleure… je n'irai pas jusque là, mais elle fait ce qu'on lui demande et même plus.
+
+
+
+Dans les challengers, il y a [All in One SEO Pack](https://fr.wordpress.org/plugins/all-in-one-seo-pack/), [The SEO Framework](https://fr.wordpress.org/plugins/autodescription/) dont je me sert sur ce blog, [Rank Math](/blogging/extensions/rank-math-seo/), très prometteur (voir mon [comparatif entre Rank Math et Yoast SEO](/blogging/extensions/rank-math-vs-yoast-seo/)). Je l'utilise sur tous mes sites et le recommande régulièrement.
+
+
+
+Il y a aussi une extension développée par un français, il s'agit de [SEOPress](https://fr.wordpress.org/plugins/wp-seopress/). Intéressante, mais avec une approche quelque peu déroutante, du moins pour moi.
+
+
+
+Le conseil de Jean : Je reste fidèle à *Yoast SEO* qui a connu quelques déboires récemment. J'apprécie ses nombreuses fonctionnalités en particulier la gestion du fil d'Ariane et des extraits lors des partages sur les réseaux sociaux. L'extension est d'une aide précieuse pour l'obtention des épingles enrichies de Pinterest.
+
+
+
+Quels sont les points à mettre en œuvre via une extension SEO ? Il y a deux types d'actions possibles. Tout d'abord, au niveau du site, ce sont…
+
+
+
+### Les réglages globaux
+
+
+
+#### 7 - une sitemap pour votre site
+
+
+
+La plupart des extensions SEO intègrent cette fonctionnalité. La sitemap est en fait une carte ou un plan de votre site, qui va faciliter sa découverte par les moteurs de recherche. Sans elle, ils parcourront votre site, mais éventuellement de manière moins exhaustive, ou tout au moins, ils en feront à leur guise, vu que vous ne leur aurez pas fourni d'instructions.
+
+
+
+Que doit-on mettre dans la sitemap ? Les articles, bien sûr, et les pages. Vous pouvez également inclure les pages d'archives (étiquettes, catégories, auteurs…) **mais uniquement si ces pages apportent un réel plus** par rapport aux articles eux-mêmes.
+
+
+
+Par exemple si vous affichez votre extrait personnalisé, et si vous avez renseigné la description des catégories et étiquettes.
+
+
+
+#### 8 - les balises opengraph
+
+
+
+Ces balises sont utilisées par les réseaux sociaux (principalement Twitter, Facebook, Pinterest, Instagram et LinkedIn) pour afficher un extrait de vos contenus, pour récupérer le type de contenu, le titre, l'URL, l'image à la Une, le nom du site, les dates de publication et de mise à jour.
+
+
+
+Donc, quand quelqu'un partage votre article sur un réseau social, ce sont ces balises qui vont servir à afficher un contenu accrocheur dans le réseau social. Autant donner des informations pertinentes et percutantes.
+
+
+
+Une fois ces réglages effectués, vous pouvez agir…
+
+
+
+### Au niveau de chaque article
+
+
+
+#### 9 - le titre et la description SEO
+
+
+
+Ah mais j'ai déjà fait ! C'est l'extrait qui sert à la description, non ? Oui. Et non. Vous pouvez utiliser l'extrait. Mais c'est un extrait que vous ne pourrez pas optimiser et pour les pages d'archives (et éventuellement les articles si vous affichez l'extrait en haut de page), et pour les flux de syndication, et pour les moteurs de recherche.
+
+
+
+Par exemple, si votre extrait fait 250 caractères, c'est très bien pour afficher en archive, en syndication et en haut de page. Mais **c'est beaucoup trop long pour les moteurs de recherche** qui vont tronquer votre texte.
+
+
+
+L'extrait pour cet article (que vous retrouvez au tout début, avant le sommaire) comporte 212 caractères. J'ai donc revu mon texte, et pour les moteurs de recherche, la description fera 139 caractères :
+
+
+
+`Les points essentiels pour optimiser la SEO de votre site et vous faire gagner en visibilité sur Google et les autres moteurs de recherche.`
+
+
+
+De même pour le titre : 13 points essentiels pour optimiser la SEO sous WordPress, c'est trop long si on inclut le nom du blog ensuite (et ce n'est pas inutile). Le titre SEO de cet article sera donc *1*3 *conseils SEO pour WordPress*. Plus court, plus percutant, et **affichable dans son intégralité**.
+
+
+
+La longueur optimale pour les moteurs de recherche se situe **de 60 à 70 caractères** pour le titre, et **de 150 à 160 caractères** pour la description.
+
+
+
+L'avis de Jean : Pour moi l'élément le plus important d'un article est le titre SEO (ou *meta titre*) qui doit inciter à cliquer. Il peut différer du titre de l'article (h1) sous Wordpress. Le meilleur contenu du monde ne recevra pas une visite sans un titre efficace dans les moteurs de recherche. Google l'utilise en priorité pour déterminer le sujet de l'article. Il faut impérativement y placer son mot-clé, si possible au début.  
+La méta-description agit comme la 4ième de couverture d'un ouvrage. Elle précise le sujet de l'article ou de la page et incite à l'action. La description n'est pas utilisée directement par Google mais le mieux est d'y placer le mot-clé principal de l'article car il apparaîtra en gras s'il est contenu dans la recherche.
+
+
+
+#### 10 - la mise en œuvre des recommandations
+
+
+
+*Yoast SEO* ou *Rank Math* par exemple (je n'ai pas testé toutes les extensions SEO) proposent un score basé sur les bonnes pratiques SEO : présence du mot clé - que vous avez à déterminer - dans le titre de l'article, dans les sous-titres, dans le premier paragraphe… la densité du mot clé dans le contenu, la lisibilité de votre texte…
+
+
+
+Autant de points qui vous permettront de gagner non seulement au niveau des moteurs de recherche, mais aussi au niveau du confort de lecture de votre lectorat : si je n'emploie pas le mot clé, ni dans le titre, ni dans le premier paragraphe, ni même dans l'extrait, et que je l'utilise chichement dans le contenu, le lecteur va-t-il saisir l'intérêt de l'article, ou aurai-je manqué ma cible ?
+
+
+
+L'avis de Jean : Les extensions SEO sont utiles pour la **longueur du titre et de la méta-description** mais ne sont pas d'une grande aide pour définir des actions de référencement pertinentes au niveau du contenu. Un aide-mémoire des points à vérifier sera 100 fois plus efficace.
+
+
+
+#### 11 - Le nommage et la description des images
+
+
+
+Une image vaut mille mots, mais une image seule n'aura pas vraiment de sens pour les moteurs de recherche. Surtout si le fichier est enregistré depuis un appareil photo ou un smartphone, qui génère le nom d'après un modèle de type `img-[id]-[date-heure].jpg`.
+
+
+
+Prenez le temps de **renommer vos images** avec un nom qui donne du sens : `lion-zoo-moscou.jpg` est plus parlant que `img-00668-201802121547_hdi.jpg`.
+
+
+
+Et **prenez l'habitude de renseigner la description**, soit lorsque vous téléversez l'image, soit quand vous l'insérez dans la page et que Gutenberg vous propose de rédiger la légende. Ce champ est situé juste en dessous de l'image que vous venez d'afficher.
+
+
+
+Ces deux points permettront une indexation correcte des images dans votre contenu. L'avantage ? Une recherche "images" sur Google mène aussi à votre article, avec des mots clés différents.
+
+
+
+L'avis de Jean : Google se sert du nom de l'image et du texte alternatif pour qualifier les contenus. Pour en profiter, il est important de glisser son mot-clé une fois dans ces deux emplacements.  
+L'utilisation systématique d'une description claire de l'image ou de son contexte donnera plus de données aux moteurs de recherche pour afficher vos contenus sur les requêtes appropriées. Si j'utilise un visuel "zen" pour illustrer la simplicité d'un outil, je ne vais pas indiquer *pose de yoga au soleil couchant* mais *illustration de l'article '11 outils pour les blogueurs*'.  
+Le nom de l'image sera composé uniquement de minuscules, sans accents, avec les mots séparés par des traits d'union.
+
+
+
+## Les points complémentaires
+
+
+
+### 12 - le thème et les extensions
+
+
+
+Un thème bien codé, responsive et léger vous permettra de gagner des points. En effet, Google note sur **la rapidité**, et sur **la compatibilité avec les plateformes mobiles**.
+
+
+
+Si votre thème ne prend pas en charge les tablettes et les smartphones, vous avez clairement un problème. On ne vous demande pas la compatibilité avec IE6 ou Netscape 4.7, mais avec les principaux navigateurs modernes : Chrome, Firefox, Opera, Safari, Edge dans une certaine mesure, et leurs versions mobiles.
+
+
+
+### 13 - Le bons sens et une bonne orthographe
+
+
+
+Vous pouvez avoir pris en compte tous les points précédents, un texte bourré de fautes ne passera que si vous souhaitez concurrencer Voici - et encore :| Lire un texte où il manque un verbe, quelques articles, où les accords ne sont pas faits, et bien évidemment truffé de fautes rend la lecture plus difficile.
+
+
+
+Et bien sûr, le score SEO ne fait pas tout. Ce n'est pas parce que le mot clé visé est présent à toutes les lignes que Google va vous passer en première position - ce serait même l'inverse qui vous guetterait. Rédigez votre texte en pensant à votre lectorat, et **optimisez le ensuite**. Pas l'inverse.
+
+
+
+Le conseil de Jean : Vous devez en priorité **faciliter la lecture de votre contenu**. Le plus simple est d'ajouter de nombreux **titres et sous-titres.** Ils facilitent l'accès à l'information et casseront l'effet *mur de texte* qui fait fuir les lecteurs. Les moteurs de recherches donneront plus de poids aux textes des titres. Les **textes en gras** mettent en avant les points essentiels et favorisent la lecture en diagonale. Google s'en sert également pour catégoriser les contenus.
+
+
+
+## En conclusion
+
+
+
+Pour faire plaisir aux moteurs de recherche, en 2019, il faut avant tout penser à ses lecteurs. Et en mettant en œuvre quelques points essentiels, on leur donne tout ce dont ils ont besoin pour nous indexer.
+
+
+
+En aparté, ces conseils valent **quel que soit le type de site** que vous réalisez : blog perso, blog d'entreprise, site pro…
+
+
+
+Par contre, la concurrence est rude ; ces quelques points vous permettront d'être présents dans les moteurs de recherche ; par contre, ils ne vous permettront pas forcément d'atterrir en trois jours en pole position.
+
+
+
+La SEO est une activité de longue haleine, et un domaine spécialisé où les conseils de professionnels rompus à son utilisation ne vous seront pas inutiles, en fonction des résultats attendus et du budget que vous avez à y consacrer.
+
+
+
+Mais au moins, vous aurez posé les bases de votre optimisation, et les résultats ne devraient pas tarder à se faire sentir.
+
+
+
+Et vous, avez-vous d'autres conseils faciles à mettre en œuvre pour optimiser un site WordPress ?
+
+
+
+<OptImg src="/image/jean-lochet" alt="Jean Lochet" caption="undefined" align="right" />
+
+
+
+<OptImg src="/image/jean-lochet-150x150" alt="Jean Lochet" caption="undefined" align="center" />
+
+
+
+**Jean**   
+[Pour pas un rond](https://www.pourpasunrond.fr/)  
+*Pour pas un rond* présente des tutoriels pas à pas pour créer sa marque, construire son site WordPress et attirer des visiteurs.

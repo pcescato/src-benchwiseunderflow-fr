@@ -1,0 +1,279 @@
+---
+
+title: Pourquoi vous devez avoir un Plan de Reprise d'Activité (PRA)
+lastmod: '2021-03-20T12:11:04+00:00'
+slug: plan-reprise-activite
+draft: false
+categories:
+  - Conseils
+tags:
+  - Backup
+  - Hacking
+  - Plan de Reprise d&#039;Activité
+  - PRA
+  - sauvegarde
+  - Sinistre
+description: "Avez-vous un plan de reprise d'activité ? En cas d'incident ou de sinistre, c'est lui qui vous sauvera la mise."
+image: /image/sauvegardes.avif
+pubDate: '2021-03-20'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Le 10 mars 2021, un datacenter du groupe OVH a entièrement brûlé. Toutes les données de ce datacenter ont disparu, et celles des datacenters voisins ont également subi des dommages, pour certains irréversibles.
+
+
+
+Et rares sont ceux qui avaient mis en place un plan de reprise d'activité concernant les données en ligne, n'imaginant pas un instant qu'un tel sinistre puisse les toucher un jour.
+
+
+<OptImg src="/image/incendie-ovh" alt="incendie OVH - source : Twitter" caption="incendie OVH - source : Twitter" align="center" />
+
+
+En fait, **une entreprise sur 3** a déjà été victime d'un incident plus ou moins important qui a nécessité l'activation d'un plan de reprise d'activité.
+
+
+
+Ce ne sont pas forcément les systèmes d'information qui ont été impactés, mais si vous n'avez pas de plan de reprise d'activité global, vous n'en avez probablement pas non plus un pour les incidents touchant votre site en ligne.
+
+
+
+## Quel risque si vous n'avez pas de plan de reprise d'activité ?
+
+
+
+D'après [continuitycentral.com](https://www.continuitycentral.com/feature0440.htm), **93% des sociétés n'ayant pas eu accès à leurs données pendant 10 jours ou plus on fait faillite dans l'année**.
+
+
+
+Et [Green Up I.T.](https://www.greenupit.com/disaster-recovery#:~:text=80%25%20of%20companies%20that%20do,are%20not%20likely%20to%20survive.) enfonce le clou :
+
+
+
+Pour les entreprises ayant subi une perte catastrophique de leurs données…
+
+
+
+* 43% ont immédiatement fermé
+* 51% ont fermé dans les deux ans
+* **75% des sociétés n'ayant pas un plan de reprise ou de continuité d'activité ont fait faillite dans les 3 ans**, et seulement 29% ont survécu plus de deux ans au sinistre
+
+
+
+Autant dire que ne pas avoir plan de reprise d'activité, **c'est jouer à la roulette russe** avec votre entreprise. Vous serez forcément impacté en cas de sinistre, mais vos employés, vos sous-traitants, et leurs familles le seront aussi.
+
+
+
+Alors, la question qui vient à l'esprit, c'est…
+
+
+
+## Que doit comprendre un plan de reprise d'activité ?
+
+
+
+Bien évidemment, nous allons parler de la partie qui nous concerne, vos données en ligne. Mais la démarche à appliquer est la même pour un plan général, dans lequel s'intègrera naturellement le plan de reprise de votre activité informatique.
+
+
+<OptImg src="/image/schema-1024x723" alt="Plan de Reprise d'Activité" caption="Plan de Reprise d'Activité" align="center" />
+
+
+Tout d'abord, il va falloir…
+
+
+
+### Définir les priorités
+
+
+
+#### Le site internet [ et / ou ] la boutique en ligne
+
+
+
+Votre site internet, c'est une vitrine, certes, mais ce peut aussi être votre outil de vente, passif (via les contacts récupérés) ou actif (une boutique en ligne). Quelle est son importance ? Que pouvez-vous vous permettre de perdre, ou de ne pas récupérer ?
+
+
+
+Si votre site génère quotidiennement des ventes, **il n'est pas envisageable de perdre** ne serait-ce qu'une demi-journée. Une récupération à H-1 maximum est indispensable.
+
+
+
+Si par contre ce n'est qu'une vitrine sans autre interaction qu'un formulaire de contact, **une récupération à J-1** ne posera pas problème - à moins que vous n'ayez effectué des modifications massives dans l'intervalle.
+
+
+
+#### Les créations / refontes / correctifs en cours de développement
+
+
+
+Si vous n'êtes pas suicidaire, **vous n'effectuez pas de modification majeure sur votre outil en production**, mais sur une version de développement aussi appelé *staging*.
+
+
+
+Cette version du site est-elle locale, ou hébergée sur le même serveur que le site en ligne, vu que la plupart des hébergeurs proposent une version *staging* en plus du site en production ?
+
+
+
+S'il ne s'agit que de tester la compatibilité des nouvelles versions d'extensions, de thèmes ou même du cœur de WordPress, ce n'est pas très grave.
+
+
+
+Mais si vous avez initié des modifications bien plus lourdes, vous pourriez perdre des jours, voire des mois de travail.
+
+
+
+#### Les emails
+
+
+
+Souvent couplée à votre site, **la messagerie est tout aussi importante**. Avez-vous une copie de vos échanges, avec vos clients, avec vos partenaires ?
+
+
+
+Quelle est l'importance de votre messagerie d'entreprise ? N'oubliez pas que la communication entre professionnels **n'est pas régie par les mêmes règles** que les échanges particuliers / professionnels.
+
+
+
+Chaque email échangé avec vos partenaires, et même avec vos clients ou prospects, peut avoir une importance capitale.
+
+
+
+La messagerie est donc un élément à récupérer **rapidement**, et de préférence, **dans son intégralité**.
+
+
+
+Vous avez défini vos priorités, il faut maintenant…
+
+
+
+### Définir un plan d'action
+
+
+
+En fonction de vos besoins, vous allez décider, par exemple, d'une sauvegarde en temps réel, ou quotidienne, ou hebdomadaire, de vos données.
+
+
+
+Une sauvegarde, oui mais… **pas sur le même serveur**, ou mieux, **pas chez le même prestataire** de services ! Un datacenter qui brûle, ou qui est endommagé, ça n'arrive pas qu'à OVH : en 2016, c'est un [datacenter de la banque ING qui a été mis hors service](https://www.zdnet.fr/actualites/comment-un-simple-son-a-mis-un-datacenter-a-genoux-39841792.htm) pendant une dizaine d'heures… par un simple son ! Et n'importe quel compte peut être piraté, parfois très simplement : la mésaventure (qui finit bien) de Mat Honan en est [un bon exemple](https://www.lefigaro.fr/secteur/high-tech/2012/08/08/32001-20120808ARTFIG00373-une-vie-numerique-detruite-en-trois-coups-de-telephone.php).
+
+
+
+Une sauvegarde externe, dans le cloud, c'est bien, mais si vos données sont vraiment sensibles, **une seconde sauvegarde** ne sera pas de trop.
+
+
+
+À titre d'exemple, sur les sites sensibles (e-commerce), nous mettons en place deux sauvegardes : une première, incrémentielle, en temps réel, et une seconde, incrémentielle également, à H-1.
+
+
+
+Les deux sauvegardes sont envoyées dans le cloud, **vers deux prestataires différents**.
+
+
+
+Ce qui fait que, dans le pire des cas, seules les données de la dernière heure seront perdues. Les pertes sont donc limitées.
+
+
+
+Et si le client considère que ses données sont vitales, d'autres procédures personnalisées peuvent être mises en place, telles qu'un plan de continuité d'activité.
+
+
+
+Tout dépend de **la valeur des données**, du nombre de transactions initiées dans un laps de temps donné et de **leur importance** pour votre entreprise.
+
+
+
+Il est aussi préférable de **choisir à l'avance** un prestataire web de secours - vous ne perdrez ainsi pas de temps à chercher la meilleure offre disponible pour votre besoin.
+
+
+
+Un minimum de veille est également le bienvenu, les offres de chaque hébergeur évoluant au fil du temps : le VPS que vous aviez repéré début 2017 chez un prestataire concurrent n'est certainement plus d'actualité. Il a peut-être mieux, mais allez savoir… rien n'est moins sûr, le monde du web évolue à (très) grande vitesse.
+
+
+
+Et maintenant, il reste enfin à…
+
+
+
+## Mettre en œuvre votre plan de reprise d'activité
+
+
+
+### Pour votre site web
+
+
+
+Deux points à définir :
+
+
+
+* choisir où héberger vos données
+* installer une extension dédiée à la sauvegarde
+* configurer les sauvegardes automatiques
+
+
+
+Si vous voulez mettre les mains dans le cambouis, je vous invite à lire l'article [3 solutions de backup pour garder vos données en lieu sûr](/blog/blogging/conseils/wordpress-backup-cloud/). Vous y trouverez suffisamment d'éléments pour mener à bien votre tâche.
+
+
+
+Ou vous pouvez confier cette mission à un prestataire externe, ce qui vous assurera une tranquillité d'esprit qui elle, n'a pas de prix. C'est lui qui mettra en place toutes les procédures qui vous permettront une reprise d'activité sereine en cas de sinistre.
+
+
+
+### Pour vos autres données (messagerie…)
+
+
+
+La mise en œuvre d'une sauvegarde de messagerie sur serveur est bien plus complexe. Elle implique de se servir d'utilitaires dont la configuration et l'utilisation sont réservés aux administrateurs système.
+
+
+
+Mais si vous récupérez vos emails via Outlook, Thunderbird ou n'importe quel autre logiciel de messagerie, tout n'est pas perdu : faites **une sauvegarde immédiate** de vos données et **transférez-les** sur une clé USB et dans le cloud. Vous ne les aurez plus sur votre serveur, mais elles seront toujours disponibles sous forme d'archive accessibles rapidement et facilement.
+
+
+
+Par contre, si vous n'êtes pas spécialisé dans le traitement des données, ou si vous voulez remonter votre messagerie telle qu'elle était quand le sinistre s'est produit, le plus simple, c'est de **confier votre plan de reprise d'activité à un prestataire de services** qui a fait ses preuves.
+
+
+
+Cela vous évitera des tracasseries et des prises de tête pour la mise en place, la maintenance et la restauration de votre outil de travail.
+
+
+
+## Que faire en cas de sinistre ?
+
+
+
+Si vous gérez tout vous-même, déclencher votre plan de reprise d'activité, tout simplement.
+
+
+
+En prenant immédiatement un hébergement, même provisoire, chez un hébergeur qui n'a pas été impacté par le sinistre. Dans le cas de l'incendie d'OVH, seul cet hébergeur a été touché, mais en cas de séisme ou d'inondation par exemple, ce sont tous les datacenters de tous les hébergeurs d'une zone géographique qui peuvent tomber. Vous lancez une procédure de restauration, et normalement, tout revient à la normale.
+
+
+
+Libre à vous de retourner chez votre hébergeur habituel une fois que le problème est réglé.
+
+
+
+Si vos données ont été compromises, ou si vous pensez qu'elles peuvent l'avoir été, ou si la durée de mise en arrêt a impacté vos comptes clients en ligne, **vous êtes tenus d'en informer la CNIL**. Vous trouverez plus d'informations et d'explications sur leur site, dans les articles [Incendie OVH : faut-il notifier à la CNIL ?](https://www.cnil.fr/fr/incendie-ovh-faut-il-notifier-la-cnil) (l'incendie sert surtout d'exemple, mais la logique reste la même quel que soit le sinistre) et [Notifier une violation de données personnelles](https://www.cnil.fr/fr/notifier-une-violation-de-donnees-personnelles).
+
+
+
+Si vous avez souscrit à une offre chez un prestataire de services, c'est à lui de mettre en œuvre les procédures pour que vous retrouviez une certaine normalité. Mais rien ne vous empêche de l'alerter dès que vous êtes informé du sinistre, à moins qu'il ne vous ait déjà lui-même informé.
+
+
+
+## Le mot de la fin
+
+
+
+Alors, plan de reprise ou pas ? La question ne se pose pas, vous avez besoin de pouvoir redémarrer après sinistre.
+
+
+
+Il vous faut, à tout prix, un plan de continuité ou de reprise d'activité. La vrai question, ou plutôt les vraies questions, concernent la stratégie à mettre en œuvre en fonction de l'importance des données en ligne pour la survie de votre entreprise, et les acteurs impliqués dans cette stratégie.

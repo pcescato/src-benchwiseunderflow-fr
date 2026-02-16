@@ -1,0 +1,1047 @@
+---
+
+title: 'La Bible de Twenty Seventeen : extensions, codes, thèmes enfant et conseils'
+lastmod: '2019-01-06T20:55:50+00:00'
+slug: bible-twenty-seventeen
+draft: false
+categories:
+  - Thèmes
+tags:
+  - design
+  - extension
+  - gratuit
+  - personnalisation
+  - thème
+  - thème enfant
+  - Twenty Seventeen
+  - WooCommerce
+  - WordPress
+excerpt: >-
+  Avec Twenty Seventeen, WordPress nous a offert son thème le plus universel :
+  blog, magazine, site d'entreprise… et mobile first pour ne rien gâcher. Du
+  potentiel, mais peu personnalisable par défaut. Rédhibitoire ? Non, vous allez
+  vite vous en rendre compte.
+image: /image/twenty-seventeen.avif
+pubDate: '2019-01-06'
+---
+
+import OptImg from '../../components/OptImg.astro'
+import { Code } from 'astro-expressive-code/components';
+
+*Attention ! **Cet article ne vaut que pour la version de WordPress Open Source** (à télécharger et à installer chez un hébergeur) ; ceux dont le site est hébergé sur wordpress.com devront s'acquitter d'un forfait annuel de 96 € pour pouvoir personnaliser les CSS, ou de 300 € pour pouvoir utiliser la plupart des extensions disponibles sur wordpress.org*
+
+
+
+## En préambule
+
+
+
+*Twenty Seventeen* a été le thème par défaut, pour WordPress 4.7 à 4.9, en 2017 et en 2018. Aucun autre thème n'a eu une telle durée de vie (officielle). Et aucun autre thème n'a été autant plébiscité.
+
+
+
+Lorsque j'ai rédigé mon premier article sur ce thème (*Habillez votre site avec Twenty Seventeen et les extensions Bold Themes*), puis le second (*Personnaliser Twenty Seventeen – astuces, bouts de code et extensions*), je n'aurais jamais pensé avoir autant de lecteurs et de commentaires.
+
+
+
+Et je n'aurais jamais pensé que même après l'arrivée de WordPress 5 et d'un nouveau thème par défaut (*Twenty Nineteen*), cet article serait toujours dans le trio de tête de ce blog. De fait, après que [mon article sur Twenty Nineteen](/blogging/themes/personnaliser-twenty-nineteen/) ait caracolé en tête des pages les plus lues pendant quelques mois, cet article-ci est revenu en pole position avant de céder la place à mon article sur [OceanWP](/blog/blogging/themes/oceanwp-elementor-gutenberg/) mais en conservant une honorable deuxième place).
+
+
+
+Donc, deux ans et 130 commentaires plus tard, je me suis posé la question : est-il préférable de remettre les articles originaux à jour, d'en profiter pour montrer ce que Gutenberg apporte, ou d'en écrire un troisième qui soit la synthèse des deux premiers, et de leurs commentaires ?
+
+
+
+Je ne peux pas reprendre la masse d'informations des deux premiers articles, les compiler dans un troisième et laisser les deux premiers en ligne sans que Google ne me pénalise pour du "duplicate content" - même si ce sont mes articles et qu'il n'y a pas de piratage - à moins de considérer que je me pirate moi-même.
+
+
+
+Alors j'ai repris l'ensemble pour une refonte, en incluant les bouts de codes, les astuces qui se trouvaient dans les commentaires.
+
+
+
+Au final, je vous présente, outre les fonctionnalités incluses directement dans le thème, quatre extensions (dont trois dédiées à la personnalisation elle-même), plus de quinze bouts de codes et un thème enfant qui reprend l'ensemble des personnalisations présentées dans l'article. De quoi assurer à votre site un look unique en un rien de temps.
+
+
+
+C'est aussi l'occasion de mettre à jour certaines informations, *Twenty Seventeen* ayant évolué au fil du temps (la compatibilité avec Gutenberg, entre autre, est excellente, ce qui n'était pas le cas des premières versions).
+
+
+
+Et nous revoilà à parler de…
+
+
+
+
+
+
+## Twenty Seventeen, le thème par défaut de WordPress 4.7 à 4.9
+
+
+
+*Twenty Seventeen* est juste un thème par défaut, et il commence à dater. Oui, mais… ce n'est pas n'importe quel thème par défaut : il se démarque de ses prédécesseurs et de ses successeurs en n'étant pas orienté blog.
+
+
+
+Évidemment, il conviendra pour habiller un blog. Mais ce thème permet également de créer un site d'entreprise, avec sa page d'accueil à sections et son image (ou sa vidéo) plein écran. Et cerise sur le gâteau, il est compatible avec les toutes dernières versions de WooCommerce, nativement (un "module" dans *WooCommerce* assure la compatibilité).
+
+
+
+Et bien sûr, il est désormais compatible avec le nouvel éditeur par défaut, Gutenberg.
+
+
+
+En aparté, la démo proposée dans le dépôt WordPress(.org) n'est pas très engageante. Je vous propose donc…
+
+
+
+### Quelques sites réalisés avec Twenty Seventeen
+
+
+
+La démo du thème sur WordPress.com [est bien plus aboutie](https://twentyseventeendemo.wordpress.com/), et donne déjà une meilleure idée du résultat.
+
+
+
+Mais il y a aussi de vrais sites web qui méritent le détour :
+
+
+
+Le site [WP15](https://wp15.wordpress.net/) créé par Automattic pour le 15ième anniversaire de WordPress (le 27 mai 2018) :
+
+
+
+<OptImg src="/image/wp15-1024x582" alt="15ième anniversaire de WordPress" caption="15ième anniversaire de WordPress" align="center" />
+
+
+
+Vous pouvez aussi visiter [le site de Leïla Huissoud](https://leilahuissoud.com/) (site *One Page*) pour avoir une idée de ce que l'on peut obtenir, avec un thème enfant et un minimum de personnalisation (enfin, pas qu'un minimum en fait). En aparté, j'ai pris le temps de découvrir ses chansons, et j'adore !
+
+
+
+<OptImg src="/image/leilahuissoud-1024x584" alt="Site web de Leïla Huissoud" caption="Site web de Leïla Huissoud" align="center" />
+
+
+
+Le site de Laurent Boutros - on reste dans la musique avec un guitariste de talent - était réalisé avec ce thème. Il n'est par contre plus en ligne.
+
+
+
+<OptImg src="/image/laurent-boutros-1024x578" alt="Site web de Laurent Boutros" caption="Site web de Laurent Boutros" align="center" />
+
+
+
+Un dernier exemple, celui d'un restaurant proposant des spécialités japonaises et coréennes, le Matsuba à Paris (Porte de la Villette), juste pour vous mettre l'eau à la bouche.
+
+
+
+<OptImg src="/image/matsuba-restaurant-1024x583" alt="Site web du restaurant Matsuba" caption="Site web du restaurant Matsuba" align="center" />
+
+
+
+Sur ces deux derniers sites, vous remarquerez la vidéo en fond de page - une idée pour dynamiser votre site.
+
+
+
+Oui, il va falloir mettre la main à la pâte, aller fouiller dans les options de l'outil de personnalisation de WordPress, ajouter quelques extensions, modifier les CSS, rajouter des fonctions, modifier des modèles… mais même avec le thème par défaut, votre site aura un design bien à lui et ne vous aura rien coûté si ce n'est le temps consacré à sa personnalisation.
+
+
+
+Alors lançons-nous, découvrons comment personnaliser *Twenty Seventeen*.
+
+
+
+Première étape…
+
+
+
+## Créer un thème enfant
+
+
+
+Modifier directement un thème est toujours **une (très) mauvaise idée**. À moins de ne toucher qu'au style - et encore : uniquement depuis l'outil de personnalisation.
+
+
+
+Une extension va vous permettre de créer un thème enfant sans trop de difficultés : [Child Theme Configurator](https://fr.wordpress.org/plugins/child-theme-configurator/). Si vous ne connaissez pas cette extension, je vous invite à lire l'article [Pour modifier un thème WordPress, apprenez à créer un thème enfant !](https://www.notuxedo.com/theme-enfant-wordpress/) sur *No Tuxedo*.
+
+
+
+Pour ceux qui sont pressés, ou qui ne sont pas encore à l'aise avec l'administration de WordPress, j'ai préparé un thème enfant prêt à l'usage, il ne vous reste plus qu'à le télécharger, à l'installer et à l'activer.
+
+
+
+[Thème enfant pour Twenty Seventeen](/telechargements/XEDMU7Ddu8bIWPiOE7jYV48_Qirq-PNINQk9nwh-pLQ,)
+
+
+
+Vous trouverez également des thèmes enfants dans le dépôt WordPress : [Dynamic Seventeen](https://fr.wordpress.org/themes/dynamic-seventeen/), [Delect](https://fr.wordpress.org/themes/delect/), [Winter Solstice](https://wordpress.org/themes/winter-solstice/), [Chandigarh](https://wordpress.org/themes/chandigarh/) et le plus abouti, [Minimal 20/17](https://fr.wordpress.org/themes/minimal-2017/) livré avec deux modèles de page supplémentaires (une *landing page* et une page sans titre) et le support de deux constructeurs de pages, Elementor et [Visual Composer](https://visualcomposer.io/) (à ne pas confondre avec *WPBakery Page Builder for WordPress* dont l'ancien nom était effectivement Visual Composer).
+
+
+
+Une fois le thème enfant en place, activez-le. Et maintenant, attaquons-nous à la personnalisation elle-même.
+
+
+
+Nous ne verrons pas toutes les possibilités de personnalisation de ce thème, elles sont infinies, mais nous allons tenter d'explorer un maximum de pistes.
+
+
+
+La première, la plus basique, c'est…
+
+
+
+## Personnaliser Twenty Seventeen via l'outil de personnalisation
+
+
+
+<OptImg src="/image/twenty-seventeen-outil-de-personnalisation" alt="Outil de personnalisation - Twenty Seventeen" caption="Outil de personnalisation - Twenty Seventeen" align="left" />
+
+
+
+Pour accéder à l'outil de personnalisation, vous pouvez, dans l'interface d'administration, cliquer sur ***Apparence > Personnaliser***. Ou depuis le site lui-même, cliquer sur l'entrée ***Personnaliser*** dans le menu d'administration.
+
+
+
+### Remplacer l'image plein écran de la page d'accueil
+
+
+
+Pour modifier ou supprimer cette image, rendez-vous dans ***En-tête du média***.
+
+
+
+*Twenty Seventeen* ne se limite pas à proposer de changer ou de supprimer l'image d'en-tête, il permet aussi d'utiliser une vidéo téléchargée en local ou sur Youtube (bien mieux pour ne pas surcharger votre serveur), couplée à une image qui s'affichera le temps que la vidéo se charge.
+
+
+
+En aparté, la traduction française est parfois une traduction à la louche - si *En-tête du média* ne vous parle pas, ne vous inquiétez pas : je suis moi aussi resté perplexe devant cet intitulé - *média d'en-tête* serait plus approprié.
+
+
+
+### Paramétrer la page d'accueil
+
+
+
+Depuis la page d'accueil, cliquez sur ***Options du thème***.
+
+
+
+Vous remarquerez que cet onglet n'est disponible que depuis la page d'accueil elle-même, probablement parce qu'il permet de gérer le contenu des différentes sections de cette page, mais il sert aussi à définir le modèle général.
+
+
+
+Sélectionnez donc le mode d'affichage souhaité (une ou deux colonnes), enregistrez vos modifications, créez les pages à inclure dans la page d'accueil (une page par section), avant de revenir à cet onglet pour définir les pages à afficher et leur ordre.
+
+
+
+### Créer un menu pour vos réseaux sociaux
+
+
+
+Eh oui, afficher les liens vers vos pages Twitter, Facebook, LinkedIn, Instagram… n'a jamais été aussi facile : cliquez sur ***Menus***, puis sur ***Footer Menu***.
+
+
+
+Vérifiez que ***Menu des liens sociaux*** soit bien coché (il l'est par défaut), cliquez sur ***Ajouter des éléments*** puis sur l'onglet ***Liens personnalisés*** avant de saisir (ou de coller) chaque lien et de le nommer.
+
+
+
+<OptImg src="/image/menu-liens-sociaux" alt="Menu des liens sociaux - Twenty Seventeen" caption="Menu des liens sociaux - Twenty Seventeen" align="center" />
+
+
+
+L'icone de chaque réseau social apparaîtra dans le pied de page - simple et efficace.
+
+
+
+À ce stade, nous avons fait le tour de la personnalisation possible pour le thème, dans sa configuration par défaut.
+
+
+
+Mais comme je vous l'ai dit, il est heureusement possible d'aller plus loin. Vous pouvez, dans un premier temps…
+
+
+
+## Personnaliser Twenty Seventeen via des extensions dédiées
+
+
+
+On compte trois extensions dédiées à la personnalisation de ce thème dans le dépôt WordPress.
+
+
+
+### Customize Twenty Seventeen
+
+
+
+**Attention !** Cette extension n'a pas été mise à jour depuis plusieurs mois, et n'est pas dite compatible avec WordPress en version 5. Il se peut qu'il y ait des incompatibilités entre cette extension et la version actuelle de WordPress. Vous l'utilisez "à vos risques et périls".
+
+
+
+Si vous n’avez jamais installé d’extension, c’est le moment de lire l’article [Installer, activer, mettre à jour et supprimer une extension WordPress](/blogging/conseils/installer-activer-mettre-a-jour-supprimer-extension-wordpress/).
+
+
+
+Pas de paramétrage, mais de nouvelles options pour un thème plus abouti via l’outil de personnalisation de WordPress.
+
+
+
+
+La dernière entrée du menu, *BoldThemes Settings*, permet de configurer la police de caractère en utilisant les Google Fonts
+pour le document, les titres et les menus, mais aussi de personnaliser
+le modèle de page : afficher (ou pas) le titre des pages, l’image plein
+écran de la page d’accueil ou encore la position du menu.
+
+
+
+Trois modèles de pages font aussi leur apparition (boxed, fullscreen et wide).
+
+
+
+Voilà déjà de quoi personnaliser le thème, mais pour créer une page d’accueil ou une *landing page* digne de ce nom, c’est encore un peu light ? Mais il y a une deuxième extension Bold Themes qui va vous faciliter la tâche, il s'agit de…
+
+
+
+### Bold Page Builder
+
+
+
+
+Ce constructeur de page gratuit fonctionne comme la plupart de ses homologues, avec un éditeur de blocs *drag and drop* bien conçu et efficace. Ce n’est pas du WYSIWYG avec édition et visualisation en direct (l’icone [icon name="eye"] en haut à gauche de chaque section permet quand même de prévisualiser la section dans une popup), mais son utilisation n’en est pas moins intuitive et agréable.
+
+
+
+*Bold Page Builder* n'est pas dédié à *Twenty Seventeen*, il fonctionne en fait avec n'importe quel thème ou presque. Dont celui qui nous intéresse aujourd'hui.
+
+
+
+Après l’avoir installée et activée, l’extension est prête à l’emploi – même si vous pouvez effectuer quelques réglages, nul besoin de s’en préoccuper.
+
+
+
+Vous pourrez l’utiliser pour les articles, les pages et tous les *Custom Post Types*.
+
+
+
+Cerise sur le gâteau, ce constructeur de page peut cohabiter avec **Elementor** (mais vous aurez à choisir avec lequel vous créez chaque page, on ne peut pas mixer les deux au sein d'un même document).
+
+
+
+Un bouton (sous le titre et le permalien) permet de passer de l’éditeur par défaut au constructeur de page :
+
+
+
+<OptImg src="/image/bold-page-builder-1024x772" alt="Bold Page Builder" caption="Bold Page Builder" align="center" />
+
+
+
+Le menu en bas de la fenêtre d’édition donne accès à des actions génériques (annuler / refaire, prévisualisation et enregistrement).
+
+
+
+#### Les sections, rangées et colonnes
+
+
+
+Le bouton bleu central [icon name="plus-circle"] crée les sections. La section est l’élément de premier niveau dans la page, elle est composée a minima d’une rangée (*row* en anglais), elle même comportant une ou plusieurs colonnes. Le contenu est lui positionné à l’intérieur des colonnes.
+
+
+
+<OptImg src="/image/bold-builder-elements-1024x306" alt="section par défaut" caption="section par défaut" align="center" />
+
+
+
+Lorsque vous survolez un élément (section, rangée, colonne ou
+contenu), un menu s’affiche pour effectuer les opérations possibles.
+
+
+
+Le bouton [icon name="plus-circle"] de ce menu contextuel permet d’ajouter une rangée  aux sections, de modifier le modèle de rangée ou d’ajouter un élément aux colonnes.
+
+
+
+<OptImg src="/image/bold-builder-row" alt="modèles pour une rangée" caption="modèles pour une rangée" align="center" />
+
+
+
+Le bouton [icon name="edit"] ouvre une fenêtre popup pour personnaliser l’élément :
+
+
+
+<OptImg src="/image/editer-section-bold-builder" alt="personnaliser une section" caption="personnaliser une section" align="center" />
+
+
+
+Pour les sections par exemple, vous choisissez le modèle (*boxed / wide*), l’espacement entre les sections (*top* et *bottom spacing*), l’alignement vertical au sein de la section, l’image de fond avec ou sans parallaxe (onglet *Design*) ou la vidéo en arrière plan (onglet *Video*).
+
+
+
+Le dernier onglet (*Custom*) permet d’attribuer une id à la section (ou à tout élément que vous ajoutez via le constructeur de page), de définir le style via des classes ou via l’attribut HTML `style`.
+
+
+
+Attention ! **L’id doit être unique sur la page !** Dans le cas contraire, vous pouvez avoir des problèmes d’affichage ou de comportement.
+
+
+
+#### Les modules
+
+
+
+Vous avez 17 modules à votre disposition pour créer une page personnalisée : vidéo, image, slider, galerie d’images, icone, bouton, texte, accordéon, onglets, liste d’articles… tous personnalisables.
+
+
+
+<OptImg src="/image/ajouter-element-bold-builder" alt="ajouter un élément dans les colonnes" caption="ajouter un élément dans les colonnes" align="center" />
+
+
+
+Chaque élément est éditable via une popup similaire à celle de la capture d’écran *personnaliser une section*.
+
+
+
+#### Copier / Coller un élément
+
+
+
+Vous avez remarqué les icones *clone*, *copy* et *copy +*
+dans le menu au survol. Le premier insère un élément identique à celui
+que vous survolez, les deux autres boutons permettent de copier un
+élément (*copy*) ou plusieurs (*copy +*) dans la page active, mais aussi dans n’importe quelle autre page où l’éditeur *Bold Page Builder* est activé.
+
+
+
+Vous copiez dans la page d’origine, vous collez dans la page de destination – une alternative au système de modèles (*templates* en anglais) d’autres constructeurs de page.
+
+
+
+Et le résultat ? *Bold Themes* a pensé à tout et met à disposition…
+
+
+
+#### Des démos fonctionnelles
+
+
+
+*Bold Themes* fournit trois exemples de sites créés avec cette configuration (le thème *Twenty Seventeen* et les deux extensions). Le résultat parle de lui‐même :
+
+
+
+* [Wedding](http://demos.bold-themes.com/demo-wedding-2017/), thème « One Page » pour l’événementiel (mariages ou fêtes)
+* [Accomodation](http://demos.bold-themes.com/demo-accomodation-2017/), autre thème « One Page » pour une *landing page*
+* [Construction](http://demos.bold-themes.com/demo-construction-2017/),
+  thème complet qui peut servir de modèle pour un cabinet d’architectes,
+  un décorateur d’intérieur ou un créatif (designer, photographe…)
+
+
+
+Les trois démos et les instructions pour les utiliser sont disponibles dans l’onglet [Bold Page Builder / Installation](https://fr.wordpress.org/plugins/bold-page-builder/installation/) (*How to import demo content*).
+
+
+
+Il existe d'autres extensions pour personnaliser *Twenty Seventeen*, dont…
+
+
+
+### Advanced Twenty Seventeen
+
+
+
+
+Elle pousse la personnalisation plus loin que *Customize Twenty Seventeen* de *BoldThemes*, mais n'est pas couplée à un constructeur de page. Il existe d'autres constructeurs de pages qui pourront faire votre bonheur, tels que *Elementor*, *Beaver Builder* ou *WPBakery Page Builder*.
+
+
+
+Une dernière extension permet de personnaliser *Twenty Seventeen*, il s'agit de…
+
+
+
+### Options for Twenty Seventeen
+
+
+
+
+Cette dernière extension permet d'impacter 14 points dans sa version gratuite, et 12 de plus dans sa version payante (19,99£).
+
+
+
+<OptImg src="/image/options-for-twenty-seventeen" alt="Options for Twenty Seventeen" caption="Options for Twenty Seventeen" align="left" />
+
+
+
+Les options sont disponibles via l'outil de personnalisation, et elles complètent les réglages disponibles dans les autres extensions.
+
+
+
+En aparté, le site de l'éditeur de cette dernière extension est habillé par *Twenty Seventeen*, et il s'est certainement servi de son extension pour le personnaliser. Le résultat est tout simplement bluffant :
+
+
+<OptImg src="/image/webd-uk-500x278" alt="" caption="webd.uk avec Twenty Seventeen" align="undefined" />
+
+
+Si vous voulez aller plus loin, après l'outil de personnalisation et les extensions, il va falloir mettre les mains dans le cambouis. L'étape suivante, c'est…
+
+
+
+## Personnaliser Twenty Seventeen via le code
+
+
+
+### Grâce aux feuilles de style
+
+
+
+Même s'il est possible de modifier l'affichage en utilisant l'outil de personnalisation (onglet ***CSS additionnel***) il est préférable d'intégrer vos modifications à la feuille de style du thème enfant (le fichier style.css  de votre thème enfant) pour optimiser le temps de chargement de vos pages.
+
+
+
+#### Définir une image de fond fixe
+
+
+
+Commencez par ajouter l'image à votre bibliothèque de médias : dans l'interface d'administration de WordPress, cliquez sur ***Médias > Ajouter***. Importez une image, puis cliquez sur ***Modifier***.
+
+
+
+<OptImg src="/image/ajouter-media-1024x246" alt="Ajouter un média" caption="Ajouter un média" align="center" />
+
+
+
+Sélectionnez l'url du média en haut à gauche pour le copier dans la propriété CSS.
+
+
+
+<OptImg src="/image/modifier-media-1024x182" alt="URL du média" caption="URL du média" align="center" />
+
+
+
+Enfin, insérez ces quelques lignes dans le fichier style.css .
+
+<Code code={`.site-content {
+background-image: url("/\*exemple : https://mondomaine.com/wp-content/uploads/2017/07/bg-img.jpg\*/");
+background-repeat: no-repeat;
+background-attachment: fixed;
+}`} lang="css" />```
+
+*En fonction de l'image de fond insérée, pensez à modifier la couleur du thème : si votre image est plutôt dans des tons foncés, choisissez ***Foncé*** dans l'onglet ***Couleurs*** de l'outil de personnalisation.*
+
+
+
+#### Avoir un menu haut fixe, même dans la version mobile
+
+
+
+Si le menu haut de *Twenty Seventeen* est fixe par défaut (sauf dans la page d'accueil, si vous avez une image d'en-tête), il n'en est pas de même lors de l'affichage en version mobile. Nous n'allons pas discuter des avantages et des inconvénients d'un menu fixe sur un terminal mobile, il y en a qui le veulent ainsi - et j'en suis.
+
+<Code code={`@media screen and (max-width: 767px) {
+.navigation-top {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+z-index: 99999;
+}
+/\* Si vous affichez le menu d'administration sur le site \*/
+.admin-bar .navigation-top {
+padding-top: 45px;
+}
+}
+`} lang="css" />
+
+#### Désactiver le positionnement fixe du menu
+
+
+
+Et pour ceux qui à l'inverse ne veulent pas du tout d'un menu fixe, collé en haut de page :
+
+<Code code={`.site-navigation-fixed.navigation-top { position: relative; }
+`} lang="css" />
+
+#### Changer les autres caractéristiques du menu
+
+
+
+Il est aussi possible de pousser plus loin la personnalisation du menu, en modifiant la taille des caractères, la couleur du texte, du fond, et même en affichant une image de fond. Il suffit de rajouter les bouts de code ci-dessous dans les CSS :
+
+<Code code={`/\* modifier la taille des caractères \*/
+ul#top-menu.menu li {
+font-size: 20px; /\* valeurs en rem, em ou px \*/
+}
+/\* changer la couleur de fond du menu \*/
+.navigation-top,
+.main-navigation ul {
+background: black !important; /\* ou #000000 \*/
+}
+/\* changer la couleur du texte du menu \*/
+.navigation-top a,
+.menu-toggle {
+color: white !important; /\* ou #ffffff \*/
+}
+/\* image de fond pour le menu \*/
+.navigation-top {
+background-image: url("http://mondomaine.com/wp-content/uploads/2017/07/monimage.jpg") !important;
+}
+.main-navigation ul {
+background: transparent !important;
+}
+`} lang="css" />
+
+#### Placer la barre latérale à gauche
+
+
+
+Sans rien changer si ce n'est quelques propriétés CSS… Vu que la barre latérale ne s'affiche ni à droite, ni à gauche, mais en dessous pour les terminaux mobiles, il est là aussi nécessaire de faire appel aux media queries .
+
+<Code code={`@media screen and (min-width: 768px) {
+.has-sidebar #secondary {
+float: left;
+}
+.has-sidebar #primary {
+float: right;
+}
+.has-sidebar:not(.error404) #primary {
+float: right;
+}
+}
+`} lang="css" />
+
+#### Modifier la largeur de la barre latérale
+
+
+
+La largeur de la barre latérale est par défaut de 36% (et 58% pour le contenu principal). Si vous souhaitez modifier cette valeur, il vous suffit d'insérer ce code dans votre feuille de style :
+
+<Code code={`@media screen and (min-width: 48em) {
+.has-sidebar:not(.error404) #primary {
+width: 65%;
+}
+.has-sidebar #secondary {
+width: 31%;
+}
+}
+`} lang="css" />
+
+Le total n'est pas de 100%, la différence règle l'écartement entre les deux colonnes pour le confort de lecture.
+
+
+
+#### Élargir la colonne « contenu » de la page d’accueil
+
+
+
+Vous pouvez, en incluant ceci dans les CSS personnalisées :
+
+<Code code={`.page-one-column .panel-content .wrap {
+max-width: 1000px;
+}
+`} lang="css" />
+
+#### Centrer le logo, le titre et l'accroche du site
+
+<Code code={`#masthead .wrap { text-align: center; }
+`} lang="css" />
+
+#### Redimensionner le logo
+
+
+
+Les dimensions par défaut sont de 350x80px. Vous allez jouer avec `max-height` et `max-width` pour en augmenter ou en réduire la taille.
+
+<Code code={`@media screen and (min-width: 48em) {
+.custom-logo-link img {
+max-width: 700px;
+max-height: 160px;
+}
+}
+`} lang="css" />
+
+#### Égaliser la largeur des zones de widget du pied de page
+
+
+
+Nous avons vu que la largeur des contenu et barre latérale sont par défaut de 58 et 36 %. Le pied de page est inversé avec 36% pour la première colonne et 58% pour la deuxième.
+
+<Code code={`/\* largeur identique \*/
+@media screen and (min-width: 48em) {
+.site-footer .widget-column.footer-widget-1,
+.site-footer .widget-column.footer-widget-2,
+.social-navigation, .site-info {
+width: 47%;
+}
+}
+`} lang="css" />
+
+Vous pouvez envisager toutes les combinaisons possibles, en créant des mosaïques avec ces quatre zones, par exemple :
+
+<Code code={`@media screen and (min-width: 48em) {
+.site-footer .widget-column.footer-widget-1 {
+width: 31%;
+}
+.site-footer .widget-column.footer-widget-2 {
+width: 65%;
+}
+.social-navigation {
+width: 65%;
+}
+.site-info {
+width: 31%;
+}
+}
+`} lang="css" />
+
+#### Modifier la largeur des pages et des articles
+
+
+
+La largeur maximale par défaut est de 740 pixels pour les pages et les articles de blog sans barre latérale et de 1000 pixels pour les articles avec une barre latérale. Vous souhaitez allouer plus d’espace à votre contenu ? Renseignez les propriétés `width` et `max-width` avec la valeur de votre choix, en `em`, en pixels ou en pourcentage, ajustez les largeurs de colonnes, ajustez les marges intérieures avec la propriété `padding`.
+
+<Code code={`@media screen and (min-width: 48em) {
+.wrap {
+max-width: 1280px;
+padding-left: 3em;
+padding-right: 3em;
+}
+/\* pour les pages et articles avec barre latérale \*/
+#primary {
+width: 70% !important;
+}
+.has-sidebar #secondary {
+width: 26% !important;
+}
+/\* pour les pages et articles sans barre latérale \*/
+.single-post:not(.has-sidebar) #primary,
+.page.page-one-column:not(.twentyseventeen-front-page) #primary,
+.archive.page-one-column:not(.has-sidebar) .page-header,
+.archive.page-one-column:not(.has-sidebar) #primary {
+width: 100% !important;
+max-width: 1280px;
+}
+}
+`} lang="css" />
+
+### Via le fichier de fonctions du thème
+
+
+
+Les fonctions qui suivent sont directement liées au thème, c’est donc dans le fichier `functions.php` de votre thème enfant que vous aller les enregistrer.
+
+
+
+#### Ajouter des sections à la page d'accueil
+
+
+
+Les 4 sections proposées par défaut ne vous suffisent pas ? Ajoutez le bout de code ci-dessous :
+
+<Code code={`function tsct\_front\_page\_sections() {
+return 5; // la valeur souhaitée
+}
+add\_filter( 'twentyseventeen\_front\_page\_sections', 'tsct\_front\_page\_sections' );
+`} lang="php" />
+
+#### Personnaliser l'image de fond de chaque page
+
+
+
+Pour mettre une image d’arrière plan spécifique à chaque page, il va falloir utiliser les *champs personnalisés* pour le fond de page.
+
+
+
+Pour l'éditeur classique, les champs personnalisés sont en‐dessous de la fenêtre d’édition, mais ils ne sont pas affichés par défaut, il va te falloir cliquer sur *Options de l’écran* (en haut à droite dans le navigateur) puis cocher *Champs personnalisés*.
+
+
+
+Pour Gutenberg, la possibilité de créer des champs personnalisés a tout simplement disparu. Mais ne vous inquiétez pas, Cette disparition n'est pas irréversible.
+
+
+
+Vous trouverez, en haut de l'éditeur, sur la droite, trois points verticaux. Cliquez, descendez jusqu'à *Options*, puis cochez *Champs personnalisés*. Il vous faudra cliquer sur *Enregistrer et recharger* pour pouvoir vous servir des champs personnalisés.
+
+
+
+Créez un champ personnalisé, et nommez-le, `bgimg` par exemple.
+
+
+
+Entrez l’url de l’image (ou faites un *copier / coller* depuis la bibliothèque des médias). Dans le fichier `functions.php`, ajoutez les lignes suivantes :
+
+<Code code={`function tsct\_addPageBackground() {
+if ( is\_page() ):
+\$custom\_fields = get\_post\_custom();
+\$my\_custom\_field = \$custom\_fields['bgimg'];
+if ( !empty( \$my\_custom\_field ) ):
+\$bgImage = '.site-content {background-image: url('.\$custom\_fields['bgimg'][0].') !important;}';
+wp\_add\_inline\_style( 'twentyseventeen-style', \$bgImage );
+endif;
+endif;
+}
+add\_action( 'wp\_enqueue\_scripts', 'tsct\_addPageBackground', 11 );
+`} lang="php" />
+
+### Via le fichier de fonctions et les modèles de pages
+
+
+
+#### Changer les crédits dans le pied de page
+
+
+
+*Fièrement propulsé par WordPress* ? D’accord, pour un crédit par défaut, pourquoi pas ? Mais si vous voulez insérer vos propres crédits, il va falloir ajouter une fonction, et modifier le fichier `template-parts/footer/site-info.php`.
+
+
+
+Commencez par copier ce fichier dans votre thème enfant en respectant bien la structure des répertoires.
+
+
+
+Éditez le, supprimez tout et insérez le code suivant :
+
+<Code code={`<?php
+/\*\*
+\* Displays footer site info
+\* @package WordPress
+\* @subpackage Twenty\_Seventeen
+\* @since 1.0
+\* @version 1.0
+\*/ ?>
+<div class="site-info">
+<?php do\_action('action\_site\_info');?>
+</div>lt;/div</div>gt; <!-- .site-info -->
+`} lang="php" />
+
+Puis, dans le fichier `functions.php`, ajoutez ces lignes de code :
+
+<Code code={`add\_action('action\_site\_info', 'tsct\_siteInfo');
+function tsct\_siteInfo() {
+\$theme = wp\_get\_theme();
+\$usr = get\_userdata( 1 ); // id de l'administrateur du site
+echo '2017 - ' . get\_bloginfo ( 'name' ) . ' ' .
+'(Fièrement propulsé par <a href="' . esc\_url( \_\_( 'https://wordpress.org/', 'twentyseventeen' ) ) . '" target="\_blank" rel="noopener">WordPress</a>lt;/a</a>gt;)' .
+'<br />Design <a href="' . esc\_html( \$theme->get( 'AuthorURI' ) ) . '" target="\_blank" rel="noopener">' . esc\_html( \$theme->get( 'Author' ) ) . '</a>lt;/a</a>gt; - Contenu ' . \$usr->user\_nicename . ' ' .
+'(<a href="mailto:'. \$usr->user\_email .'" target="\_top">Contact</a>lt;/a</a>gt;)';
+}
+`} lang="php" />
+
+Alternative : vous pouvez aussi coder « en dur » les infos du site dans le fichier `template-parts/footer/site-info.php`. Dans ce cas, vous n’avez pas besoin de toucher au fichier `functions.php`.
+
+<Code code={`<?php
+/\*\*
+\* Displays footer site info
+\*
+\* @package WordPress
+\* @subpackage Twenty\_Seventeen
+\* @since 1.0
+\* @version 1.0
+\*/
+?>
+<div class="site-info">
+© 2017 - <a href="http://mondomaine.com">Mon domaine</a>lt;/a</a>gt;
+</div>lt;/div</div>gt;<!-- .site-info -->
+`} lang="php" />
+
+#### Ajouter des zones de widgets au pied de page
+
+
+
+Par défaut, *Twenty Seventeen* propose deux zones de widgets pour le pied de page. Si vous souhaitez en rajouter, rien de plus simple (enfin, en suivant les instructions qui suivent ?)
+
+
+
+Première étape, il va falloir "déclarer" ces zones dans le fichier `functions.php` **du thème enfant** :
+
+<Code code={`function tsct\_morewidgets\_init() {
+register\_sidebar( array(
+'name' => \_\_( 'Footer 3', 'twentyseventeen' ),
+'id' => 'sidebar-4',
+'description' => \_\_( 'Add widgets here to appear in your footer.', 'twentyseventeen' ),
+'before\_widget' => '<section id="%1\$s" class="widget %2\$s">',
+'after\_widget' => '</section>lt;/section</section>gt;',
+'before\_title' => '<h2 class="widget-title">',
+'after\_title' => '</h2>lt;/h2</h2>gt;',
+) );
+register\_sidebar( array(
+'name' => \_\_( 'Footer 4', 'twentyseventeen' ),
+'id' => 'sidebar-5',
+'description' => \_\_( 'Add widgets here to appear in your footer.', 'twentyseventeen' ),
+'before\_widget' => '<section id="%1\$s" class="widget %2\$s">',
+'after\_widget' => '</section>lt;/section</section>gt;',
+'before\_title' => '<h2 class="widget-title">',
+'after\_title' => '</h2>lt;/h2</h2>gt;',
+) );
+}
+add\_action( 'widgets\_init', 'tsct\_morewidgets\_init' );
+`} lang="php" />
+
+Ensuite ajoutez un fichier `template-parts/footer/footer-widgets.php` toujours dans le thème enfant. Reprenez le fichier du thème parent, et remplacez le bloc entre les balises `<aside […]>` et `</aside>lt;/aside</aside>gt;<!-- .widget-area -->` par celui‐ci :
+
+<Code code={`<?php
+if ( is\_active\_sidebar( 'sidebar-2' ) ) { ?>
+<div class="widget-column footer-widget-1">
+<?php dynamic\_sidebar( 'sidebar-2' ); ?>
+</div>lt;/div</div>gt;
+<?php }
+if ( is\_active\_sidebar( 'sidebar-3' ) ) { ?>
+<div class="widget-column footer-widget-2">
+<?php dynamic\_sidebar( 'sidebar-3' ); ?>
+</div>lt;/div</div>gt;
+<?php }
+if ( is\_active\_sidebar( 'sidebar-4' ) ) { ?>
+<div class="widget-column footer-widget-3">
+<?php dynamic\_sidebar( 'sidebar-4' ); ?>
+</div>lt;/div</div>gt;
+<?php }
+if ( is\_active\_sidebar( 'sidebar-5' ) ) { ?>
+<div class="widget-column footer-widget-4">
+<?php dynamic\_sidebar( 'sidebar-5' ); ?>
+</div>lt;/div</div>gt;
+<?php } ?>
+`} lang="php" />
+
+Rajoutez pour finir ces lignes à votre fichier `style.css` :
+
+<Code code={`@media screen and (min-width: 48em) {
+.site-footer .widget-column.footer-widget-2,
+.site-footer .widget-column.footer-widget-3,
+.site-footer .widget-column.footer-widget-4,
+.site-footer .widget-column.footer-widget-5 {
+width: 22%;
+}
+.site-footer .widget-column.footer-widget-5 {
+float: right;
+}
+}
+`} lang="css" />
+
+Et voila deux zones supplémentaires de disponibles ! Si vous n'en voulez qu'une de plus, supprimez le deuxième bloc `register_sidebar( … )` ; si vous en voulez trois, ajoutez un bloc. Adaptez ensuite le code du modèle et les CSS en fonction de votre besoin
+
+
+
+Par défaut, *Twenty Seventeen* réserve les barres latérales aux articles. Elles peuvent pourtant être utiles sur les pages, pour afficher un formulaire de contact et diverses informations par exemple.
+
+
+
+Si vous vous tenez à vos barres latérales (si vous en avez l’utilité surtout), il va falloir modifier le fichier `page.php`. Commencez par le copier dans votre thème enfant. Éditez le et ajoutez le code suivant entre `</div>lt;/div</div>gt;<!-- #primary -->` et `</div>lt;/div</div>gt;<!-- .wrap -->` :
+
+<Code code={`<?php get\_sidebar(); ?>
+`} lang="php" />
+
+Puis, dans le fichier `functions.php`, ajoutez ces lignes :
+
+<Code code={`function tsct\_body\_classes\_child( \$classes ){
+if ( is\_active\_sidebar( 'sidebar-1' ) && is\_page() ) {
+\$classes[] = 'has-sidebar';
+}
+return \$classes;
+}
+add\_filter( 'body\_class', 'tsct\_body\_classes\_child' );
+`} lang="php" />
+
+La barre latérale, si vous lui avez assigné des widgets, s'affichera désormais dans vos pages.
+
+
+
+Pour ceux qui voudraient des pages avec barre latérale et d’autres sans, copiez dans votre thème enfant le fichier page.php initial, renommez‐le en  `page-with-sidebard.php`, éditez‐le, effectuez les modifications ci‐dessus et remplacez `* The template for displaying all pages` par `* Template Name: With Sidebar`.
+
+
+
+*Si vous voulez afficher une barre latérale différente sur chaque page, l'extension [Custom Sidebars – Dynamic Widget Area Manager](https://wordpress.org/plugins/custom-sidebars/) est toute indiquée.*
+
+
+
+Pour ceux qui ne veulent pas de barre latérale, ni dans les pages, ni dans les articles, c'est très simple : il suffit de supprimer tous les widgets de la *Colonne latérale du blog (*dans *Apparence > Widgets)*. Vos articles s'afficheront en pleine largeur.
+
+
+
+#### Changer le média d'en-tête à chaque page
+
+
+
+Une fois le média d'en-tête défini, c'est le même pour toutes les pages de votre site. Si vous souhaitez afficher un média différent à chaque page, il va falloir procéder par étapes.
+
+
+
+En tout premier lieu, ajoutez un champ personnalisé dans la page, que vous nommez *Banniere* par exemple. Pour tout savoir sur l'utilisation des champs personnalisés, consultez le paragraphe [Personnalisez l'image de fond de chaque page](#lwptoc24).
+
+
+
+Rendez-vous dans l’onglet *Médias* du menu d’administration, récupérez l’identifiant numérique de l’image en survolant l’image (par exemple, pour l’image du site web de Laurent Boutros, j’ai `https://blog./wp-admin/post.php?post=` **`5684`** `&action=edit` qui s’affiche en bas, dans mon navigateur, l’identifiant est donc ***5684***). Renseignez le champ personnalisé *Banniere* avec cette valeur.
+
+
+
+Copiez ensuite le fichier `template-parts/header/header-image.php` dans le thème enfant en respectant bien la hiérarchie des sous‐dossiers. Vous trouverez cette ligne (le fichier n’est pas très long) :
+
+<Code code={`<?php the\_custom\_header\_markup(); ?>
+`} lang="php" />
+
+Remplacez-la par les suivantes :
+
+<Code code={`<?php \$image\_id = get\_post\_meta( get\_the\_ID(), 'Banniere', true );
+if ( ! empty ( \$image\_id ) ):
+\$image\_datas = wp\_get\_attachment\_image\_src( image\_id, 'full' );
+echo '<div id="wp-custom-header" class="wp-custom-header"><img src="' . image\_datas [ 'url' ] . '" width="' . image\_datas [ 'width' ] . '" height="' . image\_datas [ 'height' ] . '" ' . wp\_get\_attachment\_image\_srcset(\$image\_id, 'full') . ' /></div>lt;/div</div>gt;';
+else:
+the\_custom\_header\_markup();
+endif; ?>
+`} lang="php" />
+
+Et c'est fait !
+
+
+
+Voila de quoi vous occuper un moment. Bien sûr il y a d'autres personnalisations possibles, mais comme la seule vraie limite, c'est votre imagination… nous allons nous arrêter là.
+
+
+
+## Un exemple concret avec Twenty Seventeen et les astuces de cet article
+
+
+
+J'ai créé un site exemple, dédié au thème, en anglais : [Twenty Seventeen 101](https://twenty-seventeen-101.space). Minimaliste, mais parfois, il n'y a pas besoin de plus.
+
+
+
+<OptImg src="/image/twenty-seventeen-101-accueil-1024x574" alt="Accueil du site Twenty Seventeen 101" caption="Accueil du site Twenty Seventeen 101" align="center" />
+
+
+
+Je vous dis tout à propos de cette expérience dans l'article [Créez un site web avec WordPress et Twenty Seventeen en moins d’une heure](/blog/blogging/etude-de-cas/site-wordpress-twenty-seventeen/).
+
+
+
+## Conclusion
+
+
+
+Brut de fonderie, *Twenty Seventeen* n'est jamais qu'un thème par défaut, bien moins configurable qu'un thème "premium" vendu en général entre 60 et 100 €. *Peu configurable, mais avec un potentiel intéressant*.
+
+
+
+Les astuces, les bouts de code, les extensions présentés dans cet article compensent. Et dites-vous bien que ce n'est qu'un aperçu des personnalisations possibles pour ce thème.
+
+
+
+Alors, on se sert de *Twenty Seventeen*, ou on cherche un autre thème ? Si vous voulez tester les astuces vues dans cet article, j'ai créé un thème enfant avec les CSS, les fonctions et les fichiers `page-withsidebar.php` et `template-parts/footer/site-info.php`. C'est à vous, laissez-vous tenter ;)
+
+
+
+[Thème enfant pour Twenty Seventeen](/blog/download/11150/)
+
+
+
+
+*Et n'hésitez pas à donner votre avis sur ce thème* *(ou à poser des questions) dans les commentaires* !
+
+
+
+
+---
+
+
+
+
+**Sources**
+
+
+
+Pour rédiger cet article, j'ai effectué quelques recherches sur internet. J'ai puisé dans les articles [How to Customize the Free Twenty Seventeen WordPress Theme](https://premium.wpmudev.org/blog/twenty-seventeen-wordpress-theme/) et [5 Excellent Ways to Hack the Twenty Seventeen WordPress Theme](https://premium.wpmudev.org/blog/five-hacks-twenty-seventeen/) du blog *wpmudev*, [How To Customize Twenty Seventeen WordPress Theme Using Child Theme](https://www.wpeka.com/how-to-customize-twenty-seventeen-theme.html) du blog *wpeka*, et [How To Master Twenty Seventeen (Or Any WordPress Theme in 2017)](https://www.designbombs.com/master-twenty-seventeen-wordpress-theme/) sur *Design Bombs*. Et un peu partout ailleurs.

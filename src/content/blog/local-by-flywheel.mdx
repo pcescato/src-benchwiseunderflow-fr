@@ -1,0 +1,281 @@
+---
+
+title: Créez votre site WordPress avec Local by FlyWheel
+lastmod: '2018-02-03T03:34:04+00:00'
+slug: local-by-flywheel
+draft: false
+categories:
+  - Blogging
+tags:
+  - administration
+  - gratuit
+  - programmation
+  - WordPress
+description: "Pour créer votre site ou y apporter des modifications, il est fortement recommandé d'utiliser une version de test. Pourquoi ne pas installer cet environnement de test en local ?"
+image: /image/local-by-flywheel.avif
+pubDate: '2018-02-03'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Avant de mettre en ligne votre tout nouveau blog (et c'est valable aussi pour tout type de site web), il faut le créer. Pas en live chez votre hébergeur, à moins d'avoir une option *staging*. La solution la plus communément retenue est le développement en local, sur votre propre ordinateur.
+
+
+
+Des applications telles que [WampServer](http://www.wampserver.com/), [Devserver](http://www.easyphp.org/) (anciennement EasyPHP) ou [XAMPP](https://www.apachefriends.org/fr/index.html) permettent la mise en place ~~simple et rapide~~ d'un environnement de test. Ce sont des solutions généralistes qui conviennent à des développeurs chevronnés dont les besoins vont bien au delà de la création d'un site avec WordPress.
+
+
+
+Mais si vous débutez (ou si vous ne voulez rien faire d'autre que du WordPress) ces applications sont de vraies usines à gaz. Je les ai utilisées pendant des années (pour créer des sites WordPress, mais aussi pour développer des applications basées sur des frameworks PHP), jusqu'à ce que je découvre [Local by FlyWheel](https://local.getflywheel.com/).
+
+
+
+<OptImg src="/image/site-local-by-flywheel-1024x465" alt="Site Local by FlyWheel" caption="Site Local by FlyWheel" align="center" />
+
+
+
+Sur le papier - enfin sur leur page de présentation - c'est la solution idéale : rapide, simple, support du SSL (pour les URLs en HTTPS), la possibilité de mettre à disposition une URL de test pour montrer à un client ou un partenaire l'avancée du projet… un must-have, à les croire.
+
+
+
+Alors j'ai testé, et très honnêtement, je n'ai pas été déçu. Bon d'accord ce n'est pas vraiment une installation "en un clic", mais c'est tout de même très intuitif et bien plus simple à mettre en œuvre que les applications précitées.
+
+
+
+## Les avantages de Local by FlyWheel
+
+
+
+Avant tout, *Local by FlyWheel* est un environnement spécialement conçu pour WordPress. Tout est pensé pour faciliter le déploiement en local d'un site, nous le verrons plus loin dans cet article.
+
+
+
+## Les inconvénients de Local by FlyWheel
+
+
+
+Pour ceux qui ne maîtrisent pas l'anglais… oops, il vous faudra vous y mettre :( mais bon, qui de nos jours ne baragouine pas au moins quelques mots dans cette si jolie langue ?
+
+
+
+L'application est conçue tout spécialement pour WordPress, alors si vous avez des besoins qui vont au-delà du développement de sites ou de blogs sous WordPress, mieux vaut choisir une application plus généraliste (vous avez quelques liens en intro).
+
+
+
+## Installer Local by FlyWheel
+
+
+
+N'ayant pas de Mac à disposition (et n'en ayant jamais utilisé) je vous présente l'installation sous Windows, mais à part les toutes premières étapes, je pense que le processus ne doit pas présenter de différences majeures.
+
+
+
+Commencez par télécharger l'application (vous avez un lien ["FREE DOWNLOAD"](https://local.getflywheel.com/) sur la page d'accueil, inutile d'aller plus loin !). Attention ! L'application "pèse" dans les 500 Mo, en fonction du type d'accès internet le téléchargement peut donc prendre un certain temps, pour ne pas dire un temps certain ;)
+
+
+
+Cliquez ensuite sur l'icone de l'application (directement depuis votre navigateur) afin de lancer l'installation.
+
+
+
+<OptImg src="/image/installation-local-by-flywheel" alt="" caption="installation de Local by Flywheel" align="center" />
+
+
+
+La toute première demande du programme, c'est de pouvoir envoyer des rapports en cas d'erreur. Ces rapports sont ensuite utilisés par les équipes de FlyWheel pour corriger les bugs et améliorer l'application.
+
+
+
+<OptImg src="/image/local-flywheel-error-reporting-1024x687" alt="Demande d'accès à l'error reporting" caption="Demande d'accès à l'error reporting" align="center" />
+
+
+
+Après avoir choisi d'autoriser ou pas l'envoi de rapports d'erreurs, on lance l'installation en cliquant sur le bouton vert (immanquable !) titré LET'S GO!
+
+
+
+Et là, à part quelques demandes d'autorisations du système (comme toujours lors de l'installation d'applications sous Windows), tout se déroule sans la moindre anicroche.
+
+
+
+<OptImg src="/image/installation-1024x683" alt="Processus d'installation" caption="Processus d'installation" align="center" />
+
+
+
+Et c'est tout, l'installation se poursuit jusqu'à son terme, avant de proposer…
+
+
+
+## La création de votre tout premier site avec Local by FlyWheel
+
+
+
+<OptImg src="/image/installation-terminee-1024x683" alt="Création du premier site" caption="Création du premier site" align="center" />
+
+
+
+Dans la capture d'écran qui suit, j'ai ouvert le panneau *Avanced Options*, mais vous n'aurez probablement jamais à toucher à ces options.
+
+
+
+<OptImg src="/image/creation-site-1024x692" alt="Création d'un site - étape 1" caption="Création d'un site - étape 1" align="center" />
+
+
+
+Il est temps de choisir votre environnement de travail - on parle ici de données techniques. Pas besoin de toucher à quoi que ce soit si vous n'êtes pas sûr de vous.
+
+
+
+<OptImg src="/image/choix-environnement-1024x684" alt="Environnement par défaut" caption="Environnement par défaut" align="center" />
+
+
+
+J'ai quant à moi personnalisé mon environnement pour qu'il colle au plus près à ce que j'ai sur mon VPS, mais je le répète, nul besoin de changer quoi que ce soit si vous avez des doutes. L'environnement par défaut n'est pas bridé ou obsolète, il correspond à une installation standard qui suit les recommandations des équipes WordPress.
+
+
+
+Enfin, vous aurez à renseigner les données nécessaires à la création de votre compte administrateur. Vous avez même la possibilité de créer une installation multisite, via les options avancées.
+
+
+
+<OptImg src="/image/setup-wordpress-1024x684" alt="Création du compte administrateur" caption="Création du compte administrateur" align="center" />
+
+
+
+Dès que vous aurez cliqué sur ADD SITE, *Local by FlyWheel* va proposer d'utiliser les identifiants saisis comme identifiants par défaut.
+
+
+
+Si vous avez personnalisé la configuration du serveur, vous aurez à attendre que les modules choisis soient téléchargés, et vous aurez accès à votre tableau de bord.
+
+
+
+## Le tableau de bord de Local by FlyWheel
+
+
+
+L'ensemble des sites est listé dans une barre latérale, à gauche.
+
+
+
+Les informations essentielles ( l'accès aux fichiers source, au site et à l’administration, le lien d'accessibilité depuis internet, si vous l'activez) sont accessibles en permanence, elles sont détaillées dans le tableau ci-dessous :
+
+
+
+<OptImg src="/image/tableau-de-bord-1024x687" alt="Tableau de bord" caption="Tableau de bord" align="center" />
+
+
+
+Il est également possible de stopper un site, l'ensemble des sites, ou de créer un nouveau site depuis le tableau de bord.
+
+
+
+LA configuration du site est détaillée dans le premier onglet, SITE SETUP.
+
+
+
+L'onglet DATABASE donne les informations de connexion au serveur MySQL local et un bouton d'accès à un outil de gestion de la base de données, Adminer.
+
+
+
+<OptImg src="/image/database-1024x684" alt="Onglet database (base de données)" caption="Onglet database (base de données)" align="center" />
+
+
+
+Plus basique (et plus léger) que phpMyAdmin, il suffit amplement pour la gestion d'une base de données.
+
+
+
+<OptImg src="/image/adminer-1024x548" alt="Gestion de la base de données avec Adminer" caption="Gestion de la base de données avec Adminer" align="center" />
+
+
+
+Pour obtenir un certificat SSL valide, vous devrez passer par l'onglet SSL et cliquer sur le bouton TRUST.
+
+
+
+Enfin, l'onglet UTILITIES donne accès à MailHog, un serveur email SMTP de test pour votre site local.
+
+
+
+<OptImg src="/image/mailhog-1024x264" alt="Serveur SMTP MailHog" caption="Serveur SMTP MailHog" align="center" />
+
+
+
+## Créer un Blueprint
+
+
+
+Déjà, un blueprint, c'est quoi ? Tout simplement un modèle, que vous pourrez réutiliser pour créer d'autres sites. L'option est accessible via un menu contextuel lié à chaque site.
+
+
+
+<OptImg src="/image/menu-blueprint-1024x685" alt="Menu contextuel" caption="Menu contextuel" align="center" />
+
+
+
+Cliquer sur *Save as Blueprint* ouvre une nouvelle fenêtre, dans laquelle vous allez choisir le nom du modèle ainsi que les options d'environnement.
+
+
+
+<OptImg src="/image/blueprint-1024x684" alt="Création d'un Blueprint" caption="Création d'un Blueprint" align="center" />
+
+
+
+Par exemple, si vous installez et activez toujours les mêmes extensions de base sur vos nouveaux sites, en enregistrant un blueprint après les avoir installées sur un premier site permettra de les installer automatiquement les fois suivantes. Le Blueprint est à sélectionner dans les options avancées lors de l'installation d'un nouveau site.
+
+
+
+## Et ensuite, on fait quoi ?
+
+
+
+Maintenant que la structure de votre site est en place, il reste… tout le reste ;)
+
+
+
+*Local by FlyWheel* est en anglais, l'administration de votre site aussi. Dans *Settings > General*, cherchez *Site Language*. Dans la liste déroulante, sélectionnez le français, et enregistrez en cliquant sur *Save Changes*.
+
+
+
+Ne quittez pas la page, qui doit maintenant s'afficher en français, choisissez un format de date et d'heure, insérez le "s" de https dans *Adresse web de WordPress (URL)* et dans *Adresse web du site (URL)*. Vous devrez vous identifier à nouveau, vu que vous vous étiez identifiés en mode non sécurisé.
+
+
+
+Si vous n'avez jamais créé de site avec WordPress, vous trouverez des conseils utiles dans l'article [Installer et optimiser WordPress](/blogging/code/installer-et-optimiser-wordpress/).
+
+
+
+Voilà, nous avons fait le tour, il vous reste à créer votre site, et à le mettre en ligne.
+
+
+
+À noter que FlyWheel propose des hébergements (payants), et que si vous hébergez votre site sur leurs serveurs, vous pourrez synchroniser votre site local et le site sur internet.
+
+
+
+Sinon, installez l'extension [Duplicator](https://fr.wordpress.org/plugins/duplicator/) pour simplifier l'opération. Vous n'aurez qu'à télécharger une archive et un installeur, à renseigner quelques champs et le processus de mise en ligne automatisé fera le reste, pour une première installation.
+
+
+
+Ensuite, il vaudra mieux mettre les fichiers modifiés en ligne via un logiciel de transfert FTP / SFTP tel que [Fillezilla](https://filezilla-project.org/) et reporter les modifications (nouvelles extensions, réglages…) dans l'administration de WordPress après les avoir testées en local.
+
+
+
+## En conclusion
+
+
+
+*Local by FlyWheel* tient-il ses promesses ? Est-il simple à installer et à utiliser ? Stable ? Oui. Suffisant pour un développement lié à WordPress ? Oui. Je l'utilise depuis plusieurs années, et je ne reviendrais pour rien au monde à un XAMPP ou à un WampServer - pour la création de site WordPress évidemment.
+
+
+
+Existe-t-il d'autres solutions dédiées à WordPress ? Oui, mais aucune n'est aussi simple à mettre en œuvre et à utiliser, à l'exception de [DevKinsta](/blog/blogging/outils/devkinsta-environnement-local/), un challenger prometteur mais plus basique que Local. J'ai tenté l'installation de [Bitnami](https://bitnami.com/stack/wordpress) et de [instantWP](https://instantwp.com), et, bien que ces deux environnements ne déméritent pas, FlyWheel a quand même ma préférence.
+
+
+
+Et vous, utilisez-vous *local by FlyWheel* ou un autre environnement de développement local ?

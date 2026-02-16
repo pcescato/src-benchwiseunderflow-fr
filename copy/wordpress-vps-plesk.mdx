@@ -1,0 +1,447 @@
+---
+
+title: Héberger un site WordPress sur VPS avec Plesk
+lastmod: '2017-06-25T11:57:32+00:00'
+slug: wordpress-vps-ovh
+draft: false
+categories:
+  - Conseils
+description: "Optimiser un site passe par un hébergement performant. Pour vous affranchir des contraintes liées aux offre mutualisées, pourquoi ne pas tenter le VPS ?"
+image: /image/vps-plesk-ovh.avif
+pubDate: '2017-06-25'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Optimiser votre site web (qu'il s'agisse d'un blog, d'une boutique en ligne ou de quelque type de site que ce soit) nécessite **un hébergement performant**. Sans quoi, toutes les optimisations que vous effectuerez n'auront qu'un effet très limité.
+
+Vous trouverez des offres managées pour WordPress très performantes chez [WP Serveur](/aller-a/wpserveur/) par exemple, pour un tarif mensuel de plus ou moins 20 € HT. Vous n'aurez à vous occuper de rien (au niveau serveur), les performances seront au rendez-vous.
+
+Par contre, vous serez limités en termes de trafic (et chaque hébergeur à ses propres règles de calcul), vous n'aurez pas la moindre possibilité de personnaliser votre installation et vous ne pourrez installer qu'un nombre limité de blogs (ou de sites) - généralement un seul.
+
+Ou alors, vous acceptez de mettre (un peu) les mains dans le cambouis et vous optez pour un VPS. Avec à la clé des performances accrues, la possibilité de personnaliser votre installation pour qu'elle réponde au mieux à vos besoins et une meilleure maîtrise des coûts.
+
+Le secret ? Un VPS SSD, Plesk pour la gestion du serveur, un serveur web NGINX, MariaDB et PHP 7, un CDN (en sous-domaine sur le VPS). Coût mensuel : **11 € TTC**.
+
+Le prix est effectivement un peu plus élevé que celui d'un hébergement mutualisé d'entrée de gamme, mais ce surcoût est compensé par des performances qui elles, sont sans commune mesure - et vous pouvez payer votre VPS au mois par mois quand les hébergements mutualisés sont la plupart du temps payables à l'année.
+
+Vous voulez tenter l'expérience ? Allons-y ! En premier lieu, il va falloir…
+
+## Choisir son VPS
+
+Deux hébergeurs français proposent une offre VPS incluant Plesk (avec une licence *Web Admin* permettant de gérer 10 domaines) : [Nuxit](https://www.nuxit.com/serveur-dedie/) et [OVH](https://www.ovh.com/fr/vps/).
+
+J'ai également trouvé un hébergeur allemand qui propose une offre similaire à des prix très concurrentiels, et c'est désormais mon propre hébergeur : [Contabo](https://www.tkqlhce.com/click-100146919-12454680). Seule contrainte : comprendre l'anglais.
+
+D'autres hébergeurs proposent probablement des offres similaires, mais ils ne communiquent pas dessus - si vous avez connaissance d'une telle offre ailleurs, n'hésitez pas à la faire connaître via les commentaires.
+
+J'ai un temps choisi OVH pour une question de coût uniquement - si vous n'êtes pas à l'aise avec la technique, préférez Nuxit dont le support est plus réactif. Si vous comprenez l'anglais, allez faire un tour chez [Contabo](https://www.tkqlhce.com/click-100146919-12454680). C'est l'installation et la configuration sur un VPS OVH que je vous présente. Ceci-dit, l'essentiel de cet article est applicable quel que soit l'hébergeur fournissant le VPS.
+
+Lors de la commande de votre VPS chez OVH ou chez Nuxit, vous aurez la possibilité de choisir un système Linux avec Plesk préinstallé (j'ai opté pour une Debian 9 avec Plesk 18/Obsidian), mais vous pourrez également opter pour une distribution nue et y installer Plesk manuellement - et de fait, vous pourrez installer manuellement Plesk **sur quelque VPS que ce soit** avec une Debian 8/9 (la v10 n'est pour l'instant pas compatible Plesk), Ubuntu 16/18 ou CentOS 7/8, et l'activer en achetant une clé de licence directement [sur le site de l'éditeur](https://www.plesk.com/pricing).
+
+Si par contre vous choisissez [Contabo](https://www.tkqlhce.com/click-100146919-12454680), vous n'aurez rien d'autre à faire que de passer commande : le VPS vous sera livré configuré, presque prêt à l'emploi (il ne vous restera que la configuration de Plesk à finaliser).
+
+## Installer Plesk sur un VPS
+
+L'ensemble des opérations décrites ci-dessous intervient après que vous ayez reçu un email de la part d'OVH (ou de Nuxit) vous indiquant que votre VPS est opérationnel. Cet email contient toutes les données techniques nécessaires pour vous connecter au VPS via une console SSH.
+
+*L'installation manuelle se fait sur VPS "vierge", à partir d'une console SSH. Si vous n'êtes pas familier avec le mode console de Linux, optez pour une des deux distributions incluant Plesk.*
+
+### Installation manuelle de Plesk sur Debian 9 stable
+
+Commencez par télécharger [PuTTY](https://www.putty.org/). Vous trouverez un guide d'utilisation de ce logiciel sur OVH : [Utilisation de Putty sur Windows](https://docs.ovh.com/fr/hosting/utilisation-putty-windows/).
+
+Lancez PuTTY, renseignez l'hôte, le port, ouvrez une session et identifiez-vous.
+
+En tout premier lieu, je vous conseille de rajouter `contrib non-free` à la fin de chaque ligne du fichier `/etc/apt/sources.list` - vous éviterez ainsi de planter l'installation parce qu'un composant système requis par Plesk n'est pas disponible dans le dépôt principal. Ouvrez le fichier avec l'éditeur Vi : `vi /etc/apt/sources.list`.
+
+Les commandes à connaître pour effectuer cette opération : `i` permet d'insérer du texte et `:x` permet de sauvegarder et de ressortir du fichier.
+
+<Code code={`deb http://ftp.debian.org/debian/ jessie main contrib non-free
+deb http://security.debian.org/ jessie/updates main contrib non-free
+`} lang="plain" />
+
+Procédez ensuite à une mise à jour du système :
+
+<Code code={`apt-get update
+apt-get upgrade
+`} lang="plain" />
+
+Vous pourrez ensuite télécharger Plesk et lancer l'installation :
+
+<Code code={`wget https://installer.plesk.com/plesk-installer
+chmod +x ./plesk-installer
+sh ./plesk-installer
+`} lang="plain" />
+
+Voilà, c'est terminé, vous aurez en fin d'installation un message vous indiquant l'url de votre interface d'administration Plesk : `https://xxx.xxx.xxx.xxx:8443` ou `https://vps999999.ovh.net:8443` pour afficher l'écran d'accueil :
+
+
+
+<OptImg src="/image/plesk-ecran-de-connexion" alt="Écran de connexion Plesk" caption="Écran de connexion Plesk" align="center" />
+
+
+
+Mais avant de pouvoir utiliser Plesk, vous allez avoir à…
+
+
+
+### Commander une licence Plesk
+
+
+
+Que vous ayez à payer ou non pour la licence, il vous faudra la commander. Rendez-vous dans votre interface OVH, cliquez sur *Dédié* ou sur *Cloud* (barre de menu) puis sur *Licences* (menu latéral à gauche).
+
+
+
+<OptImg src="/image/licence-plesk" alt="Commander une licence Plesk" caption="Commander une licence Plesk" align="center" />
+
+
+
+Vous aurez ensuite à choisir le VPS sur lequel vous souhaitez installer la licence, avant de sélectionner *Odin | Plesk*…
+
+
+
+<OptImg src="/image/commande-licence-plesk" alt="Sélection de la licence Plesk" caption="Sélection de la licence Plesk" align="center" />
+
+
+
+… puis le type de licence à commander (je vous recommande d'opter pour *Plesk Obsidian*, la dernière version) :
+
+
+
+<OptImg src="/image/choix-licence-plesk" alt="Choix de la licence Plesk" caption="Choix de la licence Plesk" align="center" />
+
+
+
+Dès que vous aurez reçu votre clé de licence (par email), rendez-vous sur l'écran de connexion de Plesk (les identifiants sont identiques à ceux utilisés pour l'accès SSH), puis suivez la procédure d'enregistrement.
+
+
+
+Vous serez redirigé vers la page d'accueil par défaut :
+
+
+
+<OptImg src="/image/plesk-espace-web" alt="Plesk - Sites Web & Domaines" caption="Plesk - Sites Web & Domaines" align="center" />
+
+
+
+C'est à partir de cette page que vous allez gérer l'essentiel de votre serveur.
+
+
+
+L'interface est intuitive, ajouter un nouveau domaine, une base de données, installer un certificat *Let's Encrypt* (pour passer votre site en  https) devient un jeu d'enfant.
+
+
+
+[gallery size="full" link="file" ids="3750,3749,3751"]
+
+
+
+### Configurer la messagerie
+
+
+
+Pour que vos emails ne finissent pas dans le dossier spam de vos correspondants, il est indispensable de mettre en place quelques protocoles de sécurité : SPF, DMARC et DKIM. Rassurez-vous, ce n'est pas douloureux ;)
+
+
+
+Cliquez dans le menu latéral gauche sur *Outils & Paramètres*, puis sur *Paramètres du serveur de messagerie* dans *Mail*.
+
+
+
+Vérifiez que le serveur de messagerie soit bien activé, puis cochez les cases comme indiqué dans la capture d'écran :
+
+
+
+<OptImg src="/image/plesk-configurer-messagerie" alt="Configurer la messagerie" caption="Configurer la messagerie" align="center" />
+
+
+
+Ces réglages vaudront pour tous les comptes de messagerie que vous créerez via l'interface Plesk.
+
+
+
+### Automatiser la gestion du VPS
+
+
+
+En configurant les mises à jours automatiques dans Plesk, vous n'aurez plus à vous soucier de votre serveur avant longtemps.
+
+
+
+Cliquez dans le menu latéral gauche sur *Outils & Paramètres*, puis tout à droite, sur *Mises à jour système* dans *Gestion des serveurs*.
+
+
+
+Cochez ensuite les cases comme indiqué dans la capture d'écran ci-dessous :
+
+
+
+<OptImg src="/image/mise-a-jour-plesk" alt="Mise à jour Plesk" caption="Mise à jour Plesk" align="center" />
+
+
+
+Votre serveur est configuré, mais ce n'est pas encore fini. Avant de mettre votre blog ou votre site web en ligne, il faut aussi…
+
+
+
+## Configurer l'hébergement
+
+
+
+Rassurez-vous, ce n'est ni long, ni compliqué. La capture d'écran ci-dessous répertorie les points essentiels à configurer.
+
+
+
+<OptImg src="/image/plesk-espace-web" alt="Configuration de l'hébergement" caption="Configuration de l'hébergement" align="center" />
+
+
+
+*Plesk permet de générer automatiquement un mot de passe fort pour les utilisateurs (domaine, base de données, email). Si vous utilisez ce générateur, **veillez à afficher votre mot de passe avant de valider**. Vous aurez sinon à le changer - et à l'afficher illico.*
+
+
+
+Première étape…
+
+
+
+### Ajouter un domaine
+
+
+
+Une fois identifié sous Plesk, vous arrivez directement sur la page *Sites Web & Domaines*. Cliquez, en haut à gauche, sur *Ajouter un domaine* (1).
+
+
+
+Dans la page qui s'affiche, renseignez le nom de domaine.
+
+
+
+Ne touchez pas au paramètre *Emplacement des fichiers du site Web*, il définit l'espace web dans lequel vous déposerez tous vos fichiers par FTP ou SFTP.
+
+
+
+Pour accéder à votre espace FTP, vous avez besoin de créer un utilisateur. Vous pouvez le nommer à votre guise (sans accents ni caractères spéciaux).
+
+
+
+<OptImg src="/image/plesk-ajout-domaine" alt="Ajout d'un domaine" caption="Ajout d'un domaine" align="center" />
+
+
+
+### Créer la base de données
+
+
+
+Cliquez sur *Ajouter une base de données* (2).
+
+
+
+Renseignez le nom de la base de données. Conservez le préfixe proposé, si vous avez à rajouter des bases ultérieurement, vous aurez une cohérence dans *phpMyAdmin*.
+
+
+
+Créez également **un utilisateur par base de données**, afin de ne pas compromettre l'ensemble des bases en cas de faille de sécurité.
+
+
+
+<OptImg src="/image/plesk-ajout-bdd" alt="Ajout d'une base de données" caption="Ajout d'une base de données" align="center" />
+
+
+
+Pour accéder à la base de données que vous venez de créer, cliquez sur Base de données (à gauche du point 2 - capture d'écran "Configuration de l'hébergement").
+
+
+
+<OptImg src="/image/administration-base-donnees" alt="Administration d'une base de données avec phpMyAdmin" caption="Administration d'une base de données avec phpMyAdmin" align="center" />
+
+
+
+Remarquez au passage que vous pouvez importer / exporter directement la base de données sans passer par phpMyAdmin - directement depuis l'interface Plesk.
+
+
+
+N'oubliez pas de **changer les données relatives à la base de données** dans le fichier `wp-config.php`.
+
+
+
+### Configurer le serveur web
+
+
+
+Apache ou Nginx ? Sous Plesk, vous avez le choix. Apache est sans conteste le mieux documenté des serveurs web, et celui qui peut le plus, en termes de fonctionnalités.
+
+
+
+Mais Nginx est plus performant et est particulièrement recommandé pour un site propulsé par WordPress - d'ailleurs tous les sites d'Automattic, dont [wordpress.com](https://wordpress.com/) et [wordpress.org](https://wordpress.org/), tournent sous Nginx.
+
+
+
+Et vu que nous n'aurons pas à toucher à la configuration, pourquoi ne pas l'utiliser ?
+
+
+
+Nous allons procéder en deux étapes : tout d'abord, il faut choisir le serveur dans *Paramètres PHP* (3).
+
+
+
+<OptImg src="/image/parametres-php" alt="Paramètres PHP" caption="Paramètres PHP" align="center" />
+
+
+
+Après avoir sélectionné *Application PHP servie par Nginx*, ajustez les valeurs dans *Paramètres des performances*. Validez en cliquant sur *OK*.
+
+
+
+Cliquez ensuite sur *Paramètres d'Apache et Nginx* (4).
+
+
+
+Descendez en bas de page jusqu'à trouver *Directives supplémentaires Nginx* et insérez le code suivant :
+
+<Code code={`# enable gzip compression
+gzip on;
+gzip\_min\_length 1100;
+gzip\_buffers 4 32k;
+gzip\_types text/plain application/javascript application/x-javascript text/xml text/css;
+gzip\_vary on;
+# end gzip configuration
+location ~\* .(?:ico|css|js|gif|jpe?g|png|svg|woff)\$ {
+expires 365d;
+add\_header Pragma public;
+add\_header Cache-Control "public";
+}
+if (!-e \$request\_filename)
+{
+rewrite ^(.+)\$ /index.php?q=\$1 last;
+}
+`} lang="ini" />
+
+Voilà, votre serveur Nginx est configuré, avec le support des permaliens.
+
+
+
+### Créer une adresse email
+
+
+
+Avoir une adresse personnalisée @mondomaine.com donne un aspect plus professionnel à votre site. Avec Plesk, vous pourrez créer autant d'adresses que vous voulez, et pour chaque adresse, ajouter des alias (un alias est une adresse alternative qui renvoie sur l'adresse primaire), rediriger vos emails vers une autre adresse email, et configurer une réponse automatique basique.
+
+
+
+Cliquez sur *Adresses email* (5), puis, dans la page qui s'affiche, sur *Créer une adresse mail*.
+
+
+
+<OptImg src="/image/creer-email" alt="Ajouter une adresse email" caption="Ajouter une adresse email" align="center" />
+
+
+
+Créez à minima un email de contact (*contact* est universel, c'est le même mot en français et en anglais), éventuellement un second avec votre prénom ou votre nom.
+
+
+
+<OptImg src="/image/creer-adresse-mail" alt="Créer une adresse email" caption="Créer une adresse email" align="center" />
+
+
+
+Maintenant que vous avez configuré le serveur et mis en place l'hébergement de votre site, il va falloir…
+
+
+
+### Migrer le site
+
+
+
+Je vous recommande de transférer vos fichiers par FTP et d'importer la base de données via PHPMyAdmin **avant de changer les DNS**. Utilisez la prévisualisation pour vérifier que tout est bien réglé avant de basculer d'un hébergement à l'autre.
+
+
+
+<OptImg src="/image/apercu-domaine-plesk" alt="Aperçu du site web" caption="Aperçu du site web" align="center" />
+
+
+
+Il ne reste plus qu'à changer les DNS et à attendre leur propagation sur la toile. Dernière étape…
+
+
+
+### Installer un certificat SSL Let's Encrypt
+
+
+
+Le protocole https est un facteur impactant pour le référencement par Google, et depuis janvier 2017, les sites non sécurisés sont "signalés" dans Chrome.
+
+
+
+<OptImg src="/image/http-https" alt="Chrome : http versus https" caption="Chrome : http versus https" align="center" />
+
+
+
+Cliquez sur Let's Encrypt (6). Sécurisez le domaine principal, l'alias générique (www) et le client de messagerie en ligne. Cliquez sur *Installer* - voilà, c'est terminé côté serveur.
+
+
+
+Côté WordPress, vous avez deux méthodes :
+
+
+
+* soit vous enregistrez l'url en base de données : rendez-vous dans l'interface d'administration de WordPress, dans *Réglages > Général*, rajoutez un **s** entre http et les deux-points
+
+
+<OptImg src="/image/https-wordpress" alt="Passer WordPress au https" caption="Passer WordPress au https" align="none" />
+
+
+* soit vous insérez ces lignes dans le fichier `wp-config.php` :
+
+<Code code={`define('WP\_HOME','https://example.com');
+define('WP\_SITEURL','https://example.com');
+// forcer l'accès sécurisé à l'administration
+define ( 'FORCE\_SSL\_ADMIN' , true);
+`} lang="php" />
+
+La deuxième solution est **plus performante** : les données sont codées en dur et ne nécessitent pas d'appel en base de données, l’administration du site sera forcément sécurisée, et en vous rendant dans *Réglages > Général*, vous remarquerez que les champs de l'adresse web sont en lecture seule (donc plus de risque de modification intempestive).
+
+
+
+Les certificats *Let's Encrypt* ont une durée de vie de 3 mois, il sont renouvelés automatiquement. Si le renouvellement automatique échoue, vous aurez un message vous demandant de renouveler le certificat avant l'échéance.
+
+
+
+<OptImg src="/image/lets-encrypt" alt="Let's Encrypt" caption="Let's Encrypt" align="center" />
+
+
+
+*Avant d'effectuer cette opération, les DNS de votre site **doivent pointer vers votre VPS**.*
+
+
+
+Le petit verrou vert n'apparaît pas après installation du certificat *Let's Encrypt* ? Vous avez probablement  du contenu non sécurisé sur vos pages. Pour le trouver, aidez-vous d'outils en ligne tels que [SSL Check](https://www.jitbit.com/sslcheck/) ou [Why No Padlock](https://www.whynopadlock.com/).
+
+
+
+Si votre site n'était pas en https jusqu'à maintenant, il faut également déclarer une nouvelle propriété dans [Google Search Console](https://www.google.com/webmasters/tools/home?hl=fr) (anciennement Google Webmaster Tools) et modifier le protocole utilisé dans Google Analytics :
+
+
+
+<OptImg src="/image/analytics-https" alt="Protocole https dans Google Analytics" caption="Protocole https dans Google Analytics" align="center" />
+
+
+
+## En conclusion
+
+
+
+VPS ou hébergement mutualisé ? Comme vous avez pu le constater, la mise en œuvre d'un VPS est effectivement un peu plus longue et un peu plus complexe, mais **elle reste réalisable** malgré tout, grâce à Plesk.
+
+
+
+Avec un gain de performances qui frise l'indécence ;) et qui justifie l'investissement financier et technique que demande le VPS.
+
+
+
+Et vous, êtes-vous déjà passé au VPS, ou allez-vous y passer ?

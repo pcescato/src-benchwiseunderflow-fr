@@ -1,0 +1,465 @@
+---
+
+title: Les meilleures plateformes de paiement pour WooCommerce
+lastmod: '2025-03-04T01:33:10+00:00'
+slug: solutions-paiement-woocommerce
+draft: false
+categories:
+  - WooCommerce
+tags:
+  - boutique
+  - e-commerce
+  - sécurité
+excerpt: >-
+  WooCommerce propose par défaut deux solutions de paiement en ligne : Paypal et
+  Stripe. Mais ces deux plateformes ne couvrent pas tous les cas de figure que
+  vous pourriez rencontrer, et ne sont peut-être pas les plus adaptées pour
+  votre propre boutique. Quelles sont les solutions alternatives, quels sont les
+  avantages et les inconvénients de chacune ?
+image: /image/solutions-paiement-woo.avif
+pubDate: '2019-04-10'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Nous avons vu dans l'article précédent ([Installer et configurer WooCommerce](/blogging/woocommerce/installer-configurer-woocommerce/)) les différentes étapes à suivre pour configurer votre boutique en ligne. Dont une pour choisir les moyens de paiement acceptés.
+
+
+
+Mais ce n'est pas parce que vous avez coché les deux cases *Paypal* et *Stripe* que la configuration des paiements est terminée. Peut-être même que vous ne voulez pas de [ l'une de ] ces deux plateformes.
+
+
+
+Et ce n'est pas parce que vous avez accepté de mettre ces deux moyens de paiement à disposition de vos clients que vous ne pouvez pas leur donner un plus grand choix, pour vous permettre de toucher une cible plus large encore, ou pour payer moins de frais.
+
+
+
+Mais avant de passer en revue les solutions de paiement que vous pouvez lier à WooCommerce, nous allons brièvement lister…
+
+
+
+## Les moyens de paiement
+
+
+
+Pour effectuer un paiement (directement) sur un site de e-commerce, vous pouvez utiliser :
+
+
+
+* une carte prépayée
+* un porte-monnaie virtuel
+* une plateforme de paiement bancaire
+* un TPE : Terminal de Paiement Électronique
+* un TPD : Terminal de Paiement à Distance
+
+
+
+Et en fonction des solutions mises en place, vos clients pourront payer par :
+
+
+
+* carte bancaire (la carte bleue, *Visa*, *Eurocard* / *MasterCard* et les cartes de crédit comme la *Dinner's Club*)
+* virement *SEPA* (et *SEPA Instant Credit Transfer* en fonction de la banque de votre client) - le virement est principalement utilisé en B2B, mais peut également servir à payer une prestation impossible à payer par carte : un voyage au Wadesdah en crèverait le plafond, indépendamment des fonds présents sur votre compte
+* chèque bancaire et chèque de banque
+* transfert de fonds via un porte-monnaie électronique
+* utilisation d'une carte prépayée
+* remise d'espèces en cas de vente à emporter ou de livraison à domicile
+
+
+
+Les paiements qui nous intéressent sont soulignés dans la liste. Ce sont en fait **les paiements dématérialisés**.
+
+
+
+Nous ne nous intéresserons pas aux paiements en espèces, ni aux chèques, vu que la gestion ne peut s'effectuer que manuellement après réception des fonds, et que ces deux moyens de paiement sont gérés nativement par WooCommerce - vous n'avez donc pas besoin d'une solution tierce pour les mettre en œuvre.
+
+
+
+Voyons donc les différentes solutions possibles pour les moyens de paiement habituellement utilisées dans le e-commerce. Tout d'abord, celles qui sont proposées dès la création de votre boutique en ligne…
+
+
+
+## Les plateformes de paiement génériques
+
+
+
+Quand je dis "génériques", c'est parce que ces plateformes sont utilisées par la grande majorité des sites e-commerce, qu'ils soient au Canada, en Australie, en Chine, en France ou en Syldavie.
+
+
+
+La plus connue est bien sûr…
+
+
+
+### Paypal
+
+
+
+Inutile de présenter Paypal, c'est une plateforme de paiement quasi incontournable pour le commerce B2C, et certains sites B2B le proposent également en complément à la carte bancaire, au virement SEPA ou au chèque. Et WooCommerce l'intègre nativement, il ne reste qu'à la configurer rapidement (et à avoir soi-même un compte Paypal) pour avoir un moyen de paiement opérationnel.
+
+
+
+Sa force ? Paypal permet de payer par carte bancaire, mais surtout via le solde présent sur le compte Paypal de l'utilisateur ; c'est en quelque sorte **un porte-monnaie électronique** qui permet de ne pas faire transiter d'informations sensibles via les sites marchands.
+
+
+
+Les frais sont parmi les plus élevés, en contrepartie d'une grande simplicité de mise en œuvre, de la possibilité pour le commerçant d'ouvrir un compte professionnel sans avoir à fournir de justificatifs (SIRET, extrait Kbis…), et de la possibilité de payer via le solde Paypal pour le client.
+
+
+
+### Stripe
+
+
+
+C'est lui aussi un acteur incontournable lors de la création d'une boutique en ligne via WooCommerce. Stripe est fourni gratuitement avec WooCommerce, sous forme d'un module complémentaire proposé lors de la configuration de la boutique.
+
+
+
+En échange d'une configuration un peu plus poussée et de justificatif d'activité professionnelle (le SIRET) les frais sont bien moins élevés que pour Paypal.
+
+
+
+Et en fonction de votre historique et de votre ancienneté sur la plateforme, vous pourrez également vous faire payer par virement SEPA avec des frais encore moins élevés : 0.8% + 0.25€ / transaction, **avec un maximum de 5 €** - intéressant pour les transactions dont le montant est élevé.
+
+
+
+Un des avantages majeurs de Stripe, c'est que vous avez la possibilité de réduire significativement les paiements frauduleux en utilisant la technologie *Stripe Radar*. Kinsta a d'ailleurs publié [un excellent article](https://kinsta.com/fr/blog/fraude-carte-credit-stripe/) sur les avantages de cette solution et expliquant comment l'utiliser.
+
+
+
+Mais vous avez peut-être des **obligations légales** inhérentes à votre activité, qui vous empêchent d'accepter les paiements via Paypal ou Stripe. Ou vous voulez proposer un **paiement échelonné** à vos clients, et dans ces cas de figure, il faut aller voir ailleurs. C'est là qu'interviennent…
+
+
+
+## Les intermédiaires de confiance
+
+
+
+### Mollie
+
+
+
+Basé à Amsterdam, [cet intermédiaire](https://www.mollie.com/fr/) propose le paiement via un nombre impressionnant de passerelles : cartes bancaires, Visa, Eurocard, American Express, Paypal, SEPA, mais aussi via des cartes prépayées telles que PaysafeCard.
+
+
+
+C'est la solution que j'ai mise en place sur le site [Blizzako Prono](https://blizzakoprono.fr), le monde des parieurs étant un adepte de cette dernière solution de paiement.
+
+
+
+De plus, Mollie est bien placée pour les paiements par carte bancaire, avec une retenue de 0.25€ + 1.2% de la transaction, et la **solution la plus économique** pour les virements et prélèvements SEPA, avec des frais fixes de 0.25€ ! En contrepartie, elle est un peu plus carrée que Stripe (on ne parle même pas de Paypal) quant aux pièces demandées.
+
+
+
+Mollie prend également en charge les paiements récurrents - intéressant pour proposer un abonnement à vos clients.
+
+
+
+Mais pour certains services, ou pour certaines professions, cette solution n'est pas adaptée, ou n'est pas envisageable. Tout n'est pas perdu, loin de là. Restent des partenaires de confiance bien particuliers…
+
+
+
+## Les plateformes de paiement hexagonales
+
+
+
+Il y a trois solutions sérieuses, proposées par des entreprises bien de chez nous. La toute première, avec une offre très fournie et des frais très raisonnables, c'est…
+
+
+
+### Lyra
+
+
+
+[Cette StartUp toulousaine](https://lyra.com/fr/) est **un acteur incontournable pour les banques** : c'est elle qui fournit les passerelles de paiement à bon nombre d'entre elles, comme la Société Générale, Natixis, le Groupe Crédit du Nord, Innocard… Ces services sont aussi disponibles en direct pour les commerçants.
+
+
+
+J'ai pris contact avec leur Directrice Marketing, Aurélie Tible ; cet article est donc le fruit de mes recherches personnelles sur internet, ainsi que de mes entretiens et de mes correspondances avec elle. En aparté, je la remercie pour sa disponibilité et pour sa collaboration assaisonnée de bonne humeur.
+
+
+
+Lyra propose deux types de contrats :
+
+
+
+#### Lyra PayZen : passerelle de paiement
+
+
+
+Si vous avez déjà un contrat avec votre banque pour les paiements par carte bancaire, vous pouvez faire appel à Lyra pour intégrer le paiement sur votre site web, **tout en bénéficiant des tarifs négociés avec votre banque**, souvent moins élevés que les tarifs proposés par les plateformes telles que Paypal ou Stripe.
+
+
+
+Le paiement par prélèvement SEPA est une option activable directement depuis votre tableau de bord Lyra, et **n'est pas soumis à des frais supplémentaires**, Lyra le considère comme une transaction faisant partie du pack de transactions inclus dans l’offre.
+
+
+
+Vous aurez à payer des frais de mise en service (149€ HT) et un abonnement mensuel (14€90 HT). Ces frais peuvent vous paraître élevés, mais si vous faites le calcul de l'ensemble des frais payés via une plateforme généraliste, vous prendrez peut-être peur. Tout dépend de votre chiffre d'affaires en ligne, du nombre de transactions, etc. À vous de faire le calcul.
+
+
+
+#### Lyra Collect : offre globale
+
+
+
+Cette solution vaut (du moins en apparence) celle de Stripe ou de Mollie. Sauf que vous aurez à payer des frais de mise en service de 250€ HT. Ce n'est pas donné ! Alors pourquoi choisir cette solution plutôt qu'une autre ?
+
+
+
+En tout premier lieu, parce que Lyra a le **statut d'Établissement de Paiement agréé par l'ACPR Banque de France** et à ce titre, respecte la législation française. Les solutions Lyra sont en outre **certifiées PCI-DSS** (acronyme de *Payment Card Industry Data Security Standard*). Un gage de sérieux.
+
+
+
+Si par exemple un client conteste un paiement, via Paypal ou Stripe, votre compte peut être débité de la somme correspondante aussi rapidement que le paiement est arrivé sur votre compte.
+
+
+
+Pour une raison toute simple : le compte sur lequel est déposé la somme payée n'est pas en France, mais au Luxembourg, et la législation n'y est pas aussi favorable au commerçant.
+
+
+
+Avec Lyra, l'affaire suivra son cours, et vous ne serez débité que s'il y a réellement eu une fraude avérée (pas de livraison, carte volée…). Lyra vérifie chaque impayé et s’occupe à votre place de le contester auprès de l’émetteur du client dès que c'est réglementairement possible. **Vous êtes donc mieux protégé.e** qu'en optant pour l'un des leaders du marché. Un risque à évaluer en fonction de votre clientèle.
+
+
+
+Ce point ne vaut que pour les paiements par carte bancaire et les virements SEPA. Dans tous les autres cas, Lyra n'étant qu'un intermédiaire, elle se contentera d'appliquer la politique du prestataire.
+
+
+
+Autre point intéressant dans les solutions Lyra, la richesse des moyens de paiement disponibles au‐delà des moyens de paiement habituels (Visa, MasterCard, CB, Paypal) et des modes de paiement proposés en option ou de base dans les offres :
+
+
+
+* **Plus de 100 moyens de paiement** disponibles (Prélèvement SEPA, Google Pay, Paylib, cartes cadeaux, cartes prépayées, cartes Titres-Restaurants, moyens paiement locaux pour l’international *dont Alipay pour le marché chinois*…)
+* **Paiement fractionné** (attention aux risques) ou **paiement à crédit** via des établissements de crédit ou via les offres proposées par certaines banques. Contrairement à PayPlug qui propose lui aussi une option de paiement échelonné (mais uniquement pour Prestashop actuellement) la solution Lyra est "un peu plus" sécurisante : si un paiement ne passe pas, les prochains seront quand même présentés.
+* **Paiement par identifiant et abonnement** (paiement One Click = enregistrement de coordonnées bancaires *par Lyra* pour fluidifier les futurs paiements)
+* **Paiement par mail, SMS, WhatsApp**
+* **Terminal de paiement virtuel, Call Center**
+
+
+
+**Le paiement est intégré dans le site**, il n'y a pas de redirection comme vous pouvez en avoir avec la solution Paypal standard.
+
+
+
+Le **Protocole 3DSecure est inclus** (en acceptant ce type authentification, vous pouvez apposer sur votre site les logos *Verified by Visa*, *MasterCard SecureCode*, *Safekey* et ainsi rassurer vos clients).
+
+
+
+Payer des frais de mise en service vous donne accès au support Lyra, vous bénéficierez d'un **suivi personnalisé**, de qualité, et de conseils dans la mise en place et la maintenance de votre plateforme de paiement.
+
+
+
+
+### PayGreen
+
+
+
+Après publication de l'article, certains lecteurs m'ont demandé pourquoi je n'avais pas intégré PayGreen dans mon comparatif. C'est tout simple : je ne les connaissais pas.
+
+
+
+Je les ai donc contactés [via leur site](https://paygreen.fr), et leur responsable Communication, Johanna Millot, m'a répondu dans la foulée, m'a proposé une entrevue téléphonique pour le lendemain. J'ai donc pu échanger avec elle et obtenir les informations dont j'avais besoin. Je la remercie pour sa réactivité et sa collaboration.
+
+
+
+PayGreen est *PCI DSS Compliant*, c'est-à-dire que l'acheminement des paiements se fait **via les serveurs de leurs partenaires bancaires** (Natixis et Monext) ; PayGreen ne stocke aucune donnée carte bancaire sur ses propres serveurs, ils sont par contre déclarés en tant que *distributeur de monnaie électronique* auprès de l'ORIAS.
+
+
+
+PayGreen propose deux offres, une pour les marchands ayant un contrat VADS auprès d'un établissement bancaire, et un pour ceux qui n'en ont pas.
+
+
+
+Les moyens de paiement proposés dans les deux offres sont identiques :
+
+
+
+* Paiement comptant
+* **Paiement par abonnement**
+* **Paiement fractionné**
+* **Paiement One Click**
+* **Paiement par prélèvement SEPA**
+* Demande de **paiement par email**
+* Paiement **click & collect** / à la livraison / différé
+* **E-caution**
+* Paiement par **Titres Restaurant Dématérialisés** et par **e-Chèque-Vacances**
+
+
+
+Mais ce n'est pas par ses tarifs que PayGreen brille vraiment, même s'ils tirent bien leur épingle du jeu. C'est plus par sa philosophie :
+
+
+
+* en fonction de l'empreinte carbone de la vente (c'est à dire depuis la recherche sur internet, la consultation du site, le moyen de paiement, le moyen de transport) elle propose de contribuer à **compenser cette empreinte** par un geste éco-responsable, en participant au financement d'[un projet vert](https://www.paygreen.io/tree/)
+* PayGreen propose également **le paiement arrondi**, qui permet de reverser (sans prélever de frais) le complément payé à une association partenaire.
+
+
+
+Vous pouvez donc choisir PayGreen pour sa simplicité d'utilisation, pour ses tarifs raisonnables, pour son respect de facto de la législation française, pour son action environnementale, ou pour toutes ces raisons réunies.
+
+
+
+Et pour finir, un dernier acteur du paiement en ligne…
+
+
+
+### PayPlug
+
+
+
+Dernière solution présentée dans cet article, une seconde StartUp française, [PayPlug](https://www.payplug.com/fr/). À l'instar de Lyra, PayPlug a lui aussi **le statut d'Établissement de Paiement agréé par l'ACPR Banque de France** et est **certifié PCI-DSS**.
+
+
+
+J'ai pris contact avec PayPlug, comme je l'avais fait avec Lyra, pour éclaircir certains points concernant leur solution, et à propos de moyens de paiement qui ne sont pas mis en avant sur leur site web.
+
+
+
+J'ai pris le temps d'expliquer dans ma demande de contact que j'avais des questions dans le cadre de la rédaction d'un article sur les solutions de paiement pour WooCommerce. Et j'ai demandé à être rappelé le mardi matin.
+
+
+
+C'est une commerciale qui m'a rappelé, le lundi après-midi. Sans savoir pourquoi elle me rappelait, sans qu'on lui ait à priori transmis autre chose que mes coordonnées téléphoniques. Et qui m'a dit, après m'avoir mis en attente, qu'une personne du marketing me recontacterait rapidement. Mardi midi, mardi après-midi… Je publie sans qu'ils ne m'aient recontacté.
+
+
+
+J'ai finalement été contacté, trois jours plus tard, par un chef de projet marketing. Je sais tout de ce qui n'est pas encore mis en place, et qui sera d'abord implémenté pour Prestashop, si le projet aboutit. Et, à force de patience, j'ai réussi à glaner les informations qui m'intéressaient pour présenter leur solution sans passer à côté des points essentiels.
+
+
+
+Si notre ami a été touché par mon speech concernant PayPlug (c'est la raison avancée lors de sa proposition de mise en relation), je n'ai pas été touché par la grâce en l'écoutant me dévoiler ces projets.
+
+
+
+*Après avoir vécu l'étrange impression d'avoir subi une rupture incompréhensible de l'espace temps, d'avoir fait nuit blanche et d'être au mardi matin sans même m'en être aperçu, j'ai expérimenté la non moins bizarre sensation d'un mardi matin qui ne voulait pas en finir… Je n'ai pas de mots pour remercier PayPlug de m'avoir offert une expérience aussi extraordinaire que décevante, malheureusement.*
+
+
+
+PayPlug gère donc le paiement par carte bancaire, avec **possibilité de paiement One Click**.
+
+
+
+Le paiement fractionné existe, mais pour Prestashop uniquement. PayPlug ne gère pas les paiements récurrents, du moins pour l'instant. Affaire à suivre…
+
+
+
+Ils ont mis en place un smart 3DSecure qui permet une gestion "intelligente" de la sécurisation des paiements.
+
+
+
+C'est un des points forts de la solution PayPlug, tout comme la **détection automatique du type de carte** (Visa, MasterCard…) et à une **interface de gestion accessible à tous**.
+
+
+
+L'entreprise, si elle a des lacunes dans sa communication externe, fait tout pour **simplifier la mise en service** de sa solution de paiement, et pour **faciliter au maximum l'acte de paiement** lui même, permettant ainsi un taux de transformation intéressant.
+
+
+
+PayPlug propose 3 formules, mais même la formule *Starter* n'est pas spécialement intéressante (10.00 € par mois de frais mensuels + 2.5% + 0.25€ par transaction), au vu de ce que proposent Lyra, Stripe ou Mollie.
+
+
+
+Elle peut être relativement intéressante pour des chiffres d'affaires peu élevés, si vous souhaitez coûte que coûte installer sans bourse délier une solution rassurante tant pour vous que pour vos clients et que vous ne voulez pas afficher un souci certain de l'environnement. Bien plus intéressante que Paypal, mais bien moins que les autres solutions de ce comparatif.
+
+
+
+Les solutions PayPlug Pro et Premium quant à elles peuvent s'avérer intéressantes, en fonction de votre volume de transactions, de votre chiffre d'affaires et **des services additionnels proposés**. D'autant qu'il n'y a pas de frais de mise en service. À vous de faire le calcul, en prenant en compte tous les paramètres.
+
+
+
+## Récapitulatif des frais
+
+
+
+
+Tableau récapitulatif des solutions de paiement disponibles pour WooCommerce. **Seules les options implémentées pour WooCommerce sont indiquées par l’icone**
+
+
+[wpdatatable id=1]
+
+
+Pour calculer ses frais prévisionnels mensuels, il faut suivre le calcul suivant :  
+(CA mensuel \* taux de commission) + (nb de transactions \* coût par transaction) + frais fixes
+
+
+
+Voici donc deux tableaux pour vous aider à vous faire une idée plus précise (le pourcentage retenu pour *Lyra Payzen* et *PayGreen avec contrat VAD* est à 0.7%, un taux "normal" pour un contrat VADS) :
+
+
+[wpdatatable id=3]
+
+[wpdatatable id=2]
+
+
+**Du simple à plus du triple**, en fonction de la plateforme. En regardant de plus près, les 149.00 € HT de Lyra Payzen ou les 250.00 € HT de Lyra Collect sont bien vite amortis !
+
+
+
+Mais attention ! À vous de faire vos propres calculs en fonction de vos paramètres et critères personnels, chaque situation étant différente.
+
+
+
+Par exemple, vous vendez 10 formations à 750 € chaque mois (soit un CA mensuel de 7 500 € HT). Les frais pourront aller **de 190 € HT** avec PayPlug Pro **à 2.50 € HT** en passant par Mollie (en utilisant le paiement SEPA). Comme vous le constatez, cette situation bien particulière ne correspond pas aux cas de figures classiques, et sans une étude préalable, vous n'optimisez pas vos frais.
+
+
+
+## Le paiement fractionné : attention, danger !
+
+
+
+Nous avons vu que certaines plateformes proposent un paiement fractionné en deux, trois ou quatre fois. Contrairement au crédit qui est un contrat entre le client et l'organisme qui le propose, **strictement encadré par des lois**, le paiement fractionné est un contrat passé entre le client et vous.
+
+
+
+Si le client est un professionnel établi en France, vous pourrez apporter tout élément prouvant qu'il a accepté un contrat le liant pour un nombre déterminé de paiements. Le litige se réglera au tribunal de commerce.
+
+
+
+Si par contre vous avez affaire à un particulier, **vous mettez les pieds dans la jungle**, et vous risquez fort de ne pas avoir gain de cause. Alors **réfléchissez bien avant** de proposer des facilités de paiement à vos clients, et de préférence, faites rédiger vos conditions générales de vente par un professionnel tel qu'un avocat, vers qui vous pourrez vous tourner en cas de litige, et contre qui vous pourrez vous retourner en cas de manquement à son obligation de conseil.
+
+
+
+
+Ceci-dit, en fonction de ce que vous vendez, le risque est plus ou moins important : si vous vendez des voyages, la prestation ne sera consommée qu'après paiement complet. Le client ne payant pas la totalité n'aura pas accès à son voyage tant qu'il n'aura pas soldé son compte.
+
+
+
+Vous pourrez même retenir tout ou partie des paiements déjà effectués, à condition que vous le mentionnez dans vos conditions générales de ventes et que vous lui offriez la possibilité de régulariser son compte par tout autre moyen à sa disposition.
+
+
+
+## Quelle solution choisir ?
+
+
+
+Lyra, Lyra pas ? Paypal, Stripe ou les deux ? Un mix Mollie / Lyra ou toutes les plateformes, en n'activant que les modules intéressants sur chacun d'entre eux ?
+
+
+
+On peut très bien mettre en place une solution hybride, avec Mollie pour les paiements via PaysafeCard et les virements SEPA, Paypal pour son porte-monnaie virtuel, bien utile parfois, et PayPlug ou Lyra pour la sécurisation des paiements par carte bancaire et pour proposer un paiement fractionné. Ou opter pour une démarche éco-responsable avec PayGreen.
+
+
+
+Je vous ai donné un exemple de calcul tout à l'heure. Si votre boutique est déjà en ligne, vous devriez avoir une idée de votre panier moyen, du nombre de transactions mensuelles et de votre chiffre d'affaires.
+
+
+
+Je vous ai aussi rappelé l'une des principales failles du système, à savoir la localisation réelle de vos comptes Paypal, Stripe ou Mollie : **hors de France**. Ce n'est donc pas la législation française qui s'applique en cas de litige avec vos clients, tout au moins en ce qui concerne le paiement.
+
+
+
+Je vous recommande donc de **lire très attentivement le contrat** qui vous lie à chaque solution de paiement avant de vous engager. Lors de l'installation, mais aussi à chaque fois que les conditions générales évoluent.
+
+
+
+Si vous démarrez, Paypal, Stripe et éventuellement Mollie sont de bonnes portes d'entrée et couvrent la majorité des cas de figure qui peuvent se présenter à vous. Vous aurez tout le temps d'ajuster ensuite, en fonction de vos premiers paniers.
+
+
+
+Et vous, quelle solution(s) de paiement avez-vous mise(s) en place pour votre boutique ? Quel est votre retour sur les acteurs présentés dans cet article ? La parole est à vous…

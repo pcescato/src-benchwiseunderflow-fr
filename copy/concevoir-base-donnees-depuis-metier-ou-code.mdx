@@ -1,0 +1,460 @@
+---
+title: "Concevoir une base de données : partir du métier ou partir du code ?"
+pubDate: "2025-10-21T03:52:36+02:00"
+updated: "2025-10-18T10:51:50+02:00"
+slug: "concevoir-base-donnees-depuis-metier-ou-code"
+draft: false
+categories:
+  - "Tutoriels"
+tags:
+  - "performances"
+  - "prototype"
+  - "SQL"
+description: "Comment collaborer efficacement avec l'IA en développement ? J'ai utilisé Claude et Mistral en validation croisée pour transformer un plugin WordPress utilisé sur plus de 6000 sites. Résultat : 1h au lieu de 10 à 15h, 4 bugs critiques détectés, 40 erreurs corrigées en une passe. La méthode human-in-the-loop expliquée pas à pas."
+image: /image/carnet-de-notes.avif
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+## Pourquoi j'ai passé trois heures à modéliser avant d'écrire une ligne de code
+
+
+
+Il y a deux types de développeurs : ceux qui ouvrent leur éditeur et créent des tables au fil des besoins, et ceux qui sortent d'abord un papier et un crayon.
+
+
+
+J'appartiens à la deuxième catégorie. **Pas par dogmatisme, mais par pure flemme** : je déteste faire deux fois le même travail.
+
+
+
+Modéliser avant de coder, c'est comme lire les instructions avant de monter un meuble IKEA : ça prend 5 minutes de plus au début, ça évite 2 heures de galère ensuite.
+
+
+
+Récemment, j'ai développé une application de gestion de formations RGPD pour TPE/PME. Contrainte forte : certification Qualiopi, donc **traçabilité totale obligatoire**. Impossible de bricoler.
+
+
+
+Résultat : une journée de modélisation, 25 tables structurées, et depuis... zéro refactoring, zéro effet de bord, zéro galère. Voici pourquoi cette discipline initiale change tout.
+
+
+
+## 1. Le contexte : un vrai besoin métier, pas un exercice de style
+
+
+
+Mon client gère des formations RGPD pour TPE/PME. Son besoin :
+
+
+
+* Suivre les sessions de formation (dates, lieux, statuts)
+* Gérer les entreprises clientes et leurs stagiaires
+* Générer et archiver les documents obligatoires (conventions, feuilles de présence, attestations)
+* Suivre les apporteurs d'affaires
+* Collecter les évaluations post-formation
+* Être conforme Qualiopi/ADOPI
+
+
+
+Bref, un **mini-CRM métier** avec des contraintes réglementaires fortes.
+
+
+
+Tout se joue sur la rigueur de la conception initiale. Sans elle, le projet se transforme rapidement en un casse-tête inextricable.
+
+
+
+Et surtout : un projet où **le client n'a pas le budget pour un refactoring complet** 6 mois après la mise en production. Il faut que ça marche, tout de suite, et dans la durée.
+
+
+
+## 2. La question qui change tout : "Quelle est ma donnée centrale ?"
+
+
+
+Avant de toucher au code, je me suis posé LA question : **qu'est-ce qui fait vivre cette application ?**
+
+
+
+Pas "l'entreprise". Pas "le stagiaire". Non : **la session de formation**.
+
+
+
+C'est elle qui déclenche tout :
+
+
+
+* Une entreprise achète → session créée
+* Des stagiaires s'inscrivent → liés à la session
+* Des documents sont générés → attachés à la session
+* Un apporteur est crédité → sur la session
+* Des évaluations sont collectées → pour la session
+
+
+
+Une fois cette **entité pivot** identifiée, tout le reste s'est organisé naturellement autour.
+
+
+
+### Pourquoi c'est crucial ?
+
+
+
+Identifier l'entité centrale, c'est :
+
+
+
+* **Clarifier les priorités** : qu'est-ce qui doit être solide à 100% ?
+* **Simplifier les relations** : tout gravite autour d'un point clair
+* **Éviter l'anarchie** : pas de tables créées "au feeling" sans vision d'ensemble
+
+
+
+Dans votre projet, ce sera peut-être une commande, un rendez-vous, un dossier, un projet... Mais il y a toujours une entité qui fait vivre le système. **Trouvez-la d'abord.**
+
+
+
+## 3. Du papier au schéma : comment j'ai structuré la base
+
+
+
+### Avant le papier : les bonnes questions
+
+
+
+Avant même de sortir le crayon, j'ai passé du temps à **poser des questions**.
+
+
+
+Beaucoup de questions.
+
+
+
+Parce que j'ai déjà vu des cahiers des charges qui ne correspondaient pas au vrai besoin. Le client demande A, mais en creusant, il a en fait besoin de B.
+
+
+
+**Quelques exemples de questions que je pose systématiquement :**
+
+
+
+* *"Une entreprise peut-elle commander plusieurs sessions dans le temps ?"* → Oui → relation 1-N
+* *"Un stagiaire peut-il suivre plusieurs formations ?"* → Non, jamais → pas besoin de table intermédiaire
+* *"Quels documents doivent être générés automatiquement vs archivés manuellement ?"* → Impact direct sur la structure
+* *"Qui doit pouvoir consulter/modifier quoi ?"* → Anticipe les droits d'accès dès la conception
+
+
+
+**Résultat :** Quelques gribouillis, mais zéro code jeté, et zéro refactoring.
+
+
+
+**La flemme efficace, c'est aussi ne jamais dessiner deux fois le même schéma.**
+
+
+
+J'ai passé quelques heures avec un papier et un crayon.
+
+
+
+### Au centre : `sessions_formation`
+
+
+
+Une ligne = une session précise (date, lieu, prix, statut)
+
+
+
+### Autour, les entités satellites :
+
+
+
+**Entités liées directement à une session :**
+
+
+
+* `stagiaires` (N-1 : rattachés directement à une session, car pour ce client, un stagiaire = une formation)
+* `documents` (1-N : conventions, attestations, feuilles de présence...)
+* `evaluations` (1-N : quiz, feedback...)
+
+
+
+**Entités référentielles :**
+
+
+
+* `entreprises` (1-N : une entreprise peut commander plusieurs sessions dans le temps)
+* `apporteurs` (référentiel)
+
+
+
+### Le principe : chaque table répond à une question métier
+
+
+
+* Qui achète ? → `entreprises`
+* Qui participe ? → `stagiaires`
+* Qui a apporté l'affaire ? → `apporteurs`
+* Quels documents ? → `documents`
+* Quels résultats ? → `evaluations`
+
+
+
+**Résultat : 25 tables structurées en une journée.**  
+Pas de redondance, pas d'ambiguïté, tout est relié logiquement.
+
+
+
+### Pourquoi cette simplicité fonctionne
+
+
+
+Parce que **j'ai collé au métier** :
+
+
+
+* Un stagiaire ne suit qu'une formation → pas besoin de table intermédiaire complexe
+* Une entreprise peut commander plusieurs fois → relation 1-N évidente
+* Tous les documents sont liés à une session → pas de "ce PDF, il est rattaché à quoi déjà ?"
+
+
+
+La structure épouse le métier. Elle ne force pas une complexité inutile.
+
+
+
+## 4. Ce que cette rigueur m'a évité (et vous évitera)
+
+
+
+### Les pièges classiques :
+
+
+
+* Créer des tables "au fil de l'eau" sans vision d'ensemble
+* Dupliquer des données (le nom de l'entreprise dans 3 tables différentes...)
+* Galérer pour ajouter une fonctionnalité ("mais je la mets où, cette info ?")
+* Refactoriser en urgence parce que la structure ne tient plus
+
+
+
+### Ce que la discipline initiale m'a apporté :
+
+
+
+✅ **Requêtes évidentes** : "Donne-moi tous les documents de la session X" → jointure simple, pas de bricolage  
+✅ **Ajouts faciles** : "Il faut gérer les certifications ?" → nouvelle table satellite, zéro effet de bord  
+✅ **Conformité réglementaire** : tout est tracé, horodaté, lié (Qualiopi content)  
+✅ **Rapports immédiats** : "Combien de formations ce mois-ci ?" → déjà structuré pour ça  
+✅ **Maintenance zen** : pas de surprise, pas de "tiens, pourquoi cette donnée est dupliquée ?"
+
+
+
+### Un exemple concret
+
+
+
+Mon client m'a demandé trois mois après le lancement : *"On peut ajouter un suivi des paiements par échéancier ?"*
+
+
+
+Réponse : *"Oui, laisse-moi 2 heures."*
+
+
+
+Pourquoi ? Parce que la structure était déjà là. Il suffisait d'ajouter une table `echeances` liée à `sessions_formation`. Aucune table existante à toucher. Aucun effet de bord.
+
+
+
+Si j'avais bricolé au départ, ça aurait été 3 jours de refactoring.
+
+
+
+## 5. Pourquoi cette approche est rare (mais devrait être la norme)
+
+
+
+Soyons honnêtes : la plupart des développeurs codent d'abord, modélisent ensuite (quand ils modélisent).
+
+
+
+**Moi, j'ai toujours fait l'inverse.** Pas par vertu, mais par **pure flemme efficace** : je déteste refaire deux fois la même chose.
+
+
+
+### Ma philosophie : "Ne jamais faire en deux fois ce qui peut être fait en une seule"
+
+
+
+* Passer une journée à modéliser vs passer 10 jours à refactoriser ? Choix évident.
+* Réfléchir 2 heures avant de coder vs débugger pendant une semaine ? Pas de débat.
+* Structurer proprement dès le départ vs crouler sous la dette technique ? La réponse est évidente.
+
+
+
+**Cette "paresse" m'a toujours fait gagner du temps.** Et de l'énergie. Et de la sérénité.
+
+
+
+### Pourquoi c'est rarement enseigné ?
+
+
+
+* **Pression pour livrer vite** : "On verra ça plus tard" (spoiler : plus tard est synonyme de jamais)
+* **Croyance que "on refera propre plus tard"** : on ne refait jamais, on empile
+* **Manque de formation sur la modélisation** : beaucoup de tutos montrent comment faire marcher, pas comment structurer
+
+
+
+### Et les projets exploratoires, alors ?
+
+
+
+### Question légitime : « Et si je construis un MVP et que le modèle économique change toutes les semaines ? »
+
+
+
+Ce n'est pas une raison pour foncer tête baissée. Même un schéma de 30 minutes sur un coin de table force à se poser les bonnes questions. Un outil peut-il être loué par plusieurs utilisateurs en même temps ? Non. Alors ta table `Location` a besoin d'une date de début et de fin.
+
+
+
+Sans cette modélisation rapide (même sur une serviette en papier), tu codes « au feeling », et c'est là que le gaspillage commence — même en phase d'exploration.
+
+
+
+La modélisation n'est pas l'ennemie de l'exploration. C'est ce qui rend l'exploration efficace au lieu de la transformer en procrastination. C'est la « flemme efficace » appliquée à l'incertitude.
+
+
+
+Même si tu jettes le schéma deux semaines plus tard, il a validé une partie de ton hypothèse. Ce n'est pas du temps perdu — c'est de l'apprentissage rapide. Et il peut t'éviter des erreurs grossières, des tâtonnements inutiles ou même de passer à côté d'une idée géniale.
+
+
+
+### Mais dans un contexte pro, surtout pour des PME/TPE :
+
+
+
+* Vous n'avez **pas droit à l'erreur** (conformité, traçabilité)
+* Vous ne pouvez pas vous permettre de refactoriser tous les 6 mois
+* Vous devez pouvoir **faire évoluer l'appli sans tout casser**
+
+
+
+**Investir une journée au départ pour éviter 10 jours de galère plus tard : c'est juste du bon sens.**
+
+
+
+## 6. La méthode en 4 étapes (applicable à tout projet)
+
+
+
+### Étape 1 : Identifier l'entité centrale
+
+
+
+Posez-vous la question : *"Qu'est-ce qui fait vivre mon système ?"*  
+Pour une boutique : la commande  
+Pour un cabinet médical : le rendez-vous  
+Pour un gestionnaire de projets : le projet  
+Pour mon client : la session de formation
+
+
+
+### Étape 2 : Lister les entités satellites
+
+
+
+Autour de cette entité centrale, qu'est-ce qui gravite ?
+
+
+
+* Qui ?
+* Quoi ?
+* Quand ?
+* Combien ?
+* Quel résultat ?
+
+
+
+### Étape 3 : Dessiner sur papier
+
+
+
+Pas besoin d'outil hors de prix. Un papier, un crayon.
+
+
+
+* L'entité centrale au milieu
+* Les satellites autour
+* Les flèches pour les relations
+
+
+
+### Étape 4 : Normaliser sans dogmatisme
+
+
+
+Évitez la redondance, mais ne sur-normalisez pas non plus.  
+Si votre métier impose qu'un stagiaire ne peut suivre qu'une formation, pas besoin de table intermédiaire.  
+**Collez au métier, pas à un modèle théorique.**
+
+
+
+## Conclusion : investir une journée pour gagner des mois
+
+
+
+Le secret d'une application durable ne tient pas à la technologie utilisée. Il tient à **une question posée au bon moment** :
+
+
+
+**Quelle est ma donnée centrale ? Qu'est-ce qui fait vivre mon système ?**
+
+
+
+Dans mon cas, c'était la session de formation. Dans le vôtre, ce sera peut-être une commande, un projet, un rendez-vous, un dossier...
+
+
+
+Mais une fois cette question répondue, **la structure se dessine presque toute seule.**
+
+
+
+Et ce petit effort initial — sortir un papier, dessiner, réfléchir — fait gagner **des dizaines d'heures** en développement, maintenance et évolutions.
+
+
+
+### Pour les développeurs :
+
+
+
+Adoptez la "paresse efficace". Ne codez jamais deux fois la même chose. Réfléchissez une fois, bien, et passez à autre chose.
+
+
+
+### Pour les TPE/PME :
+
+
+
+Si vous cherchez à digitaliser un processus métier, posez-vous cette question avant de coder. Ou mieux : **travaillez avec quelqu'un qui se la pose pour vous.**
+
+
+
+Parce qu'une application bien structurée dès le départ, c'est :
+
+
+
+* Moins de bugs
+* Moins de maintenance
+* Moins de "désolé, il faut tout refaire"
+* Plus d'évolutivité
+* Plus de sérénité
+
+
+
+Et surtout : **un investissement qui dure.**
+
+
+> **Le développeur fainéant efficace ne code jamais deux fois la même chose. Sa devise : réfléchir une fois, bien, et passer à autre chose.**

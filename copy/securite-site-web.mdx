@@ -1,0 +1,182 @@
+---
+
+title: La sécurité - le parent pauvre des sites web
+lastmod: '2021-03-23T22:55:44+00:00'
+slug: securite-site-web
+draft: false
+categories:
+  - Conseils
+tags:
+  - défaçage
+  - Hacking
+  - piratage
+  - sécurité
+excerpt: >-
+  La sécurité est souvent laissée de côté lors de la création ou de la refonte
+  d'un site web. Pourtant, c'est un point essentiel, la négliger serait une
+  erreur, potentiellement lourde en conséquences.
+image: /image/securite.avif
+pubDate: '2021-03-23'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Créer un site web par soi-même est devenu un jeu d'enfant, grâce aux outils tels que WordPress. Assurer sa sécurité, par contre, n'est pas aussi simple.
+
+
+
+Entre autre, parce que l'activation d'un certificat SSL, s'il est indispensable, **n'est pas suffisant** pour assurer la sécurité d'un site. Il permet de sécuriser les transactions entre l'internaute et le site, mais **il ne protège en rien le site lui-même** des attaques, des intrusions, du piratage (hacking), du défacement ou du vol de données.
+
+
+
+Le risque est-il si dérisoire, que les entreprises préfèrent investir dans d'autres postes en négligeant la protection de leur outil (ou d'un de leurs outils) de travail ?
+
+
+
+Non, pas vraiment. C'est plus par méconnaissance, et parce qu'ils ne se posent pas forcément les bonnes questions.
+
+
+
+La première, c'est…
+
+
+
+## Qu'est-ce que la sécurité pour un site web ?
+
+
+
+Sous le terme générique sécurité, nous trouvons un ensemble de concepts complémentaires : la **sécurité des échanges avec les internautes**, qui est assurée par les certificats SSL et le protocole HTTPS, ou mieux, HSTS, n'est qu'une partie de cet ensemble.
+
+
+
+La sécurité comprend également toutes les procédures permettant de **contrer les attaques** visant à rendre inaccessible votre site ou visant directement vos données, que ce soit pour les détruire, les corrompre ou les voler.
+
+
+
+Vient ensuite…
+
+
+
+## La sécurité de mon site est-elle vraiment importante ?
+
+
+
+Fermez-vous à clé votre maison ou votre appartement quand vous partez ? Fermez-vous votre véhicule quand vous en sortez ? Vos locaux professionnels sont-ils fermés et sécurisés en votre absence ? Avez-vous un mot de passe (ou toute autre système d'identification) pour activer votre smartphone ? Votre Wifi d'entreprise (ou personnel) est il protégé par une clé WEP ou WPA ?
+
+
+
+À ces cinq questions, la plupart d'entre nous répondra : "oui, évidemment !". Vous ne laissez pénétrer personne à votre insu dans votre vie privée, mais vous laisseriez la porte grande ouverte à qui voudrait s'introduire dans vos systèmes de données en ligne ?
+
+
+
+L'utilité d'une protection acquise, la question suivante, c'est…
+
+
+
+## Comment assurer la protection de mon site ?
+
+
+
+### Testez votre site
+
+
+
+Tout d'abord, il est indispensable d'établir un diagnostic. Deux outils en ligne vous y aideront, il s'agit de [WebPageTest](https://www.webpagetest.org/) dans un premier temps, et de [Qualys - SSL Labs](https://www.ssllabs.com/ssltest/index.html) ensuite.
+
+
+
+En fait, vous devriez avoir un score de A+ sur WebPageTest et avec Qualys pour être bien protégé.
+
+
+
+Et si votre prestataire de service ne voit pas l'importance d'une sécurité renforcée, ou ne parvient pas à vous obtenir un A+, **changez sans tarder de prestataire**.
+
+
+
+Voici les résultats pour un site que j'ai développé :
+
+
+<OptImg src="/image/webpagetest-backstage" alt="Résultats WebPageTest - Sécurité" caption="Résultats WebPageTest - Sécurité" align="center" />
+
+
+Nota : la lettre B est elle aussi en vert chez WebPageTest, mais pour la sécurité, visez le A+. Le A est un pis-aller, le B n'est pas une option envisageable.
+
+
+<OptImg src="/image/ssllabs-backstage" alt="Résultats Qualys - SSL Labs" caption="Résultats Qualys - SSL Labs" align="center" />
+
+
+### Établissez un plan d'action
+
+
+
+En fonction de votre score et des points marqués en rouge ou en orange, vous allez pouvoir déterminer les actions à mener.
+
+
+
+Les questions suivantes vous permettront de le faire de manière exhaustive :
+
+
+
+* Quelles sont les failles de sécurité éventuelles sur mon site ? Si vous avez un ou plusieurs points en rouge au test Qualys, il vous faudra les traiter en priorité, **sans tarder**.
+* Ai-je la possibilité de modifier les éléments à risque directement ou via mon hébergeur ? Si ce n'est pas possible, **changez d'hébergeur**, sécuriser son site vaut la perte de quelques dizaines d'euros.
+* Ai-je les compétences nécessaires pour effectuer ces modifications sans tout casser ? Si ce n'est pas le cas, tournez vous vers un prestataire sérieux, qui a fait ses preuves (si son propre site n'obtient pas les scores de A en sécurité aux deux tests, changez de crèmerie).
+
+
+
+Si vous décidez de passer par un prestataire de services, **vérifiez son offre** : la sécurité ne doit pas se limiter à l'émission d'un certificat SSL et à la mise à jour de WordPress, de ses extensions et thèmes, à une extension dite de sécurité (même si elle est indispensable), ou uniquement a posteriori pour restaurer après une attaque, **elle doit être pro-active**.
+
+
+
+Attention ! Ne confondez pas la sauvegarde, utile pour remettre un site en ligne après une attaque, et la gestion de la sécurité.
+
+
+
+Les données volées par exemple lors d'une attaque **sont définitivement volées**, avoir une sauvegarde ne changera pas la donne, **vous aurez à vous en expliquer**, auprès de la CNIL, et auprès de vos clients ou abonnés.
+
+
+
+S'il y a eu défaillance de votre part, vous risquez des sanctions, tant de la CNIL que de vos clients que vous ferez fuir. Et même si vous n'êtes pas le responsable direct, parce que vous avez confié votre sécurité à un incompétent, vous serez quand même tenu pour responsable. **Votre** entreprise, **votre** gestion du risque.
+
+
+
+## Et ensuite ?
+
+
+
+Surtout, ne croyez pas que parce que vous avez sécurisé votre site contre les attaques extérieures et au niveau des échanges site / internautes, vous n'avez plus rien à faire.
+
+
+
+La technologie évolue, les hackers tirent parti des technologies vieillissantes pour exploiter des failles connues et en découvrent de nouvelles chaque jour.
+
+
+
+Il vous faut donc vous tenir à jour, **installer les mises à jour** de WordPress, de ses extensions et de ses thèmes.
+
+
+
+Si votre hébergement est mutualisé, votre hébergeur doit mettre à jour sa plateforme et la patcher régulièrement. Si vous gérez aussi la partie serveur, c'est à vous de vous en occuper.
+
+
+
+## Mon site est sécurisé, je ne cours donc aucun risque !?
+
+
+
+Pas vraiment. Rappelez vous : la perfection n'est pas de ce monde. **Le risque zéro n'existe pas**. Mais on peut s'en rapprocher.
+
+
+
+Et si vous avez mis en place une vraie politique de sécurité, et que malheureusement, vous subissez une attaque, les conséquences (clientèle, légales et financières) ne seront pas les mêmes.
+
+
+
+Personne ne vous en voudra d'avoir subi une attaque. On vous en voudra par contre de ne pas avoir anticipé.
+
+
+
+Maintenant, c'est à vous, prenez les mesures qui s'imposent pour continuer votre activité en toute sérénité.

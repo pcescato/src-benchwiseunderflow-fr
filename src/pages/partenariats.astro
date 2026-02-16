@@ -1,0 +1,268 @@
+---
+// src/pages/friend.astro
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+
+const partners = [
+  {
+    name: "",
+    url: "",
+    logo: "",
+    description: ""
+  }
+];
+
+const resources = [
+  {
+    name: "Astro",
+    url: "https://astro.build",
+    icon: "simple-icons:astro",
+    description: "Le framework qui propulse ce blog",
+    color: "#FF5D01"
+  },
+  {
+    name: "Claude",
+    url: "https://claude.ai",
+    icon: "simple-icons:anthropic",
+    description: "Assistant IA utilisé pour la conception et l’édition du site",
+    color: "#D4A574"
+  },
+  {
+    name: "Gemini CLI",
+    url: "https://github.com/google-gemini/gemini-cli",
+    icon: "simple-icons:google",
+    description: "Assistant IA en ligne de commande pour le debug et l'analyse complexe",
+    color: "#4285F4"
+  },
+  {
+    name: "n8n",
+    url: "https://n8n.io",
+    icon: "simple-icons:n8n",
+    description: "Automatisation open source pour vos workflows",
+    color: "#EA4B71"
+  },
+  {
+    name: "Tailwind CSS",
+    url: "https://tailwindcss.com",
+    icon: "simple-icons:tailwindcss",
+    description: "Framework CSS utility-first",
+    color: "#06B6D4"
+  },
+  {
+    name: "GitHub",
+    url: "https://github.com",
+    icon: "simple-icons:github",
+    description: "Hébergement de code et collaboration",
+    color: "#181717"
+  }
+];
+
+const collaborationTypes = [
+  {
+    icon: "lucide:pen-line",
+    title: "Articles invités",
+    description: "Vous avez de l'expertise technique à partager ? Proposez un article invité sur des sujets liés à l'architecture, la performance ou l'automatisation."
+  },
+  {
+    icon: "lucide:link",
+    title: "Échanges de liens",
+    description: "Vous tenez un blog technique de qualité ? Établissons un échange de visibilité mutuellement bénéfique."
+  },
+  {
+    icon: "lucide:code-2",
+    title: "Projets open source",
+    description: "Vous développez un outil ou une librairie intéressante ? Parlons-en et voyons comment collaborer."
+  },
+  {
+    icon: "lucide:handshake",
+    title: "Partenariats",
+    description: "Vous proposez des services ou outils pour développeurs ? Discutons d'un partenariat adapté à nos audiences respectives."
+  }
+];
+---
+
+<BaseLayout
+  title="Partenaires & Collaborations"
+  description="Page officielle des collaborations et partenariats du blog — outils open source, automation et performance web."
+>
+  <div class="space-y-20">
+    
+    <!-- Hero Section -->
+    <section class="py-16 text-center px-4">
+      <h1 class="text-4xl md:text-5xl font-bold mb-10 text-base-content">
+        Partenaires & Collaborations
+      </h1>
+
+      <div class="card bg-base-100 shadow-xl max-w-4xl mx-auto">
+        <div class="card-body text-center">
+          <div class="flex justify-center mb-6">
+            <Icon name="lucide:users" class="w-16 h-16 text-primary" />
+          </div>
+          <p class="text-xl text-base-content/70 max-w-2xl mx-auto leading-relaxed mb-8">
+            Construisons ensemble. Que vous soyez une entreprise, un développeur indépendant 
+            ou un créateur de contenu, explorons les possibilités de collaboration.
+          </p>
+          <a href="mailto:collab@tsw.ovh" class="btn btn-primary btn-lg gap-2">
+            <Icon name="lucide:mail" class="w-5 h-5" />
+            <span>Nous contacter</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partenaires Section (card pleine largeur) -->
+    <section class="px-4">
+      <div class="card bg-gradient-to-br from-base-100 to-base-200 shadow-lg">
+        <div class="card-body text-center">
+          <h2 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+            <Icon name="lucide:handshake" class="w-8 h-8 text-primary" />
+            <span>Nos Partenaires</span>
+          </h2>
+          <p class="text-base-content/70 max-w-2xl mx-auto mb-10">
+            Ils nous font confiance et soutiennent notre démarche.
+          </p>
+          <!--  -->
+          <p class="text-base-content/70 max-w-2xl mx-auto mb-10">Les partenariats en cours seront bientôt listés ici.<br />En attendant, découvrez les outils que nous utilisons au quotidien.</p>
+          <div class="grid md:grid-cols-3 gap-8" style="display: none">
+            {partners.map((partner) => (
+              <a
+                href={partner.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+              >
+                <div class="card-body items-center text-center">
+                  <img 
+                    src={partner.logo} 
+                    alt={partner.name}
+                    class="h-20 mb-4 rounded-lg"
+                  />
+                  <h3 class="card-title text-xl">{partner.name}</h3>
+                  <p class="text-sm text-base-content/70">{partner.description}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ressources Recommandées -->
+    <section>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+          <Icon name="lucide:heart" class="w-8 h-8 text-primary" />
+          <span>Ressources Recommandées</span>
+        </h2>
+        <p class="text-base-content/70 max-w-2xl mx-auto">
+          Les outils et services qui alimentent notre workflow quotidien.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {resources.map((resource) => (
+          <a
+            href={resource.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="card bg-base-100 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300"
+          >
+            <div class="card-body">
+              <div class="flex items-center gap-4 mb-3">
+                <div 
+                  class="w-12 h-12 rounded-lg flex items-center justify-center"
+                  style={`background-color: ${resource.color}15`}
+                >
+                  <Icon 
+                    name={resource.icon} 
+                    class="w-7 h-7"
+                    style={`color: ${resource.color}`}
+                  />
+                </div>
+                <h3 class="card-title text-lg">{resource.name}</h3>
+              </div>
+              <p class="text-sm text-base-content/70 leading-relaxed">
+                {resource.description}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Opportunités de Collaboration -->
+    <section>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+          <Icon name="lucide:sparkles" class="w-8 h-8 text-primary" />
+          <span>Opportunités de Collaboration</span>
+        </h2>
+        <p class="text-base-content/70 max-w-2xl mx-auto">
+          Plusieurs façons de travailler ensemble et de créer de la valeur.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        {collaborationTypes.map((type) => (
+          <div class="card bg-gradient-to-br from-base-100 to-base-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div class="card-body">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0">
+                  <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Icon name={type.icon} class="w-6 h-6 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 class="card-title text-xl mb-2">{type.title}</h3>
+                  <p class="text-base-content/70 leading-relaxed">
+                    {type.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl p-10 text-center">
+      <Icon name="lucide:rocket" class="w-16 h-16 text-primary mx-auto mb-6" />
+      <h2 class="text-3xl font-bold mb-4">Prêt à collaborer ?</h2>
+      <p class="text-lg text-base-content/70 max-w-2xl mx-auto mb-8">
+        Que vous ayez un projet précis en tête ou simplement l'envie d'échanger, 
+        n'hésitez pas à nous contacter. Nous répondons généralement sous 48h.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="mailto:collab@tsw.ovh" class="btn btn-primary btn-lg gap-2">
+          <Icon name="lucide:mail" class="w-5 h-5" />
+          <span>Envoyer un email</span>
+        </a>
+        <a href="/blog" class="btn btn-outline btn-lg gap-2">
+          <Icon name="lucide:book-open" class="w-5 h-5" />
+          <span>Lire le blog</span>
+        </a>
+      </div>
+      
+      <div class="divider my-8"></div>
+      
+      <div class="text-sm text-base-content/60">
+        <p class="mb-2">Vous pouvez aussi nous retrouver sur :</p>
+        <div class="flex gap-4 justify-center">
+          <a href="https://github.com/pcescato" target="_blank" rel="noopener" class="link link-hover">
+            <Icon name="lucide:github" class="w-5 h-5 inline mr-1" />
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/pascalcescato" target="_blank" rel="noopener" class="link link-hover">
+            <Icon name="lucide:linkedin" class="w-5 h-5 inline mr-1" />
+            LinkedIn
+          </a>
+          <a href="/rss.xml" class="link link-hover">
+            <Icon name="lucide:rss" class="w-5 h-5 inline mr-1" />
+            RSS
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

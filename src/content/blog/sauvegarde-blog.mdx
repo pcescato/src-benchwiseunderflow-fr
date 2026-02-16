@@ -1,0 +1,221 @@
+---
+
+title: Pourquoi vous devez avoir une sauvegarde de votre blog
+lastmod: '2016-10-04T02:07:33+00:00'
+slug: sauvegarde-blog
+draft: false
+categories:
+  - Conseils
+tags:
+  - extension
+  - Jetpack
+  - sauvegarde
+  - sécurité
+  - UpdraftPlus
+  - VaultPress
+excerpt: >-
+  Problème dû à l’hébergeur, bug, mauvaise manip… une fraction de seconde suffit
+  pour perdre la totalité de vos données. Automatiser la sauvegarde permet de
+  réduire la casse. Voyons comment, et quelles sont les meilleures extensions
+  pour assurer votre tranquillité.
+image: /image/sauvegarde.avif
+pubDate: '2016-10-04'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+J'ai des copies récentes de chacun de mes blogs (dont celui-ci). Je sais que tout peut arriver… et pourtant, je viens de perdre un site de démo pour le thème [The Core](/aller-a/the-core/).
+
+
+
+Un bug sur mon VPS, la suppression de mon espace web - après sauvegarde de l'ensemble des fichiers par FTP. De tous le fichiers, oui, **mais pas de la base de données**.
+
+
+
+
+
+
+Et comme il ne s'agissait que d'une démo… je n'avais pas pensé à mettre en place une sauvegarde automatisée. Bon je m'en remettrai, mais c'est trois jours de travail perdus.
+
+
+
+Cette mésaventure, **elle peut arriver à n'importe qui**. Si c'est trois ans de blog que vous perdez suite à un bug, à une attaque, à une mauvaise manipulation (personne n'est à l'abri), le coup peut être fatal à votre blog.
+
+
+
+Voilà pourquoi il est indispensable d'avoir…
+
+
+
+## Une sauvegarde automatisée de votre blog
+
+
+
+Vous pouvez faire une sauvegarde manuelle, mais soyez honnête : s'astreindre à effectuer une copie de ses fichiers et de sa base de donnée, régulièrement… vous allez le faire, vraiment ?
+
+
+
+D'autant qu'il existe des extensions gratuites, qui s’occuperont de tout à votre place. J'en ai testé quelques unes, mais je ne vais vous présenter que les deux que j'ai retenues, pour leur simplicité et leurs performances.
+
+
+
+La première, gratuite, c'est…
+
+
+
+## UpdraftPlus
+
+
+
+
+**Plus d'un million d'installations actives** à ce jour, une note moyenne de 4.85/5 (basée sur 2 305 votes) - c'est l'extension de sauvegarde de référence pour WordPress.
+
+
+
+Sa force ? Proposer une sauvegarde automatisée, simple, de la base de données et des fichiers. Vous pouvez même vous offrir le luxe de décider quoi sauvegarder, et où, même dans la version gratuite.
+
+
+
+Donc si vous n'avez pas besoin des options de la version Pro… UpdraftPlus vous permet de sauvegarder tout dans votre espace *Dropbox*, *Rackspace Cloud Files*, *Amazon S3* ou sur *Google Drive* sans payer un centime.
+
+
+
+Voyons donc comment…
+
+
+
+### Installer UpdraftPlus
+
+
+
+Rendez-vous dans l'administration de votre blog, dans ***Extensions > Ajouter***. Il vous suffit de saisir *updraftplus* dans le champ de recherche en haut à droite pour que vous puissiez installer puis activer l'extension depuis le dépôt WordPress.
+
+
+
+Une fois l'extension activée, il va falloir ~~passer à la caisse~~ penser à…
+
+
+
+### La configuration de l'extension
+
+
+
+Rien de bien compliqué. Un seul onglet va retenir notre attention, le deuxième :
+
+
+
+<OptImg src="/image/options-updraftplus" alt="options updraftplus" caption="options updraftplus" align="center" />
+
+
+
+Choisissez la périodicité pour la sauvegarde de la base de données et pour les fichiers, l'espace de stockage retenu, enregistrez les modifications, et voilà ! Pas même le temps d'avoir mal à la tête !
+
+
+
+Pensez tout de même à passer par le premier onglet **pour effectuer votre première sauvegarde** (à tant que faire !).
+
+
+
+Et si vous avez besoin de restaurer vos données, rendez-vous dans l'onglet des Sauvegardes existantes. UpdraftPlus est simple, efficace… et gratuit ! Que demander de plus ? Une version Pro…
+
+
+
+### UpdraftPlus Pro
+
+
+
+En fait, les différences entre version gratuite et Pro ne sont pas énormes, voici les principales :
+
+
+
+* le choix de l'heure à laquelle la sauvegarde est lancée (utile si vous avez un fort trafic à certaines heures)
+* 1 Go d'espace de stockage pour vos sauvegardes sur leurs propres serveurs pendant un an (extensible en payant plus)
+* la possibilité d'envoyer vos sauvegardes sur Microsoft Azure, Microsoft OneDrive, Amazon S3… en même temps (donc plusieurs sauvegardes identiques)
+* un **transport sécurisé** vers le service de sauvegarde distant, et une **sauvegarde cryptée** de la base de données
+* une année de support et de mises à jour de l'extension et de ses extensions
+* une **gestion avancée pour les installations multisites** de WordPress
+
+
+
+Ces différences, sans grand intérêt pour la grande majorité des blogueurs, peuvent s'avérer utiles voire indispensables pour certains, notamment ceux qui vivent de leur blog, qui en font un outil de prospection (les indépendants, les entreprises, certaines associations, etc.), ou qui gèrent des installations multisites.
+
+
+
+Et **le prix reste raisonnable**, de 66 € (licence pour 2 sites) à 132 € (licence illimitée). Taxes incluses.
+
+
+
+Il existe une deuxième extension, payante quant à elle, il s'agit de…
+
+
+
+## VaultPress
+
+
+
+
+C'est en fait la solution "maison" de WordPress.com, et si elle n'est pas gratuite, son prix n'est pas rédhibitoire : à partir de 5 $ par mois (soit moins de 5 €) ou de 55 $ (donc un mois offert) si vous payez à l'année.
+
+
+
+Ici, tout est transparent pour l'utilisateur, qui n'a même pas à choisir quant à la destination de la sauvegarde.
+
+
+
+VaultPress offre donc un service équivalent à celui d'UpdraftPlus Pro, pour un prix nettement inférieur (23 % d'écart de prix à fonctionnalités équivalentes) si vous n'avez qu'un blog à sauvegarder.
+
+
+
+Pour ce prix vous aurez droit à **une sauvegarde quotidienne de vos données** (extensions, thèmes et base de données), aux sauvegardes **des 30 derniers jours**, et à une restauration automatisée en cas de pépin. Vous aurez même le droit de poser des questions à des experts si vous ne réussissez pas à restaurer votre site.
+
+
+
+L'option est gérée depuis [Jetpack](/aller-a/jetpack/) (si vous voulez en savoir plus sur cette extension, j'ai publié deux articles sur ce blog : [Jetpack by WordPress – mise à jour et simplification](/blogging/extensions/jetpack-by-wordpress-mise-a-jour-et-simplification/) et [Jetpack – le couteau suisse pour WordPress](/blogging/extensions/jetpack-le-couteau-suisse-pour-wordpress/)).
+
+
+
+Et pour 9 $ par mois, c'est **toute une suite d'outils de sécurité** que vous aurez, en plus de la sauvegarde automatisée. C'est la solution que je conseille à mes clients en entreprise, pour à peine 90 € par an ils peuvent dormir sur leurs deux oreilles.
+
+
+
+Pour les particuliers ou pour les petits sites, il existe également **une offre à 3$50** par mois avec filtrage des spams, sauvegarde quotidienne et restauration en un clic.
+
+
+
+Pour faire bref, VaultPress est une suite professionnelle d'outils pour la sécurité de votre blog. Ni plus, ni moins. Mais proposée par Automattic. Vous trouverez plus d'informations sur leur site, [vaultpress.com](https://vaultpress.com) ou depuis la console d'administration de *Jetpack*.
+
+
+
+Je vous ai présenté les deux extensions phare en matière de sauvegarde automatisée, mais ce ne sont pas les seules.
+
+
+
+## Les autres extensions
+
+
+
+J'ai retenu *UpdtraftPlus* et *VaultPress*, mais il y a une pléthore d'extensions disponibles gratuitement dans le dépôt WordPress. Alors, pourquoi ces deux là ?
+
+
+
+En tout premier lieu, parce qu'elles ont une base d'utilisateurs conséquente.
+
+
+
+900 000 utilisateurs pour UpdraftPlus, 2 305 notes et une moyenne de 4.85/5 montrent que l'extension satisfait ses utilisateurs.
+
+
+
+Quant à VaultPress, **c'est le choix de la raison et de la sécurité** - les extensions Automattic sont réputées pour leur fiabilité, elles bénéficient de l'expérience de l'éditeur de notre moteur de blog préféré. D'autres, tout aussi sérieuses telles que BlogVault, sont plus coûteuses. Elles pourront éventuellement séduire ceux qui ne veulent pas d'Automattic, ou pour des fonctionnalités spécifiques.
+
+
+
+Et les autres, toutes les autres… sont souvent incomplètes, proposent la sauvegarde de la base de données OU des fichiers, font payer des options incluses gratuitement dans UpdraftPlus - et ne fonctionnent pas forcément de manière optimale. Pour ma part, j'ai oublié jusqu'à leur existence ;) mais rien ne vous empêche de les tester, et qui sait, vous en serez potentiellement satisfaits.
+
+
+
+Voilà, vous êtes parés pour les pires catastrophes… *it's up to you*, il ne vous reste plus qu'à installer l'extension de votre choix, et à espérer que vous n'utiliserez jamais de restauration.

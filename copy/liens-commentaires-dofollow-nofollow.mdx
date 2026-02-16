@@ -1,0 +1,89 @@
+---
+
+title: "Liens dans les commentaires\_: dofollow ou nofollow ?"
+lastmod: '2016-09-14T21:47:03+00:00'
+slug: liens-commentaires-dofollow-nofollow
+draft: false
+categories:
+  - Conseils
+tags:
+  - commentaires
+  - dofollow
+  - liens
+  - nofollow
+description: "Par défaut, les liens des commentaires sont en *nofollow*. Je vais à contre-courant, j'ai supprimé cet attribut. Je vous explique pourquoi, et comment faire si vous aussi voulez le supprimer."
+image: /image/liens-dodollow-nofollow.avif
+pubDate: '2016-09-14'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Après la lecture d'articles sur le web, qui défendaient la mise par défaut en `nofollow` des liens des commentaires dans WordPress, j'ai vérifié la gestion des liens des commentaires, et horreur, ils ont raison !
+
+
+
+
+
+
+Mais personnellement, je souhaite…
+
+
+
+## Laisser les liens des commentaires en dofollow
+
+
+
+Pourquoi aller à contre-courant ? Si WordPress, nativement, mets ces liens en `nofollow`, il y a bien une raison ?
+
+
+
+Effectivement : **le spam qui envahit nos messageries et le web** en général a poussé Google à « imposer » cet attribut dès 2005. Et si vous ne modérez pas vos commentaires, si vous n'utilisez pas *Akismet* ou une autre extension pour filtrer le contenu indésirable, il est préférable de laisser cet attribut en place.
+
+
+
+Mais si comme moi, vous modérez vos commentaires… **supprimer cet attribut peut avoir des conséquences positives pour votre blog**. En voici trois :
+
+
+
+* la personne qui commente peut elle aussi avoir un blog, et chercher à le faire connaître. Si son commentaire est pertinent, il enrichit mon blog. Je lui renvoie l'ascenseur à ma manière.
+* le fait de supprimer cet attribut peut donner envie à certains de commenter, pour les raisons précitées. À nouveau, mon blog gagne un contenu pertinent (de toute façon, je ne publierai pas un *« super ton site ! »* qui sent le spam à 10 km).
+* Les liens en `nofollow` ne sont effectivement pas suivis, ni par Google, ni par Bing. Le plus important étant Google. Comment traite-t-il ces liens ? Il les comptabilise dans son calcul du nombre de liens sortants, mais ne leur redistribue rien. Donc, vous ne redistribuez qu'une partie de votre popularité. **Autant en faire profiter les visiteurs qui laissent un commentaire.**
+
+
+
+Pour résumer, le fait de laisser les liens des commentaires en `nofollow` **pénalise plus celui qui commente et votre site** que les spammeurs. Je préfère adopter une attitude proactive en matière de spam, en utilisant *Akismet* pour filtrer, et en validant manuellement chaque commentaire, que de laisser cet attribut en place.
+
+
+
+Je préfère le réserver aux liens d'affiliation et à la publicité, même si cette dernière n'est pas très présente sur mes blogs.
+
+
+
+## Le code pour des commentaires sans nofollow
+
+
+
+Alors ce soir, j'ai rajouté un petit bout de code (via *Code Snippets*) pour supprimer l'attribut `nofollow` des liens de commentaires sur mes blogs :
+
+<Code code={`function comments\_dofollow ( \$text ) {
+\$text = str\_replace ( 'rel="nofollow"', '', \$text );
+return \$text;
+}
+add\_filter('comment\_text', 'comments\_dofollow');
+remove\_filter('pre\_comment\_content', 'wp\_rel\_nofollow', 15);
+function remove\_nofollow ( \$string ) {
+\$string = str\_replace ( ' nofollow', '', \$string );
+return \$string;
+}
+add\_filter('get\_comment\_author\_link', 'remove\_nofollow');
+`} lang="php" />
+
+Pourquoi via *Code Snippets* et pas directement dans le fichier `functions.php` ?Tout simplement parce que si vous changez de thème, ou si votre thème est mis à jour, **vous perdez tous les petits bouts de code** que vous avez pu mettre en place précédemment. Et puis `functions.php` est relatif… au thème, ce type de bout de code n'a vraiment pas sa place dans ce fichier.
+
+
+
+Voila… vous avez le code, vous avez la raison - à vous de voir. Allez-vous laisser les liens de commentaires en `nofollow` sur votre blog ?

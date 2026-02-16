@@ -1,0 +1,166 @@
+---
+title: Newsletter Optin Block - pour optimiser l'inscription depuis vos posts
+lastmod: '2025-08-30T15:55:18+00:00'
+slug: newsletter-optimiser-inscription
+draft: false
+categories:
+  - Extensions
+tags:
+  - extension
+  - gratuit
+description: Augmenter ses inscriptions newsletter sans être intrusif ? C'est possible avec un formulaire qui s'affiche au bon moment...
+image: /image/newsletter-optin-block.avif
+pubDate: '2025-08-12'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+Sur ce blog, vous l'avez remarqué, j'expérimente en permanence de nouveaux outils. Dont n8n.
+
+
+
+Mes tests sur [n8n](/blog/n8n-interface-ultime-automatisation/) m'ont emmené à m'inscrire sur [Mailjet](https://www.mailjet.com/fr/), je voulais tester l'envoi d'une lettre d'information. Mais pour passer toutes les étapes d'inscription au service, j'ai galéré… avoir un serveur mail auto-hébergé, pile sur une migration de CyberPanel à aaPanel, et qui soit bien réglé pour deux noms de domaines différents, ce n'était pas au programme.
+
+
+
+Le temps que les problèmes techniques soient résolus, l'article était déjà en ligne, je ne proposais plus d'envoyer une newsletter via Mailjet mais un email à tous les abonnés. Ok - mais j'avais un compte ouvert… autant en profiter.
+
+
+
+Vient la question de l'insertion d'un formulaire d'inscription. Je cherche, je cherche… et je ne trouve pas. C'est vrai, je suis exigeant, je sais ce que je veux, et du coup… je me lance dans le développement d'une extension - mais si vous voulez connaître l'histoire, c'est sur mon autre blog (Zone Test) que vous la trouverez : **[To Code or Not to Code? Serait-ce la question ?](/blog/coder-plugin-avec-ai/)**
+
+
+
+Donc… je vous présente *Newsletter Optin Block*, une extension sans toute simple pour gérer l'insertion automatique d'un formulaire d'inscription à une lettre d'information.
+
+
+
+
+Pour être totalement transparent avec vous, voici les temps d'exécution du plugin, donnés par [F12-Profiler](https://wordpress.org/plugins/f12-profiler/) :
+
+
+
+
+Core : 0.0001s, JavaScript : 0.007s
+
+
+
+<OptImg src="/image/performances-nob" alt="" caption="undefined" align="undefined" />
+
+
+
+
+Autrement dit, l'extension :
+
+
+
+* **n’alourdit pas WordPress**,
+* **ne ralentit pas le chargement des pages**,
+* et s’intègre **en douceur dans le DOM** côté navigateur.
+
+
+
+En somme : **rapide, discrète, efficace.**
+
+
+
+## Avant d'installer l'extension
+
+
+
+Cette extension ne vous servira pas sans un compte Mailjet. Si vous avez un email bien configuré (compte Microsoft Exchange, Google Workspace ou toute autre solution de mail professionnel) tout ira vite. La règle chez eux : un mail professionnel, bien configuré, et quelques questions de routine sur l'usage prévu de votre compte chez eux.
+
+
+
+Récupérez votre clé d'API et votre clé secrète, vous allez en avoir besoin.
+
+
+
+### Installez et activez Contact Form 7
+
+
+
+Si vous n'avez jamais installé d'extension, l'article [Installer, activer, mettre à jour et supprimer une extension WordPress](/blog/guide-extension-wordpress/) vous expliquera comment faire. Ce tuto date de 2017 mais est toujours d'actualité.
+
+
+
+### Créer le formulaire
+
+
+
+Pour une inscription, trois champs sont nécessaires : le prénom, l'email et une case à cocher pour le consentement (je ne l'ai pas mise en phase de test). Le nom des champs à transmettre va être imposé : `mailjetname` pour le prénom, `mailjetemail` pour le courriel. La case à cocher sert surtout à ne pas envoyer le formulaire tant qu'elle n'est pas… cochée. Donc son nom n'a pas d'importance.
+
+
+
+Voici le formulaire une fois les champs créés (je suis passé par le [constructeur en ligne de Crocoblock](https://crocoblock.com/freemium/tools/contact-form-7-layout-builder/) pour avoir un formulaire au rendu agréable (j'en touche un mot dans mon article [Contact Form 7 - gratuit, performant, extensible…](/blog/contact-form-7-puissant-formulaires-wordpress/)) :
+
+<Code code={`<div class="cf-container mailjetFormBorder">
+<div class="cf-col-5">[text mailjetname autocomplete:given-name placeholder "Votre prénom"]</div>lt;/div</div>gt;
+<div class="cf-col-5">[email\* mailjetemail autocomplete:email placeholder "votre courriel"]</div>lt;/div</div>gt;
+<div class="cf-col-12">[acceptance conditionsok] J'accepte les <a href="/conditions-generales">conditions générales</a>lt;/a</a>gt; du site. [/acceptance]</div>lt;/div</div>gt;
+<div class="cf-col-2">[submit "Envoyer"]</div>lt;/div</div>gt;
+</div>lt;/div</div>gt;
+`} lang="html" />
+
+Il reste à régler les CSS. Le bloc peut être encapsulé dans un `div`, avec une classe `mailjetFormBorder` par exemple comme dans l'exemple ci-dessus.
+
+
+
+Pour le message en cas d'inscription, vous avez deux classes CSS pour obtenir un rendu personnalisé, `fai-thank-you-wrapper` et `fai-success-message`.
+
+
+
+C'est le moment de récupérer et d'installer l'extension.
+
+
+
+Pour le moment, l'extension est en cours d'examen pour intégrer le dépôt WordPress, mais vous pouvez la récupérer [directement sur Github](https://github.com/pcescato/newsletter-optin-block).
+
+
+<OptImg src="/image/github-recuperer" alt="Récupérer l'extension sur Github" caption="Récupérer l'extension sur Github" align="center" />
+
+
+## Après l'installation
+
+
+
+Vous ne règlerez pas la totalité des options en une seule passe : Le choix de la liste Mailjet n'est possible qu'après avoir saisi la clé d'API et la clé secrète.
+
+
+<OptImg src="/image/options-etape-1" alt="Réglage des options - Étape 1" caption="Réglage des options - Étape 1" align="center" />
+
+
+Donc en premier lieu, vous allez :
+
+
+
+1. Activer l'extension
+2. Entrer vos clés (API et secrète)
+3. Décider du mode de fonctionnement pour les articles courts (moins de 300 mots)
+4. choisir le formulaire à afficher
+5. Rédiger un message de remerciement, une fois l'inscription validée
+6. Ajuster le pourcentage avant insertion du formulaire dans l'article
+7. Enregistrer les modifications
+
+
+
+C'est seulement à ce moment là que vous pourrez choisir votre liste :
+
+
+<OptImg src="/image/options-etape-2" alt="Réglage des options - Étape 2" caption="Réglage des options - Étape 2" align="center" />
+
+
+Les liste Mailjet sont bien présentes, vous choisissez à laquelle ajouter votre nouvel abonné.
+
+
+
+Maintenant, dans vos pages, vous avez un sublime formulaire d'inscription :
+
+
+<OptImg src="/image/formulaire-inscription" alt="formulaire d'inscription" caption="formulaire d'inscription" align="center" />
+
+
+Et voilà, c'est terminé. Vous pouvez oublier l'extension, et vous concentrer sur votre contenu. Quand un lecteur arrivera sur le formulaire, il n'aura qu'à renseigner son nom, son email, à cocher une case et à valider, ou à cocher une case et à valider, en fonction de la gestion de l'`autocomplete` par le navigateur.

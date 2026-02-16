@@ -1,0 +1,508 @@
+---
+
+title: 'Étude de cas : refonte d''un blog'
+lastmod: '2019-02-02T16:30:14+00:00'
+slug: refonte-blog
+draft: false
+categories:
+  - Étude de cas
+tags:
+  - blog
+  - elementor
+  - Erreur 404
+  - refonte
+description: "Première *Étude de cas* : la refonte de ce blog. Vous le savez, une refonte ne s'improvise pas. Dans cet article, vous me suivez pas à pas depuis la genèse de la refonte jusqu'à sa mise en ligne."
+image: /image/migration-site.avif
+pubDate: '2019-02-02'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Vous l'avez certainement remarqué, le blog Tout sur WordPress vient de faire peau neuve. Après une refonte début décembre 2018.
+
+
+
+Donc à peine de deux mois entre ces deux refontes. Mais cette fois-ci, ce n'est pas un simple relooking.
+
+
+
+Certains articles commençaient à dater, leur contenu n'était plus d'actualité. Et j'ai remarqué certains bugs mineurs sur le thème précédent, Voice. Oh, rien de bien méchant, mais je suis plutôt perfectionniste.
+
+
+
+Quand je dis rien de bien méchant… je suis quand même gentil. J'ai dû revenir à PHP 7.2 parce que certaines extensions plantaient en 7.3 (ce n'est pas dramatique non plus), et le menu pour mobile plantait lamentablement (c'est déjà plus dérangeant). Et tout un ensemble de petits détails qui me faisaient râler à chaque fois que je passais sur le blog.
+
+
+
+D'où ma décision d'une refonte complète. Mais une refonte, ce n'est pas l'affaire de cinq minutes, [j'en ai déjà parlé sur ce blog](/blogging/conseils/etapes-refonte-blog/).
+
+
+
+Voyons donc comment s'est déroulée la refonte, depuis la réflexion jusqu'à la mise en ligne.
+
+
+
+Cet article ouvre une nouvelle rubrique, les [Études de cas](/rubrique/blogging/etude-de-cas/). Des cas pratiques, rencontrés au fil du temps dans mon activité professionnelle (ou personnelle). Il y en aura d'autres, déjà en préparation (je les rédige au fur et à mesure de l'avancée d'un projet).
+
+
+
+## La réflexion
+
+
+
+### Pourquoi avais‐je besoin de refondre ou de restructurer mon blog ?
+
+
+
+A minima, je voulais changer de thème, en raison des bugs dont je vous ai parlé dans l'intro.
+
+
+
+En relisant certains articles, je me suis aussi aperçu que certaines extensions par exemple n'étaient plus maintenues. Ou que certains thèmes n'avaient pas été mis à jour depuis près de deux ans. Voire même supprimés. Une révision s'imposait donc.
+
+
+
+### Était‐ce le bon moment pour lancer la refonte ?
+
+
+
+Deux mois, c'est peu. Une refonte s'imposait-elle vraiment ? La décision a été prise assez rapidement : je n'allais pas patcher le blog, un simple lifting n'ayant pas un grand intérêt. Moment ou pas moment… le blog tel qu'il était ne me convenait pas, la refonte précédente n'avait pas été une réussite.
+
+
+
+J'allais effectuer une refonte complète. Thème, extensions, contenu…
+
+
+
+### Qu’est-ce que j’attendais de cette opération ?
+
+
+
+En premier lieu, je voulais un blog à jour et qui ne plante pas, tout simplement. Plus rapide, plus simple, plus agréable à parcourir.
+
+
+
+Je voulais aussi me débarrasser de l'ancien éditeur de WordPress, et passer tous mes articles sous Gutenberg. Pour ne pas avoir des extensions pour chaque éditeur, celles de l'éditeur classique de WordPress étant appelées à ne plus être maintenues, à plus ou moins long terme. Pour ne pas avoir un vrai capharnaüm à gérer aussi.
+
+
+
+Entre les extensions indispensables (SEO, sécurité, GPRD, gestion de l'administration…), celles pour Gutenberg et celles pour le constructeur de page, j'en ai déjà une cinquantaine à gérer. Si je dois en plus gérer celles qui ne servent qu'à maintenir en ligne les articles déjà rédigés…
+
+
+
+### De quelles nouvelles fonctionnalités avais‐je besoin pour atteindre mes objectifs ?
+
+
+
+En fait, il ne s'agissait pas à proprement parler de nouvelles fonctionnalités, j'avais surtout besoin de retrouver pour Gutenberg les fonctionnalités que j'avais avec l'ancien éditeur. Pas si simple. J'ai d'ailleurs dû faire l'impasse sur certaines d'entre elles. Je survivrai, le blog aussi ;) Enfin, j'espère !
+
+
+
+Et puis… une petite idée, sortie tout droit de je ne sais où, a fait son bout de chemin : j'ai décidé de profiter de la refonte pour mettre en ligne mes prestations. Donc une boutique en ligne, des abonnements et une interface de réservation pour le coaching et le développement [ la partie *boutique* a été supprimée depuis ].
+
+
+
+### Et quelles sont les fonctionnalités dont je n’avais plus besoin (inutiles ou contre‐productives) ?
+
+
+
+En consultant mes statistiques, je me suis aperçu que la lecture des articles via les Instant Articles de Facebook et au format AMP ne constituait qu'une infime partie de mon lectorat, moins de 0,1%. C'est à dire que j'avais à peine une page sur mille consultée dans ces deux formats confondus.
+
+
+
+Par contre, pour chaque page chargée, je perdais plus de 250ms en temps de chargement du pixel Facebook.
+
+
+
+Exit donc les formats AMP et Instant Articles, exit également le pixel.
+
+
+
+Je ne suis pas un grand communiquant, ce qui joue probablement dans le peu de lecteurs venant des réseaux sociaux. Mais il faut aussi prendre en compte le contenu des articles de ce blog : ce sont des articles techniques. **Ce que j'ai remarqué pour mon blog n'est pas une généralité**, chaque blog a un lectorat qui lui est propre, **qui a des habitudes de lecture bien à lui**, en fonction du contenu, de la présence de leur auteur sur les médias sociaux, etc.
+
+
+
+### Quels sont les points annexes que je peux changer ou améliorer (autant profiter de la refonte) ?
+
+
+
+À effectuer cette refonte, je voulais aussi me débarrasser de mon constructeur de page, *WPBakery Page Builder*, pendant longtemps fourni à titre de bonus par bien des thèmes sur [Themeforest](https://1.envato.market/c/1293900/275988/4415?u=https%3A%2F%2Fthemeforest.net%2Fsearch%3Fcategory%3Dwordpress&ref=pcescato). Et passer à *Elementor*, que j'avais eu l'occasion de tester et d'apprécier sur quelques sites clients et sur ma page perso.
+
+
+
+Je ne voulais plus non plus de l'extension de lightbox *PhotoSwipe Masonry*, dont je me servais pour afficher en taille réelle mes captures d'écran. Son rendu n'était pas optimal, peut-être en raison d'une incompatibilité avec une autre extension, ou d'une intégration imparfaite. Les captures d'écran sont lisibles sans qu'on ait à les agrandir, tant qu'elles ne sont pas intégrées dans une galerie et donc de taille réduite.
+
+
+
+De même, je voulais m'affranchir de *Yoast SEO*, excellent dans son domaine mais dont l'interface me rebutait, et qui de plus était truffé de publicités pour les produits et les formations Yoast.
+
+
+
+Et pour finir, je voulais tout rassembler sur le domaine principal, je ne voulais plus avoir à gérer le blog à part. Ou ma page perso à part du blog, c'est comme vous voulez ;)
+
+
+
+## La rédaction du cahier des charges
+
+
+
+Ayant décidé de tout revoir, thème, extensions, articles, structure… j'avais besoin d'un crayon et d'une feuille - en fait, j'ai eu besoin d'un stock de papier assez impressionnant !
+
+
+
+Finalement, j'ai décidé de ne pas toucher à la structure générale. De changer la catégorie de quelques articles, de les renommer, mais rien de bien important.
+
+
+
+Mais j'ai repensé à la migration précédente dans laquelle j'avais perdu en référencement à cause de liens morts. J'ai donc pris en compte la redirection de chaque page, de chaque article. Et la page d'erreur 404.
+
+
+
+J'en ai d'ailleurs profité pour rédiger un article sur ce sujet, [Gérer l'erreur 404](/blogging/code/gerer-erreur-404/). Et j'ai créé [ma page 404 personnalisée](/erreur-404/). Plus [une page d'erreur 410](/erreur-410/) pour les articles supprimés. Et enfin, un article pour [les erreurs 406 et 418](/blogging/erreurs-406-418/) (du protocole HTCPCP).
+
+
+
+Avant de passer à la refonte elle-même, j'ai également effectué une sauvegarde complète du blog en utilisant Duplicator Pro.
+
+
+
+Sauvegarde qui m'a servi à créer un clone pour la phase de refonte, et de sécurité au cas où j'oublierais ultérieurement d'effectuer une dernière sauvegarde avant mise en ligne.
+
+
+
+Les points essentiels définis, je suis passé à…
+
+
+
+## La refonte
+
+
+
+### L'heure des choix
+
+
+
+#### Le choix du thème
+
+
+
+Premier élément choisi : le thème. Je voulais un thème compatible avec *Elementor*, j'ai hésité entre deux thèmes du dépôt WordPress : *OceanWP* et *Astra*.
+
+
+
+J'ai donc testé chacun des thèmes avec le site cloné, pour voir quels étaient les points forts et les points faibles de chacun.
+
+
+
+Je me suis décidé pour *Astra*, qui me correspondait mieux, qui correspondait mieux à mon projet, et qui était a priori plus extensible. Un choix que je ne regrette pas.
+
+
+
+Mais la différence tenait dans un mouchoir. Enfin, un grand quand même. OceanWP, c'est la berline, la familiale increvable qui véhicule la famille (parents, enfants, et même grands-parents, tant qu'on y est) à bon port de la côte basque à la Moselle.
+
+
+
+Astra, c'est une sportive, belle, solide, rapide, fiable, mais pas terrible pour rentrer une famille italienne et faire Paris Nice avec.
+
+
+
+OceanWP, on peut tout lui demander, de s'occuper du blog, de la boutique, du forum et de la communauté, en étant léger, rapide et responsive. Bon, il faut pas pousser non plus, sans un serveur ad-hoc, çà risque de ramer ~~un peu~~ beaucoup.
+
+
+
+Astra, c'est pas tout à fait la même philosophie. Si tu veux installer les mêmes fonctionnalités, çà va swinguer, il n'est pas équipé pour. Mais il a d'autres atouts.
+
+
+
+Il veut bien tenir la boutique et le blog, mais c'est tout. Enfin, non. Il veut bien s’occuper de e-learning. Comme quoi…
+
+
+
+Et puis, il supporte EDD. Ce n'est pas rien. Peu le font. En plus de WooCommerce. Je devrais essayer de les installer tous les deux, ensemble, histoire de voir si il arrive à les faire tenir dans la même pièce ;)
+
+
+
+Astra est conçu un peu à la manière d'un bon framework, il supporte les hooks dans tous les sens. En bas, en haut, à droite, à gauche, au centre et au milieu (le centre et le milieu, faut pas confondre, essayez de faire un `<div align="middle" valign="center">`, rien que pour le fun).
+
+
+
+Avec les modèles personnalisés et les en-têtes de page, on a déjà de quoi s'occuper. Côté personnalisation j'ai l'impression que c'est un cran au dessus d'OceanWP.
+
+
+
+#### Le choix de l'extension SEO
+
+
+
+Pour la gestion SEO, j'ai dans un premier temps porté mon choix sur *Math Rank*, de [My Theme Shop](https://mythemeshop.com/?ref=pcescato). Malheureusement, une des fonctionnalités pourtant annoncée n'est pas portée sous WordPress 5 : le choix d'une catégorie principale quand on affecte un article à plusieurs catégories.
+
+
+
+*Et c'est parce qu'il y avait cette fonctionnalité que j'avais opté pour cette extension.*
+
+
+
+Je me trouvais donc avec des articles considérés comme dupliqués, et pour le référencement, ce n'est pas terrible. Après avoir testé *All in One SEO*, j'ai finalement opté pour une extension bien plus rustique : [The SEO Framework](https://fr.wordpress.org/plugins/autodescription/). Gratuite pour l'essentiel, et largement suffisante pour moi.
+
+
+
+Les extensions SEO **n'améliorent en rien la lisibilité de votre site ou sa visibilité sur Google**, *elles vous proposent des suggestions allant dans ce sens*. À vous de les appliquer ou d'en faire fi. Et elles vous proposent en sus des outils annexes, comme la possibilité de définir une catégorie principale, l'insertion des balises opengraph, la création d'un plan de site (sitemap), d'une description personnalisée destinée aux moteurs de recherche… mais ces annexes se trouvent aussi sous forme d'extensions indépendantes.
+
+
+
+#### Le choix des extensions
+
+
+
+Il me fallait également trouver des extensions de substitution pour celles qui n'avaient pas été mises à jour, qui n'étaient donc pas compatibles avec Gutenberg, et dont j'avais un besoin crucial.
+
+
+
+En premier lieu, une extension pour afficher le code (PHP, CSS…) que je mets en ligne dans les tutoriels. Et une extension pour les galeries d'images. Je ne voulais pas utiliser celle de Jetpack, [qui n'est pas compatible par défaut avec PhotoSwipe](/blogging/extensions/extensions-gratuites-galerie-photo/). Ça, c'était l'essentiel.
+
+
+
+J'avais également besoin d'une solution pour les téléchargements offerts, comme le thème enfant de [Twenty Seventeen](/blogging/themes/bible-twenty-seventeen/). Là, j'ai fait un compromis : j'ai gardé l'extension, compatible avec WordPress 5, et pour les liens, je crée des blocs *bouton* auxquels j'assigne le lien du fichier à télécharger.
+
+
+
+Plus facile en effet de trouver une extension pour créer un bloc bouton que de trouver une extension qui gère les téléchargements de pièces jointes et les présente correctement via Gutenberg.
+
+
+
+L'éditeur est jeune encore, contrairement à ce que son nom pourrait laisser entendre ?… on ne peut pas s'attendre à trouver autant de fonctionnalités que pour l'ancien éditeur dans les semaines ou les mois à venir.
+
+
+
+### L'audit des articles
+
+
+
+J'ai passé chaque article en revue pour vérifier la compatibilité des extensions avec la dernière version de WordPress, la dernière date de mise à jour des thèmes dans le dépôt, la pertinences des informations délivrées (en raison de l'intégration de Gutenberg dans le cœur de WordPress par exemple, j'ai décidé de ne plus promouvoir les extensions basées sur l'ancien éditeur, même celles régulièrement mises à jour).
+
+
+
+Le bilan était assez parlant : sur 63 articles publiés, cinq étaient frappés d'obsolescence avérée, une quinzaine avaient des sections complètes obsolètes, trois pouvaient être importés dans l'article d'origine, lors d'un remaniement.
+
+
+
+L'article sur Jetpack par exemple, datait de 2016, et entretemps, l'interface avait considérablement changé. Même si j'avais présenté une partie de ces changements dans un second article, ce n'était pas très clair pour le lecteur. Et ce deuxième article, daté de 2017, n'était plus lui non plus vraiment à jour. D'où une réécriture complète du premier article, et la suppression du second.
+
+
+
+D'autre part, en consultant les stats (WordPress et Analytics), j'ai remarqué que certains articles n'avaient pas reçu une seule visite au cours des six derniers mois, et moins de cinq depuis leur création.
+
+
+
+### La refonte elle-même
+
+
+
+Il y avait un travail de titan, comme nous allons le voir.
+
+
+
+#### Le changement de thème et d'extensions
+
+
+
+Le thème utilisé me sortait littéralement par les yeux. J'ai donc commencé par ce point. À tant que faire, autant revoir la présentation avant de se lancer dans les grands travaux. D'autant que chaque thème a ses dimensions d'images, à tant que lancer *Regenerate Thunbnails*, autant lui fournir les bonnes infos.
+
+
+
+La mise en place d'Astra s'est déroulée sans accroc majeur. À noter que j'ai opté pour la version Pro, c'est à dire la version disponible dans le dépôt WordPress plus l'extension [Astra Pro](https://wpastra.com/pro/?bsf=659) en vente sur le site de l'éditeur.
+
+
+
+Je me suis ensuite occupé d'installer et d'activer l'ensemble des extensions choisies. Là, ce n'était pas une partie de plaisir. Certaines extensions ne fonctionnaient pas correctement, ou le résultat n'était pas celui que l'éditeur présentait dans sa page de démo, ou elles n'étaient pas 100% compatibles avec Gutenberg, et pour finir certaines n'étaient pas compatibles entre elles.
+
+
+
+Mais quelques maux de crâne et quelques litres de café plus tard, j'en suis finalement arrivé à bout.
+
+
+
+Je pouvais passer au plat de résistance…
+
+
+
+#### La réécriture des articles
+
+
+
+En tout premier lieu, il fallait convertir en bloc article par article. Chaque article que j'avais décidé de conserver.
+
+
+
+Le relire, et apporter les modifications nécessaires au niveau du texte et des captures d'écran.
+
+
+
+Puis passer dans les blocs pour récupérer le contenu des shortcodes et les transformer manuellement en blocs.
+
+
+
+J'en ai profité pour changer l'Image à la Une de chaque article. Je voulais un site plus aéré, les images étaient tout sauf aérées.
+
+
+
+Je ne prétends pas être un artiste, pas même un graphiste correct, je fais comme je peux avec mes compétences techniques :| Ça y est, c'est dit !
+
+
+
+J'ai revu les extraits, les permaliens, le classement dans les catégories, les étiquettes, créé deux pages (pour les erreurs 404 et 410) avant de m'occuper de…
+
+
+
+#### La correspondance pour les moteurs de recherche
+
+
+
+Mon blog est référencé par Google, il était vital que je conserve au maximum l'avantage acquis en termes de SEO.
+
+
+
+Pour éviter que les articles supprimés, et ceux dont j'avais changé la catégorie principale ou le permalien ne se trouvent en erreur 404, j'ai utilisé deux extensions, *Redirection* et *WP All Import*, que je vous présente dans l'article [Gérer l'erreur 404](/blogging/code/gerer-erreur-404/).
+
+
+
+Je me suis créé un tableau, avec les anciennes URLs et les nouvelles. Pour les articles supprimés, deux possibilités :
+
+
+
+* Si l'article a été intégré dans un autre article, je redirige vers cet article.
+* Si j'ai tout simplement supprimé l'article, je redirige vers la page [erreur 410](/erreur-410/). J'informe ainsi mon lecteur que l'article n'est plus disponible, il peut ainsi soit chercher un article similaire, soit parcourir le blog.
+
+
+
+Voilà, j'avais tout fait (enfin, a priori), il restait quand même quelques étapes, dont…
+
+
+
+### La création des nouveaux contenus
+
+
+
+Vous les avez certainement pas manqués : ils sont accessibles depuis le menu avec l'entrée Prestations, depuis la page d'accueil ou j'affiche un sublime encart (*appel à l'action* ou *Call to Action* en anglais), depuis l'encart en bas de la majorité des articles.
+
+
+<OptImg src="/image/call-to-action-accueil" alt="Call to Action" caption="Call to Action" align="center" />
+
+
+J'ai personnalisé l'apparence de mes pages produit avec *Elementor Pro* et quelques extensions :
+
+
+<OptImg src="/image/produit-woo-elementor" alt="Page Elementor / Produit (WooCommerce)" caption="Page Elementor / Produit (WooCommerce)" align="center" />
+
+
+J'ai créé une page pour les réservations (plage horaire pour le coaching et journée pour le développement) :
+
+
+<OptImg src="/image/bookly" alt="" caption="Page de réservation avec Bookly" align="center" />
+
+
+Et j'en ai profité pour tester (et adopter) bon nombre de fonctionnalités intégrées dans Astra Pro. Ce thème est un vrai régal !
+
+
+
+Créer des modèles d'en-tête pour une page spécifique, ou une catégorie, ou un type d'article (Post, Page, Custom Post Type) - pourquoi ne pas personnaliser chaque recoin de ce blog ?
+
+
+
+Insérer des bloc avant, après, dans le contenu, avant l'en-tête, dans le pied de page… sur une page ou une catégorie, mais pas avec telle étiquette - je m'en suis donné à cœur joie !
+
+
+
+Et j'ai aussi pensé à vous, j'ai rédigé quelques nouveaux articles pour pallier les contenus supprimés. Un sur [l'erreur 404](/blogging/code/gerer-erreur-404/), un sur un duo d'extensions bien sympas pour [importer et exporter](/blogging/extensions/import-export-wordpress/) tout ce que vous avez sur votre site, celui-ci, écrit au fur et à mesure de l'avancée du projet.
+
+
+
+Et comme j'ai intégré *Bookly* ainsi que *WooCommerce* et ses add-ons (*WooCommerce Memberships* et *WooCommerce Subscriptions*) dans quelques projets récents, d'autres articles vont suivre.
+
+
+
+### Les vérifications
+
+
+
+Les articles sont réécrits, les nouvelles URL en place, je reprends chaque article, à tête reposée, pour revoir son contenu. Je vérifie chaque règle de redirection, pour limiter les erreurs éventuelles de saisie ou les oublis.
+
+
+
+Une première fois, et une seconde le surlendemain.
+
+
+
+Il me reste à transférer vers le site en production, mais avant, je vais effectuer…
+
+
+
+### Les sauvegardes de sécurité
+
+
+
+En fait, j'ai créé deux sauvegardes : une du blog dans son état actuel, et une du blog tel qu'il apparaîtra après la refonte. Si quelque chose se passe mal, je pourrais remettre en l'état initial rapidement, effectuer des tests complémentaires pour trouver la source du problème et corriger.
+
+
+
+Et maintenant, c'est le grand jour, c'est…
+
+
+
+## Le passage en production
+
+
+
+Vu que tout a été vérifié, revérifié… tout devrait se passer correctement. Mais bon, vous le savez vous aussi, en principe, çà ne veut pas dire grand chose. Ce qui compte, c'est le fait.
+
+
+
+Et le fait est que non, ça ne s'est pas bien passé. Mais alors pas du tout ?
+
+
+
+J'avais effectué une première sauvegarde post-refonte avec UpdraftPlus. Dans la version Pro, payante, il y a une option pour migrer un site complet. Je l'ai déjà utilisée, et quand il n'y a pas d'accroc, c'est génial.
+
+
+
+Mais là, j'ai tenté à trois reprises. À chaque fois, la migration s'est mal passée. À chaque fois, la base de données n'a pas été importée correctement. Et bien évidemment, une fois le crash consommé, la migration s'est arrêtée. Donc pas d'extraction des fichiers. Nothing. Nenio. Nic. Nimic. Ничего.
+
+
+
+Alors j'ai repris mon extension fétiche pour les sauvegardes et les migrations, savoir *Duplicator Pro*. Plus lourd, plus lent, mais que voulez-vous, le tracteur est parfois utile. Plus lourd, plus lent, mais plus puissant.
+
+
+
+Bref, une heure et une sauvegarde plus tard, j'avais une archive exploitable de près de 500Mo. Passage en mode console SSH, je vais dans le répertoire adéquat, une commande bien brute et lourde elle aussi (il n'y a pas de retour possible) : `rm -rf *`. Moins de 20 secondes pour un répertoire aussi vide qu'un porte-monnaie après les fêtes.
+
+
+
+Dans Filezilla, j'ai tout simplement déplacé l'archive du répertoire dans le sous-domaine de développement vers le répertoire principal de mon site. 3 secondes. Téléchargé puis téléversé l'installeur (`installer.php`), lancé la procédure, renseigné les champs de saisie. En 5 minutes chrono le site était en ligne.
+
+
+
+## Après la refonte
+
+
+
+Voila, le site est effectivement en ligne, j'ai vérifié que chaque article soit bien consultable, que chaque redirection fonctionne comme il se doit, et à en croire les stats Google Analytics, tout s'est bien passé, en définitive !
+
+
+
+Et maintenant ? Maintenant, j'attends de voir… la nouvelle version va-t-elle autant "plaire" (aux lecteurs, et à Google) que la précédente ? Les stats me le diront, mais il est encore trop tôt pour le dire - même si j'ai déjà des retours positifs.
+
+
+
+En attendant, je veille, au cas où je trouverais une régression sur un point quelconque (personne n'est à l'abri, et même en vérifiant et revérifiant, un oubli n'est pas impossible). Je peaufine ma page d'accueil. Je termine cet article.
+
+
+
+Même si quand on blogue, on n'a jamais (vraiment) terminé.
+
+
+
+Et vous, avez-vous une expérience de refonte à partager ? Et que pensez-vous de cette nouvelle version du blog (la cinquième en trois ans) ?

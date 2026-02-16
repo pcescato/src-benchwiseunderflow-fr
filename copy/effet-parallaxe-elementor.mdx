@@ -1,0 +1,168 @@
+---
+
+title: Un effet parallaxe avec Elementor
+lastmod: '2019-12-05T08:13:20+00:00'
+slug: effet-parallaxe-elementor
+draft: false
+categories:
+  - Code
+tags:
+  - elementor
+description: "L'effet parallaxe est réservé à Elementor Pro, ou à des extensions payantes. Pour la version gratuite, il y a un bout de code…"
+image: /image/parallax-elementor.avif
+pubDate: '2019-12-05'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Elementor en version Pro permet l'effet parallaxe sur des images d'arrière plan. Mais avec la version gratuite, ce n'est hélas pas possible.
+
+
+
+Doit-on pour autant tirer un trait sur cet effet, ou passer en version Pro ? N'y aurait-il pas une extension dans le dépôt WordPress pour pallier cette lacune ?
+
+
+
+À ma connaissance, non. Il y a bien deux extensions, qui permettent d'ajouter un effet de parallaxe sur un élément, mais pas sur l'arrière-plan d'une section.
+
+
+
+Mais tout n'est pas perdu. J'ai trouvé des tutoriels sur le web pour pouvoir (enfin !) utiliser cet effet avec Elementor sans pour autant passer à la version Pro.
+
+
+
+## Le code
+
+
+
+En tout premier lieu, installez et activez l'extension [Code Snippets](/blogging/code/centralisez-code-snippets/).
+
+
+
+
+Créez un nouvel extrait de code, nommez-le à votre convenance, d'un nom assez explicite tout de même - que diriez-vous de *Elementor Parallax* ?
+
+
+
+Ensuite copiez-collez le code suivant dans l'éditeur :
+
+<Code code={`function jquery\_parallax() {
+?>
+<script language="JavaScript" type="text/javascript">
+;(function(\$) {
+'use strict'
+var testMobile;
+var isMobile = {
+Android: function() {
+return navigator.userAgent.match(/Android/i);
+},
+BlackBerry: function() {
+return navigator.userAgent.match(/BlackBerry/i);
+},
+iOS: function() {
+return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+},
+Opera: function() {
+return navigator.userAgent.match(/Opera Mini/i);
+},
+Windows: function() {
+return navigator.userAgent.match(/IEMobile/i);
+},
+any: function() {
+return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+}
+};
+var parallax = function() {
+testMobile = isMobile.any();
+if (testMobile == null) {
+\$(".parallax").parallax("50%", 0.3);
+}
+};
+// Dom Ready
+\$(function() {
+parallax();
+});
+})(jQuery);
+/\*
+jQuery Parallax 1.1.3
+Author: Ian Lunn
+Plugin URL: http://www.ianlunn.co.uk/plugins/jquery-parallax/
+Dual licensed under the MIT and GPL licenses:
+http://www.opensource.org/licenses/mit-license.php
+http://www.gnu.org/licenses/gpl.html
+\*/
+!function(n){var t=n(window),e=t.height();t.resize(function(){e=t.height()}),n.fn.parallax=function(o,r,i){function u(){var i=t.scrollTop();l.each(function(t,u){var l=n(u),f=l.offset().top,s=a(l);i>f+s||f>i+e||l.css("backgroundPosition",o+" "+Math.round((l.data("firstTop")-i)\*r)+"px")})}var a,l=n(this);l.each(function(t,e){\$element=n(e),\$element.data("firstTop",\$element.offset().top)}),a=i?function(n){return n.outerHeight(!0)}:function(n){return n.height()},(arguments.length<1||null===o)&&(o="50%"),(arguments.length<2||null===r)&&(r=.1),(arguments.length<3||null===i)&&(i=!0),t.bind("scroll",u).resize(u),u()}}(jQuery);
+</script>lt;/script</script>gt;
+<?php
+}
+if (!(is\_admin())) {
+wp\_enqueue\_script('jquery');
+add\_action('wp\_head', 'jquery\_parallax');
+}
+`} lang="js" />
+
+Choisissez l'option *Ne fonctionne que sur le site en ligne*. Enregistrez et activez.
+
+
+
+<OptImg src="/image/elementor-parallax-snippet" alt="" caption="Code Snippets - Enregistrer et activer" align="center" />
+
+
+
+Pour finir, dans l'outil de configuration de WordPress, rajoutez la règle CSS suivante (dans l'onglet CSS additionnel) :
+
+<Code code={`.parallax {
+transition: none !important;
+}
+`} lang="css" />
+
+Voila, vous avez l'effet parallaxe disponible pour vos images d'arrière plan.
+
+
+
+## La gestion de la parallaxe dans Elementor
+
+
+
+<OptImg src="/image/elementor-img-arriereplan" alt="Effet parallaxe elementor" caption="Effet parallaxe - Elementor" align="left" />
+
+
+
+Dans la section à laquelle vous souhaitez affecter un effet parallaxe, allez dans l'onglet *Style* (1).
+
+
+
+IL va sans dire qu'avec une image, c'est quand même mieux, alors sélectionnez l'image que vous voulez mettre en arrière plan.
+
+
+
+Choisissez *Fichier joint > Fixe*, et *Taille > Couvrir*.
+
+
+
+Passez ensuite à l'onglet *Avancé* (2).
+
+
+
+Dans le champ *Classes CSS* inscrivez `parallax`.
+
+
+
+Et voila, c'est terminé ! Vous avez un effet parallaxe, certes basique, mais qui fonctionne.
+
+
+
+À noter que cet effet ne fonctionne que sur les sections.
+
+
+
+Vous pouvez par contre l'utiliser sur plusieurs sections d'une même page.
+
+
+
+
+Si vous avez des améliorations à apporter à ce bout de code, n'hésitez pas à m'en faire part via les commentaires ! Si vous avez des questions, ou si vous avez apprécié c'est également dans les commentaires que ça se passe, d'ailleurs ;)

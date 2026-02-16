@@ -1,0 +1,325 @@
+---
+
+title: Visual Portfolio
+lastmod: '2019-03-19T09:13:09+00:00'
+slug: visual-portfolio
+draft: false
+categories:
+  - Extensions
+tags:
+  - design
+  - galerie photo
+  - galeries
+  - gratuit
+  - gutenberg
+  - Jetpack
+  - mosaïque d'images
+  - photoblog
+description: Votre portfolio met en valeur vos expériences, vos créations. Et pour mettre en valeur votre portfolio, il y a Visual Portfolio. À essayer sans tarder…
+image: /image/visual-portfolio-1.avif
+pubDate: '2019-03-19'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Lors d'un récent projet, j'ai eu besoin d'afficher le portfolio d'une graphiste. Après une recherche rapide dans le dépôt WordPress et l'essai de quelques extensions qui n'ont pas su me convaincre, j'en suis venu à tester *Visual Portfolio*. Et j'ai été très agréablement surpris.
+
+
+
+Si cette extension affiche plus de 10 000 installations actives, elle ne fait pas pour autant partie des poids lourds du marché. Et pourtant… elle a tout d'une grande - à l'exception du prix, vu qu'elle est gratuite de chez gratuite.
+
+
+
+Ce n'est pas une extension en version allégée, avec deux fonctionnalités au rabais et une version pro qui vous fait baver d'envie.
+
+
+
+Non, c'est une extension complète, avec différents modèles de présentation de portfolios, qui utilise son propre type d'article personnalisé, **éditable avec Gutenberg**, mais qui accepte aussi les autres types d'articles (articles, pages…), les portfolios Jetpack, qui peut servir à afficher une galerie d'images tirées de la bibliothèque de médias… bref, une extension bien complète.
+
+
+
+
+*Visual Portfolio* est donné pour compatible avec la dernière version de WordPress, autant dire qu'il n'y a pas - a priori - de raison de choisir une autre extension pour afficher son portfolio.
+
+
+
+Si vous voulez suivre ce tutoriel et créer votre propre portfolio, vous trouverez l'extension dans le dépôt WordPress. Si vous n'avez jamais installé d'extension, je vous recommande la lecture de l'article [Installer, activer, mettre à jour et supprimer une extension WordPress](/blogging/conseils/guide-extension-wordpress/).
+
+
+
+Nous allons passer en revue les réglages de l'extension, la création d'un portfolio, et la création d'un bloc de présentation.
+
+
+
+## Les réglages de Visual Portfolio
+
+
+
+<OptImg src="/image/visual-portfolio" alt="Menu Visual Portfolio" caption="Menu Visual Portfolio" align="left" />
+
+
+
+Une fois l'extension activée, vous trouverez dans le menu latéral de l'administration de WordPress une entrée Visual Portfolio.
+
+
+
+C'est à partir de ce sous menu que vous pourrez créer vos portfolios (que vous pourrez classer par catégories, et même étiqueter vu qu'il s'agit d'un type personnalisé d'article ou CPT), les blocs de présentation, et en tout premier lieu définir les réglages de l'extension.
+
+
+
+Je vais être honnête : inutile d'aller toucher aux réglages, l'extension est très bien telle quelle.
+
+
+
+Si toutefois l'envie vous prend d'aller les modifier, vous trouverez deux onglets : le premier pour le préfixe dans l'url (*portfolio*, par défaut), les filtres personnalisés et l'image par défaut (mais ne pas définir d'image à la Une dans un portfolio, ce n'est quand même pas commun). Le deuxième est dédié à l'affichage des images sous forme de slider avec Photoswipe.
+
+
+
+## La création d'un élément de portfolio
+
+
+
+Le portfolio, c'est l'ensemble des éléments que vous souhaitez présenter sur votre blog ou votre site. Par exemple un florilège de vos réalisations, pour un graphiste, une agence web ou un designer. Ou pour tout autre type de projet. Comme des pavillons pour un cabinet d'architectes, des jardins pour un.e paysagiste, des bouquets pour un.e fleuriste.
+
+
+
+Vous créerez un élément de portfolio comme vous créez un article, en utilisant Gutenberg, après avoir cliqué sur *Porfolio items* puis sur *Add New*. Tous les blocs disponibles pour un article ou une page sont également disponibles pour un élément de portfolio.
+
+
+
+Les points importants : **le titre, et l'image à la Une**. Libre à vous de rajouter du texte, des photos (ou des galeries de photos), l'essentiel est quand même d'avoir une image à afficher, et un titre pour expliciter l'élément.
+
+
+
+Voici à quoi ressemble un élément de portfolio en cours d'édition :
+
+
+
+<OptImg src="/image/portfolio-item" alt="Élément de portfolio - Édition" caption="Élément de portfolio - Édition" align="center" />
+
+
+
+Et maintenant la page terminée :
+
+
+
+<OptImg src="/image/2019-03-19-03-25-37-tsw-ovh-0b84e1619e13" alt="Élément de portfolio - Affichage" caption="Élément de portfolio - Affichage" align="center" />
+
+
+
+Pour information, vous trouverez plus de détails sur le thème *i2019* dans l'article [Personnaliser Twenty Nineteen](/blogging/themes/personnaliser-twenty-nineteen/), et pour la démo (et le téléchargement), c'est par ici : [i2019](https://i2019.wp-xp.xyz).
+
+
+
+Si vous utilisez *Jetpack* et son module Portfolio, vous pouvez faire l'impasse sur les éléments de portfolio de *Visual Portfolio* et utiliser ceux créés avec *Jetpack*.
+
+
+
+## Les blocs de présentation (Portfolio Layouts)
+
+
+
+Je ne sais pas trop comment traduire *Layout* dans le cas présent, *bloc de présentation* m'a semblé le plus adéquat vu qu'il s'agit d'un bloc permettant l'affichage d'un portfolio au sein d'une page ou d'un article.
+
+
+
+L'interface principale se trouve dans la colonne de droite ; la partie habituellement réservée à la saisie servant d'aperçu du bloc que vous obtiendrez en utilisant les divers réglages proposés. Ci-dessous les onglets disponibles, que nous allons passer en revue un à un :
+
+
+
+
+En aparté, la galerie ci-dessus a été réalisée avec Visual Portfolio, en utilisant la disposition *Masonry*. Pour des captures de portions d'écran, il n'y a pas d'extension parfaite ou de modèle à recommander, tout dépend des captures prises et de leur nombre. À vous d'effectuer des essais jusqu'à trouver la meilleure présentation possible.
+
+
+
+Intéressons-nous donc aux écrans ci-dessus. Les titres sont en anglais, l'extension n'est pas (encore) traduite.
+
+
+
+L'extension **est prête pour la traduction**, si vous ne voulez pas régler à chaque fois vos textes par défaut, passez par *Loco Translate* par exemple pour traduire a minima les chaînes dont vous avez l'utilité. J'en ai effectué une partie (environ 64% des 204 chaînes), dont les textes par défaut et les chaînes utiles à l'affichage au sein des éléments de portfolio. Ce n'est pas très compliqué, mais cela prend du temps.
+
+
+
+### Name & Shortcode
+
+
+
+En français, *nom et code court*. Vous avez à baptiser votre portfolio, et c'est lui qui vous délivrera un code court (shortcode) à insérer dans vos pages et articles.
+
+
+
+### Layout
+
+
+
+Peut être traduit par *modèle*. Vous avez le choix entre *Gr*id, *Masonry*, *Justified*, *Slider* ou *Tiles*.
+
+
+
+*Gap* permet de régler l'espacement entre les diapositives, *Items per page* le nombre d'éléments de porfolio à afficher en une seule passe, et *Stretch* permet de s'affranchir de la largeur normale de la page.
+
+
+
+### Items Style
+
+
+
+Vous pouvez choisir entre plusieurs effets au survol des diapositives : *Default*, *Fly*, *Emerge* ou *Fade*. L'option *Overlay background color* et *Overlay Text Color*, un peu plus bas dans le même onglet, définissent respectivement la couleur de superposition (avec gestion de la transparence) et la couleur du texte lié.
+
+
+
+*Show excerpt* permet d'afficher l'extrait dans le cas d'un élément de portfolio ou d'un article. En activant *Show icon* vous aurez une jolie icone (à choisir dans les icones fontawesome v5) au beau milieu de la diapositive, au survol. Une icone pour les images, une pour les vidéos. Que demander de plus ?
+
+
+
+Une longueur personnalisée de l'extrait ? Vous l'avez avec *Excerpt words count* ! La possibilité d'afficher la date de parution ? C'est également prévu ! Au final, **vous pouvez personnaliser à l'envi votre portfolio**…
+
+
+
+### Item Click Action
+
+
+
+Tout simplement l'action à effectuer quand on clic-clic-clique sur la diapo. On ne fait rien. Ou on redirige vers l'URL (de l'image, du portfolio, de l'article). Sur la même page, ou dans un nouvel onglet. Ou on choisit d'afficher l'image ou la vidéo en pleine page dans une popup.
+
+
+
+### Filter
+
+
+
+Pour afficher une seule catégorie, ou tout, au premier affichage (quand il y en a plusieurs). L'inconvénient, c'est que l'extension est un peu bébête, s'il n'y a qu'une seule catégorie, elle affichera quand même *All* (Tout) à moins de désactiver le filtre. À noter que *All* peut (doit) être traduit. Et que cette traduction intervient au niveau du modèle. Vous pouvez donc choisir un texte différent pour chaque portfolio.
+
+
+
+En fonction du filtre appliqué, vous aurez un code court à copier / coller. Mais à ce que j'ai pu remarquer, le filtre est géré à la base, lorsque l'on demande l'affichage d'un portfolio dans Gutenberg.
+
+
+
+### Pagination
+
+
+
+Enfin un mot anglais facile à comprendre ! Tiens, pour le coup, je ne vais même pas le traduire ;) Essayez juste de ne pas en écorcher la prononciation (*pæʤɪˈneɪʃən* en alphabet phonétique).
+
+
+
+Vous pouvez donc activer ou désactiver la pagination, choisir entre une pagination classique avec des nombres, une pagination de type "charger la suite" ou un scroll infini (attention si votre galerie est longue comme un jour sans pain).
+
+
+
+Pour la pagination aussi vous pouvez gérer le texte à afficher portfolio par portfolio.
+
+
+
+Voici un bloc Portfolio, avec des éléments de portfolio :
+
+
+
+
+
+## La gestion de Visual Portfolio dans Gutenberg
+
+
+
+Pour insérer un bloc précédemment créé, vous trouverez un bloc dédié dans les *blocs communs* :
+
+
+
+<OptImg src="/image/gutenberg-visual-portfolio" alt="Bloc Gutenberg" caption="Bloc Gutenberg" align="center" />
+
+
+
+Le portfolio peut également servir à afficher les articles, avec un filtrage par catégorie comme dans l'exemple ci-dessous :
+
+
+
+
+Le portfolio suivant n'est pas à proprement parler un portfolio mais une galerie ; j'ai choisi de l'afficher en "grande largeur". Les images, libres de droits, viennent de Pixabay.
+
+
+
+
+La même galerie, en largeur normale (réglage Gutenberg), avec le modèle *Justified* :
+
+
+
+
+Dans Gutenberg, j'ai opté pour une largeur normale. Mais dans le slider, j'ai activé l'option *stretch*, et le slider s'affiche donc en pleine largeur, **sans tenir compte** de la mise en page décidée par Gutenberg.
+
+
+
+Si vous êtes arrivé.e en fin de galerie, vous aurez remarqué que la dernière image n'est pas justifiée. Un choix qui se défend, l’esthétique n'est pas forcément au rendez-vous quand on est en justification 'absolue'. On aurait pu - pour une fois - avoir mieux avec Jetpack mais il faut dans ce cas faire l’impasse sur les effets au survol, sur le chargement partiel, sur Photoswipe et se contenter de la popup dédiée à Jetpack - à moins de passer à la caisse et de payer $19 pour avoir une extension compatible de chez *dfactory*, que je vous présente rapidement dans l'article [Des extensions gratuites pour créer une galerie photo attrayante](/blogging/extensions/extensions-gratuites-galerie-photo/).
+
+
+
+Pour finir voici la même galerie d'images sous forme de *slider*, le dernier modèle proposé par Visual Portfolio :
+
+
+
+
+Il y a 3 types de sliders : coverflow (ci-dessus), slide ou fade. Pour un besoin ponctuel, il peut faire l'affaire. Mais vous noterez l'effet d'escalier sur les images de côté. Ce n'est pas le nec plus ultra des sliders. Il dépanne, et c'est déjà bien.
+
+
+
+Pour la présentation en slider, je vous conseille **de charger toutes les images**, et de mettre un texte explicatif ou un espace insécable dans la zone de texte de fin de chargement (par défaut : You'v*e reached the end of the list).*
+
+
+
+## La gestion des blocs Visual Portfolio dans Elementor
+
+
+
+Il n'y a pas de bloc dédié, vous devrez passer par le bloc *code court* dans lequel vous insérerez le shortcode. L'affichage se fait correctement, tant dans Elementor que dans la page générée.
+
+
+
+## Les points noirs
+
+
+
+Alors, aurais-je trouvé l'extension parfaite, le nec plus ultra du portfolio ? Pas si vite !
+
+
+
+Premier constat à l'utilisation, qui vaut pour la grande majorité des extensions utilisant une lightbox : **on ne peut pas utiliser plusieurs extensions de type galerie sur une même page**. Donc on ne peut pas utiliser Visual Portfolio et une galerie, il faudra choisir.
+
+
+
+Sans une solution de gestion d'activation à la demande des extensions telle que [Plugin Organizer](/blogging/extensions/allegez-blog-plugin-organizer/), il faudra également s'en tenir à une seule extension **pour l'ensemble de votre site**.
+
+
+
+La plupart du temps, j'utilise *Justified Gallery* pour illustrer mes articles (quand j'ai besoin d'une galerie). Dans cet article, j'ai créé ma galerie d'illustration via *Visual Portfolio*, donc en dehors de l'article. J'ai désactivé l'une et activé l'autre.
+
+
+
+Second point noir, il semble que Visual Portfolio interfère avec d'autres extensions. J'ai noté une incompatibilité entre [HT Mega – Ultimate Addons for Elementor Page Builder](https://wordpress.org/plugins/ht-mega-for-elementor/) et *Visual Portfolio*, par exemple : la seconde prend le pas sur la première au niveau des CSS, lié à une gestion trop généraliste de certaines balises ou à un conflit lié aux polices *fontawesome* en version 4.7 dans un cas, en version 5 dans l'autre.
+
+
+
+Deux extensions gratuites, très utiles, **mais à ne pas utiliser sur une même page** (enfin, en fonction des modules activés sur *HT Mega*).
+
+
+
+Troisième point noir : le slider n'est pas un modèle du genre. Il faut précharger toutes les images, il y a un effet d'escalier si on choisit l'option coverflow, et il faut tricher pour le texte en dessous du slider. C'est clairement un slider de dépannage : si vous avez un besoin récurrent de sliders, prenez une extension dédiée.
+
+
+
+## En conclusion
+
+
+
+En dehors de ces trois points, je n'ai pas noté de problème particulier.
+
+
+
+Que dire d'autre ? *V*i*sual Portfolio* fait ce qu'on lui demande, le fait plutôt bien et ces limitations sont bien minimes au vu du prix et des services rendus. L'essayer, c'est prendre un seul risque - celui de l'adopter ;)
+
+
+
+Et vous, avez-vous déjà adopté Visual Portfolio pour présenter vos portfolios ou vos galeries d’images ? Ou avez-vous une autre extension qui fait l'affaire (peut-être mieux d'ailleurs) ?

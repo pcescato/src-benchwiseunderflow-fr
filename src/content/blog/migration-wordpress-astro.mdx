@@ -1,0 +1,250 @@
+---
+
+title: "De WordPress à Astro : trois jours pour reprendre le contrôle"
+pubDate: "2025-11-05"
+slug: "migration-wordpress-astro"
+draft: true
+categories: 
+  - "Tutoriels"
+tags:
+  - WordPress
+  - Jamstack
+description: ""
+image: /image/actually-agile.avif
+
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+_Quand la performance, la simplicité et la maîtrise remplacent la maintenance._
+
+## 1. Le point de bascule : quand maintenir devient épuisant
+
+J'avais deux blogs WordPress : l'un pour mes articles techniques (Python, IA, architecture logicielle), l'autre qui parlait de WordPress et de son éco-système : hébergement, plugins, thèmes, personnalisation, sécurité… Deux plateformes, deux ensembles d'extensions, deux bases de données à surveiller — et, forcément, deux fois plus de maintenance.
+
+Avec WordPress, chaque mise à jour peut avoir un effet domino : un thème qui casse, qui n'est plus maintenu, ou retiré du dépôt WordPress — parfois pour des questions de sécurité légitimes, parfois pour des raisons moins claires. La gouvernance de l'écosystème, de plus en plus centralisée autour de Matt Mullenweg, ajoute une couche d'incertitude.
+
+Au quotidien, cela devient une tâche en soi. Pas du développement, pas de la rédaction — juste de la maintenance.
+
+Et c'est sans compter la surveillance permanente des performances : Core Web Vitals, vitesse de réponse serveur, compatibilité mobile… À force, j'avais l'impression d'entretenir un système vivant plutôt qu'un espace de publication.
+
+> **"Au bout d'un moment, j'entretenais plus que je ne créais."**
+
+### 1.1 Quand les plugins se retournent contre toi
+
+ <samp>*"I'm sorry Dave, I'm afraid I can't do that."</samp>
+
+Soyons honnête : c'est là que j'ai décroché. Le point de rupture ? Les **incompatibilités entre plugins** qui transforment chaque mise à jour en partie de roulette russe.
+
+L'exemple typique : **Editor's Kit**. Censé enrichir Gutenberg, il a fini par me causer plus de problèmes qu'il n'en résolvait — bugs d'affichage, conflits CSS, comportements erratiques. Je l'ai désactivé et supprimé après plusieurs heures de débogage inutiles.
+
+Même constat avec **WP-Typography** : un excellent concept, mais un gouffre à ressources. Le plugin faisait régulièrement exploser la limite mémoire PHP — erreurs fatales, timeouts, le grand jeu — j'ai dû ajouter mes propres correctifs pour éviter les overflows.
+
+Et c'est là que tu comprends que **l'architecture par empilement de plugins a ses limites** : dépendances croisées, mises à jour imprévisibles, changements de philosophie d'un jour à l'autre, et une surface d'attaque grandissante.
+
+> **Entre les ressources gaspillées et les failles de sécurité potentielles, le rapport bénéfice / risque ne tenait plus.**
+
+## 2. Hugo : la première tentative vers la sobriété
+
+Avant Astro, j'ai tenté **Hugo**. Et franchement, j'ai adoré une partie de l'expérience :
+
+-   le build instantané,
+-   les fichiers plats en Markdown,
+-   la sensation d'un site où l'on écrit et publie sans friction.
+
+Mais le charme s'est vite émoussé. L'écosystème Hugo est robuste, mais moins dynamique. Le templating en Go est efficace, mais pas intuitif. Et les thèmes, souvent figés, laissent peu de place à la personnalisation rapide.
+
+Hugo m'a fait entrevoir la **voie de la légèreté**, mais sans que j'y trouve réellement mes marques. C'est un framework parfait pour un site institutionnel ou documentaire, moins pour un blog. Il m'a appris une chose essentielle : la performance brute ne suffit pas. Il faut un environnement _agréable à maintenir et à faire évoluer_.
+
+Techniquement, ça marchait. Mais je n'ai jamais franchi le pas de la mise en ligne : le résultat ne m'inspirait pas. C'est d'ailleurs ce que j'explique dans l'article (en anglais) [# WordPress vs Hugo: When Reality Challenges the Speed Myths](https://dev.to/pascal_cescato_692b7a8a20/wordpress-vs-hugo-when-reality-challenges-the-speed-myths-3ca8).
+
+## 3. Astro : le déclic
+
+Je ne connaissais pas Astro avant cette migration. Je suis tombé dessus presque par hasard — et j'ai eu ce petit moment de bascule : _"tiens, ça, c'est différent."_
+
+En quelques heures, j'ai compris que le framework avait trouvé le bon équilibre :
+
+-   la simplicité d'un site statique,
+-   la modularité d'un environnement moderne,
+-   la compatibilité avec les bibliothèques front-end sans les imposer.
+
+Astro est pensé pour un web **sobre et intelligent**. Chaque composant a un rôle clair. Chaque fichier Markdown devient un vrai contenu versionnable. Et le build final est propre : pas de code mort, pas de dépendances inutiles.
+
+Pourquoi Astro plutôt qu'Eleventy ou Next.js ? La réponse tient en trois points :
+
+-   **Eleventy** : excellente philosophie, mais un écosystème de thèmes limité. Partir d'une base propre aurait demandé trop de travail de mise en forme.
+-   **Next.js** : puissant, mais lourd et sujet à des incompatibilités fréquentes entre versions. Exactement le type de maintenance que je voulais fuir.
+-   **Astro** : le juste milieu. Un écosystème de thèmes en croissance, une architecture d'îles (Islands Architecture) qui charge le JavaScript uniquement là où c'est nécessaire, et la possibilité d'importer des composants React, Vue ou Svelte sans embarquer leur runtime complet par défaut.
+
+> **"Astro a réellement changé ma façon de voir les choses."**
+
+### 3.1 Reprendre la main sur son écosystème
+
+Ce que j'ai particulièrement apprécié, c'est la **modularité**. J'ai pu ajouter les commentaires via **Giscus** en quelques lignes, sans plugin, sans dépendance cachée. Même chose pour le SEO, le sitemap ou les métadonnées : tout est explicite, configurable, lisible.
+
+Là où WordPress impose son propre cadre, Astro me laisse **choisir mes briques**. Je peux les comprendre, les versionner, les faire évoluer à mon rythme. C'est une forme de retour à la clarté :
+
+> _Je sais ce que mon site fait, et pourquoi._
+> 
+### 3.2 La recherche : enfin utilisable
+
+Sur WordPress, la recherche native est... frugale, disons. Elle fouille dans les titres et le contenu sans notion de pertinence, sans pondération, sans finesse. Pire que Google en version alpha 0.1.
+
+J'avais tenté **Relevanssi** pour améliorer ça — j'en parle d'ailleurs dans [cet article](https://fr.benchwiseunderflow.in/blog/ameliorez-recherche-relevanssi/). Ça fonctionnait, mais au prix habituel : consommation mémoire, tables SQL supplémentaires, configuration à maintenir, risque de conflit avec d'autres extensions... Résultat ? J'avais fini par **désactiver toute recherche** sur mes blogs. Autant ne rien proposer que de proposer quelque chose d'inutilisable.
+
+Avec Astro, j'ai intégré **Pagefind** : indexation automatique au build, recherche instantanée côté client, pertinence réelle. Pas de requête serveur, pas de base de données à interroger, pas de plugin à surveiller. Juste une recherche qui **fonctionne**, enfin.
+
+> **Pour la première fois depuis des années, j'ai réactivé la recherche sur mon site. Et elle est meilleure que tout ce que j'avais pu obtenir sous WordPress.**
+
+## 4. La migration : trois jours pour tout transformer
+
+J'ai profité d'un week-end prolongé pour tout basculer. Trois jours, pas plus. Mais il faut dire que j'avais déjà une bonne base de travail : un outil que j'avais développé pour Hugo.
+
+### 4.1 Mes outils maison
+
+J'ai ressorti mon script **`wp2md`** dont je donne les grandes lignes dans l'article [Migrer de WordPress vers Hugo en 2025 : le guide complet](https://fr.benchwiseunderflow.in/blog/guide-complet-migration-wordpress-hugo/). À l'origine, j'ai conçu cet outil pour transformer des exports **WXR** de WordPress en fichiers **Markdown**. Il gère :
+
+-   l'extraction du texte,
+-   les métadonnées,
+-   les catégories et tags,
+-   le téléchargement automatique des images
+-   la génération des formats AVIF et webP à partir de l'image au format PNG ou JPG
+
+Il m'a suffi d'adapter le formateur pour le front-matter d'Astro, en ajoutant les bons champs (`title`, `description`, `pubDate`, `image`, etc.).
+
+<Code code={`python3 wp2md.py --input export.wxr --output ./src/content/blog/
+`} lang="bash" />
+
+Sur ce point, je peux dire merci à **Claude d'Anthropic**, qui m'a généré plusieurs scripts :
+
+1.  Un pour **reconstruire les liens internes** après fusion de mes deux domaines ;
+2.  Un pour **recréer la structure de base** du projet Astro ;
+3.  Et un dernier pour **régénérer automatiquement toutes les images** aux formats 320, 640, 1024, 1280 et 1440 pixels de large, en WebP et AVIF pour un rendu responsive optimal.
+
+Et à ChatGPT _pour m'avoir généré une version optimisée_ de ce dernier script.
+
+### 4.2 De deux blogs à un seul
+
+Je ne faisais pas qu'une migration — je **fusionnais** deux sites : l'un axé sur l'écosystème WordPress, l'autre servant de laboratoire pour mes expérimentations techniques. Le nom de domaine changeait, les slugs aussi. J'ai donc dû :
+
+-   reconstruire les liens internes,
+-   vérifier les références croisées,
+-   et revoir la structure des catégories.
+
+Mon script initial n'avait pas été prévu pour ce cas de figure, je l'ai donc complété avec une logique de **reconstruction d'URLs** et de **correction systématique des liens internes**.
+
+### 4.3 Thème et personnalisations
+
+Je n'ai pas pris un thème Astro "out-of-the-box". J'en ai choisi un comme base (Frosti, minimaliste, bien structuré), que j'ai _légèrement_ remanié :
+
+-   retouches dans le header et le footer,
+-   ajout du composant `OptImg` pour gérer les images responsive,
+-   intégration de `Comments.astro` via Giscus,
+-   ajustements de performance et préchargement LCP.
+
+Ce fut aussi l'occasion de **rationaliser** : un seul layout principal, un style unifié, des classes Tailwind simplifiées. Chaque modification avait un objectif clair : _vitesse, lisibilité, sobriété_.
+
+### 4.4 Mise en ligne et validation
+
+Pour le déploiement, j'ai conservé **OpenLiteSpeed (OLS)** — [un choix de continuité](https://fr.benchwiseunderflow.in/blog/cyberpanel-openlitespeed-lscache). Je connais bien l'environnement, il est fiable, et couplé à **aaPanel** ou à **CyberPanel** il offre une gestion souple. Le tout passe par **Cloudflare** pour le CDN et la sécurité.
+
+Quelques ajustements mineurs dans le cache et les règles de compression, et le site était en ligne. Les tests Lighthouse ont parlé d'eux-mêmes :
+
+-   **LCP** divisé par deux,
+-   **TBT** réduit de 70 %,
+-   **SEO** passé à 100/100 sur Lighthouse. Les fondations techniques sont solides : balisage sémantique, métadonnées complètes, sitemap propre, temps de chargement minimal.
+
+> **En trois jours, tout était migré, testé et publié.**
+
+## 5. Ce que j'y ai gagné — et ce qu'il reste à faire
+
+### 5.1 Les bénéfices immédiats
+
+-   **Tranquillité** : plus de mises à jour, plus de conflits.
+-   **Performance** : pages instantanées, scores Lighthouse au vert.
+-   **Simplicité** : un dossier de contenu clair, versionné sous Git.
+-   **Prévisibilité** : le build donne toujours le même résultat.
+
+Et, surtout, **la maîtrise**. Chaque ligne de code, chaque fichier d'image, chaque métadonnée passe par moi. Aucune "boîte noire" entre la source et la page servie. 
+
+Les formats d'images modernes comme l'AVIF sont supportés nativement — pas besoin de plugin premium.
+
+Et les fonctionnalités avancées ne sont pas enfermées derrière des abonnements mensuels qui s'accumulent jusqu'à dépasser le coût de l'infrastructure elle-même.
+
+Concrètement, je gagne **au minimum une heure par semaine** — le temps que je passais à vérifier les mises à jour, tester les incompatibilités, surveiller les logs d'erreurs. Ce temps, je le réinvestis maintenant dans la rédaction.
+
+Côté infrastructure, la différence est spectaculaire. Là où WordPress nécessite un serveur robuste (4 cœurs, 8 Go de RAM), Astro tourne sans broncher sur **1 cœur CPU / 1 Go de RAM**. Avec Cloudflare qui absorbe l'essentiel du trafic via son CDN, le serveur d'origine ne sert qu'une fraction des requêtes. Pas de PHP, pas de base de données, pas de cache applicatif : juste des fichiers statiques. **L'efficacité à l'état pur.**
+
+### 5.2 Les prochaines étapes
+
+Astro me donne maintenant envie d'aller plus loin. Je travaille sur une **interface d'édition légère** pour simplifier la rédaction et l'upload d'images, avec génération automatique des formats responsive (WebP et AVIF). L'objectif : conserver la simplicité des fichiers Markdown tout en améliorant le confort d'écriture au quotidien.
+
+### 5.3 Ce qu'Astro n'est pas
+
+Je vais être honnête : Astro a aussi ses limites.
+
+-   **sa communauté est plus petite** que celles de Next.js ou de Hugo. Moins de ressources, moins de thèmes "clé en main", moins de plugins tiers. Il faut parfois mettre les mains dans le cambouis.
+-   **la dépendance à Node.js** : contrairement à Hugo (un simple binaire), Astro nécessite un environnement JavaScript complet. Pas un problème pour moi, mais ça peut en être un selon ton setup.
+-   **la courbe d'apprentissage** : si tu veux utiliser les fonctionnalités avancées (islands, SSR hybride, intégrations complexes), il faut du temps. Ce n'est pas un outil "no-code" (si tu ne veux pas coder du tout, va sur une plateforme de publication comme Squarespace).
+
+Mais ces compromis, je les ai acceptés en connaissance de cause. Parce qu'en échange, j'obtiens exactement ce que je cherchais : **maîtrise, légèreté et évolutivité**.
+
+Et surtout : si Astro venait à être abandonné demain, mes contenus restent en **Markdown pur**. Aucune dépendance propriétaire, aucun format exotique. Migrer vers un autre générateur statique prendrait quelques heures, pas quelques semaines.
+
+## 6. Au-delà du blog : une vision à long terme
+
+Cette migration n'est pas une fin, c'est un début. À terme, je compte basculer **tous mes projets** — dont une lettre d'information — sous un même socle Astro. Un framework unique, unifié, versionné, que je peux faire évoluer sans dépendances externes.
+
+Gérer plusieurs WordPress aurait été un cauchemar logistique. Avec Astro, je peux multiplier les espaces sans multiplier les systèmes. Un site = un dépôt Git = un build prévisible.
+
+> **Je n'ai pas simplement migré deux sites. J'ai posé la première pierre d'un écosystème plus sobre et plus cohérent.**
+
+## 7. Conclusion : redevenir maître de son outil
+
+WordPress reste une plateforme puissante, mais elle a dérivé vers un modèle lourd, complexe, parfois imprévisible. Astro, à l'inverse, m'a ramené à l'essentiel : **publier du contenu, pas gérer des dépendances.**
+
+Ce que j'y ai trouvé, c'est une forme de sérénité technique. Un environnement lisible, rapide, que je comprends et que je peux expliquer. Et, au-delà de la performance, une philosophie :
+
+> **Faire simple, faire clair, faire durable.**
+
+Je n'ai pas quitté WordPress par rejet, mais **pour retrouver la liberté** d'un code que je maîtrise — et la tranquillité d'un site qui fait exactement ce qu'on lui demande, rien de plus.
+
+----------
+
+## Encadré technique — Outils et scripts utilisés dans la migration
+
+### ⚙️ Infrastructure
+
+-   **Serveur web :** OpenLiteSpeed (OLS), administré via **aaPanel**
+-   **CDN et sécurité :** Cloudflare
+-   **Gestion DNS et SSL :** Cloudflare + OLS
+-   **Hébergement :** VPS Layer7 (4 vCPU, 8 Go RAM)
+
+### 🧩 Framework et environnement de build
+
+-   **Framework :** [Astro](https://astro.build/) (thème Frosti modifié)
+-   **Langages :** TypeScript, JavaScript, Markdown, TailwindCSS
+-   **Plugins Astro :** @astrojs/image, @astrojs/rss, @astrojs/sitemap, Giscus (commentaires)
+
+### 👨‍💻 Scripts de migration et automatisation
+
+-   **Export WordPress → Markdown :** script Python `wp2md`
+    -   Conversion du fichier WXR en Markdown
+    -   Extraction du contenu, des catégories, des tags et du front-matter
+    -   Téléchargement automatique des images
+-   **Scripts JavaScript (générés avec l'aide de Claude d'Anthropic)**
+    1.  Reconstruction des **liens internes** après fusion de domaines
+    2.  Création d'une **structure de base** pour le répertoire `/src` d'Astro
+    3.  Génération automatique des **images aux différentes tailles** (320, 640, 1024, 1280, 1440 px)
+-   **Optimisation des scripts :** corrections apportées pour accélérer le traitement et **éviter la régénération inutile** d'images déjà produites.
+
+### 💡 Workflow global
+
+1.  Export WXR depuis WordPress
+2.  Conversion via `wp2md`
+3.  Nettoyage et reformatage via scripts JavaScript
+4.  Intégration dans `/src/content/blog/`
+5.  Test Lighthouse + vérifications SEO
+6.  Déploiement OLS + Cloudflare
+
+> _Astro pour la légèreté, OpenLiteSpeed pour la fiabilité, Cloudflare pour la tranquillité — et quelques scripts bien pensés pour relier le tout._

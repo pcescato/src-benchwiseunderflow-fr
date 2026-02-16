@@ -1,0 +1,834 @@
+---
+title: "CTE : la clause WITH que les ORM ignorent (mais que vous devriez connaître)"
+pubDate: "2025-07-17T00:44:57+00:00"
+updated: "2025-07-18T22:59:54+00:00"
+slug: "cte-clause-with-sql"
+draft: false
+categories:
+  - "Tutoriels"
+tags:
+  - "CTE"
+  - "ORM"
+  - "SGBD relationnels"
+  - "SQL"
+description: "Les CTE (Common Table Expressions) permettent d’écrire des requêtes SQL complexes de façon lisible et modulaire. Présentes dans PostgreSQL, Oracle ou MySQL 8+, elles sont pourtant ignorées par la majorité des ORM : Doctrine, Hibernate ou Eloquent ne les prennent tout simplement pas en charge. Petit éclairage technique."
+image: /image/analysis-1841158-1280.avif
+
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+Je suis abonné à [Medium](https://medium.com/), on y trouve d'excellents articles, mais hélas trop souvent réservés aux abonnés, dont un qui relate un **cas concret d'utilisation des CTE**. J'ai pu en lire les premières lignes, j'en ai eu l'eau à la bouche… mais 50$ l'abonnement… même si c'est par an, en additionnant tous les abonnements que l'on pourrait prendre, on arrive vite à des sommes astronomiques. Alors je suis resté sur ma faim.
+
+
+
+Enfin, pas trop longtemps. D'accord, je n'ai pas lu l'article. Mais je me suis documenté, et j'ai compris tout l'intérêt des CTE. Et je vais vous en parler. Et même vous donner un cas d'usage, certes fictif, mais qui illustre bien les bénéfices que l'on peut en tirer.
+
+
+
+Les **Common Table Expressions (CTEs),** ou clauses WITH, sont un outil **puissant et élégant** pour **structurer** des requêtes SQL complexes sans se perdre dans des sous-requêtes imbriquées à rallonge.
+
+
+
+Longtemps absentes de MySQL, elles sont pourtant présentes depuis longtemps dans des SGBD comme PostgreSQL, SQL Server, Db2 ou Oracle. Depuis MySQL 8.0, elles y ont été intégrées, mais restent encore sous-utilisées, souvent ignorées par les ORM.
+
+
+
+Pourtant, maîtriser les CTE, c’est **simplifier la lecture**, améliorer la maintenabilité et plus pragmatiquement **optimiser les performances** de vos requêtes. Que vous soyez fatigué de jongler avec des requêtes illisibles ou que vous souhaitiez exploiter pleinement la puissance de votre base, les CTE méritent qu’on s’y intéresse sérieusement.
+
+
+
+Mais avant tout, nous allons faire…
+
+
+
+## Un peu d'histoire
+
+
+
+L'adoption des CTE dans les principales bases de données SQL, sans être vraiment récente, ne remonte pas non plus à Mathusalem - surtout quand on sait que certaines de ces bases de données sont sorties dans les années 70 :
+
+
+
+
+| SGBD | Sortie initiale | Support CTE depuis | Version CTE | Remarques techniques |
+| --- | --- | --- | --- | --- |
+| **IBM Db2 (LUW / z/OS)** | 1983 (v1) | 2004 | v8 | Support récursif natif dès v8 |
+| **IBM Db2 for i** | 1988 (AS/400) | 2022 | v7.4 / v7.5 | CTE partagés, optimisation SQL |
+| **PostgreSQL** | 1996 (v1.0) | 2009 | v8.4 | Support complet récursif |
+| **Oracle Database** | 1979 (v2) | ~2010 | 11g R2 | CTE avec `WITH` + récursivité (`CONNECT BY`) |
+| **SQL Server (T‑SQL)** | 1989 (v1.0) | 2005 | SQL Server 2005 | Récursivité dès 2005, généralisée ensuite |
+| **Informix** | 1981 | 2019 | v14.10 | Très tardif, mais complet |
+| **Ingres / Actian X** | 1974 (UC Berkeley) | 2018 | v11.2 | Ajout tardif mais standard |
+| **Sybase ASE** | 1987 | 2014–2015 (estimé) | ASE 16 | Peu documenté, non récursif jusqu’à v15 |
+| **MariaDB** | 2009 (fork MySQL) | 2018 | v10.2.2 | CTE + récursivité (`WITH RECURSIVE`) |
+| **MySQL** | 1995 | 2018 | v8.0 | Avant v8.0 : pas de `WITH`, pas de récursivité |
+| **Percona Server (MySQL)** | 2006 | 2018 | v8.0 (aligné MySQL) | Suivi de MySQL, mêmes fonctionnalités |
+| **SQLite** | 2000 | 2014 / 2021 | v3.8.3 / v3.35 | Non récursif d’abord, récursivité ajoutée en 2021 |
+| **Firebird** | 2000 (fork InterBase) | 2008 | v2.1 | Très bon support des CTE récursifs |
+
+
+
+
+## Pourquoi les CTE ?
+
+
+
+Les requêtes SQL classiques bourrées de sous-requêtes, c’est un cauchemar pour lire, comprendre et maintenir.
+
+
+
+Prenons un exemple simple :
+
+<Code code={`SELECT \* FROM users WHERE id IN (
+SELECT DISTINCT user\_id FROM orders WHERE order\_date > '2025-01-01'
+);
+`} lang="sql" />
+
+Ça fonctionne, mais si la sous-requête se complexifie, ça devient vite illisible. Avec une CTE, on peut écrire :
+
+<Code code={`WITH recent\_orders AS (
+SELECT DISTINCT user\_id FROM orders WHERE order\_date > '2025-01-01'
+)
+SELECT \* FROM users WHERE id IN (SELECT user\_id FROM recent\_orders);
+`} lang="sql" />
+
+ou mieux, avec un JOIN :
+
+<Code code={`WITH recent\_orders AS (
+SELECT DISTINCT user\_id FROM orders WHERE order\_date > '2025-01-01'
+)
+SELECT users.\*
+FROM users
+JOIN recent\_orders ON users.id = recent\_orders.user\_id;
+`} lang="sql" />
+
+Le résultat est le même, mais le code est plus clair, plus facile à décomposer.
+
+
+
+Voici une représentation graphique (simplifiée) :
+
+<Code code={`flowchart TD
+A["Début de la requête"] --> B["Définition de la CTE<br>WITH nom\_cte AS (...)"]
+B --> C["Contenu de la CTE<br>(ex: une sous-requête SELECT)"]
+C --> D["Requête principale<br>SELECT ... FROM nom\_cte"]
+D --> E["Résultat final"]
+style B fill:#f9f,stroke:#333,stroke-width:1px
+style C fill:#bbf,stroke:#333,stroke-width:1px
+style D fill:#bfb,stroke:#333,stroke-width:1px
+`} lang="mermaid" />
+
+Variante pour plusieurs CTE :
+
+<Code code={`flowchart TD
+A["WITH cte1 AS (...),<br>cte2 AS (...)"] --> B["Requête principale<br>SELECT ... FROM cte1 JOIN cte2"]
+B --> C["Résultat final"]
+style A fill:#fdd,stroke:#333,stroke-width:1px
+style B fill:#dfd,stroke:#333,stroke-width:1px
+`} lang="mermaid" />
+
+## Cas d’usage
+
+
+
+Avant de passer aux exemples, il faut savoir qu’il existe deux sortes de CTE :
+
+
+
+* **Les CTE non récursives**, qui permettent de nommer un résultat temporaire dans une requête, souvent pour simplifier la lecture ou réutiliser un sous-ensemble de données.
+* **Les CTE récursives**, qui s’appuient sur elles-mêmes pour parcourir des structures hiérarchiques, comme un arbre généalogique, un organigramme ou une arborescence de dossiers.
+
+
+
+Voyons quelques cas pour chacune.
+
+
+
+### CTE récursive
+
+
+
+Par exemple, pour parcourir une arborescence (catégories, organigrammes, dossiers…), on peut écrire une CTE récursive qui évite des requêtes multiples ou des boucles en code.
+
+
+
+### Sous-ensemble filtré
+
+
+
+Imaginez que vous voulez filtrer des utilisateurs actifs sur une période, puis effectuer plusieurs opérations dessus. La CTE vous permet de stocker ce résultat intermédiaire et de le réutiliser plusieurs fois dans la même requête.
+
+
+
+### Calculs intermédiaires
+
+
+
+Besoin d’affecter des rangs, des totaux ou autres données calculées ? Les CTEs sont parfaites pour préparer ces valeurs sans encombrer la requête finale.
+
+
+
+## Cas d'usage concret
+
+
+
+Imaginons que tu veuilles calculer, pour une entreprise réalisant 30 000 ventes par jour, les ventes par trimestre puis, à partir de ce calcul, faire plusieurs analyses : comparer aux trimestres précédents, calculer des parts de marché, ou appliquer des filtres complexes.
+
+
+
+Sans CTE, tu ferais probablement plusieurs sous-requêtes répétitives, ce qui oblige le SGBD à recalculer plusieurs fois les mêmes sommes intermédiaires. Résultat : perte de performance et requêtes plus lourdes.
+
+
+
+Avec une CTE, tu écris le calcul une seule fois, qui est ensuite référencé plusieurs fois dans ta requête globale. Le SGBD peut optimiser et potentiellement matérialiser ce résultat temporaire, évitant les recalculs.
+
+
+
+Voici ce que donne la requête avec PostgreSQL :
+
+<Code code={`WITH ventes\_trimestrielles AS (
+SELECT
+DATE\_TRUNC('quarter', date\_vente) AS trimestre,
+SUM(montant\_vente) AS total\_ventes
+FROM ventes
+WHERE pays = 'France' AND enseigne = 'Ikea'
+GROUP BY trimestre
+)
+SELECT
+trimestre,
+total\_ventes,
+LAG(total\_ventes) OVER (ORDER BY trimestre) AS ventes\_trimestre\_precedent,
+ROUND(
+100.0 \* (total\_ventes - COALESCE(LAG(total\_ventes) OVER (ORDER BY trimestre), 0))
+/ COALESCE(LAG(total\_ventes) OVER (ORDER BY trimestre), 1),
+2
+) AS evolution\_pct
+FROM ventes\_trimestrielles
+ORDER BY trimestre;
+`} lang="sql" />
+
+Voici la requête sans CTE :
+
+<Code code={`SELECT
+trimestre,
+total\_ventes,
+LAG(total\_ventes) OVER (ORDER BY trimestre) AS ventes\_trimestre\_precedent,
+ROUND(
+100.0 \* (total\_ventes - COALESCE(LAG(total\_ventes) OVER (ORDER BY trimestre), 0))
+/ COALESCE(LAG(total\_ventes) OVER (ORDER BY trimestre), 1),
+2
+) AS evolution\_pct
+FROM (
+SELECT
+DATE\_TRUNC('quarter', date\_vente) AS trimestre,
+SUM(montant\_vente) AS total\_ventes
+FROM ventes
+WHERE pays = 'France' AND enseigne = 'Ikea'
+GROUP BY trimestre
+) AS ventes\_trimestrielles
+ORDER BY trimestre;
+`} lang="sql" />
+
+### Bénéfices observés
+
+
+
+* **Lisibilité** : le calcul de la somme trimestrielle est isolé et clair.
+* **Maintenance** : on modifie la CTE une fois si besoin, pas plusieurs sous-requêtes.
+* **Performance** : le moteur de base peut optimiser le calcul, surtout si le volume de données est important.
+
+
+
+Le bénéfice :
+
+
+
+* **Sans CTE** : chaque sous-requête qui calcule le total doit potentiellement relire les mêmes millions de lignes.
+* **Avec CTE matérialisée** : la base calcule la CTE une fois, stocke temporairement le résultat (qui sera bien plus petit — ici, quelques dizaines de lignes par trimestre), puis l’utilise partout.
+
+
+
+Le gain peut être énorme :
+
+
+
+* Temps de calcul divisé par 2, 5, voire 10 selon les cas
+* Moins de ressources CPU et I/O utilisées
+* Réduction du temps d’attente côté utilisateur
+
+
+
+### En résumé
+
+
+
+Pour un tableau de bord financier ou des analyses périodiques, les CTE sont une vraie force pour :
+
+
+
+* Structurer proprement le calcul des données intermédiaires.
+* Éviter les répétitions coûteuses en temps machine.
+* Améliorer la lisibilité et la maintenabilité des requêtes.
+
+
+
+Pour une entreprise qui traite 30 000 ventes par jour, utiliser une CTE bien placée pour des calculs trimestriels, surtout si ces résultats sont réutilisés plusieurs fois dans la requête, peut drastiquement améliorer la performance et la maintenabilité.
+
+
+
+Parfois, le gain peut être de l’ordre de plusieurs secondes à plusieurs dizaines de secondes, ce qui est significatif sur un rapport ou un tableau de bord consulté fréquemment.
+
+
+
+Pour les résultats annuels… autant ne pas en parler.
+
+
+
+Et pourtant, le reproche que l'on fait le plus souvent aux CTE est lié aux performances. Qu'en est-il vraiment ?
+
+
+
+## Les performances des CTE
+
+
+
+Une idée reçue veut que les CTEs dégradent les performances. Pas forcément, je dirai même : bien au contraire.
+
+
+
+Les bases modernes optimisent souvent ces requêtes. Parfois, la CTE est *inlinée* (comme une sous-requête classique), parfois *matérialisée* (calculée une fois et stockée temporairement).
+
+
+
+Il faut tester au cas par cas avec `EXPLAIN` pour comprendre le plan d’exécution.
+
+
+
+### Limites à garder en tête
+
+
+
+Si les Common Table Expressions (CTE) apportent de la clarté et de la souplesse aux requêtes SQL, elles ne sont pas sans contrepartie. Voici quelques points de vigilance à connaître avant de généraliser leur usage.
+
+
+
+#### Performances variables selon les SGBD
+
+
+
+PostgreSQL, Db2 ou Oracle gèrent souvent les CTE de manière optimisée, en les matérialisant intelligemment pour éviter les recalculs. À l’inverse, d’autres systèmes comme MySQL (même depuis la 8.0), Ingres ou Informix proposent un support correct, mais moins affûté pour les cas complexes ou les traitements à large échelle. L’usage de `EXPLAIN` est alors crucial pour analyser le plan d’exécution et identifier les goulets d’étranglement.
+
+
+
+#### CTE récursives : un outil puissant mais exigeant
+
+
+
+Les CTE récursives sont idéales pour parcourir des structures hiérarchiques (catégories, arbres, etc.). Mais sur des volumes importants, leur coût peut vite grimper si le moteur SQL ne gère pas efficacement les itérations — c’était par exemple le cas sur Sybase ASE avant la version 16.
+
+
+
+#### Risques de surcharge mémoire
+
+
+
+**Une CTE mal pensée ou appliquée sur des tables massives peut devenir très gourmande**, notamment si elle est matérialisée sans index adaptés. Là encore, tester et surveiller est la clé.
+
+
+
+#### Documentation inégale
+
+
+
+Certains SGBD, comme Informix ou d’anciennes versions de MariaDB, ont adopté les CTE tardivement. Résultat : la documentation est parfois lacunaire, et l’implémentation sujette à variations selon les versions.
+
+
+
+#### En résumé
+
+
+
+Les CTE sont précieuses, mais elles méritent d’être **utilisées avec discernement**. Pour les requêtes critiques ou à forte volumétrie, n’hésitez pas à analyser finement les performances avec `EXPLAIN` ou son équivalent.
+
+
+
+## Environnement et gestion des CTE en entreprise
+
+
+
+Dans un contexte professionnel où les volumes de données sont conséquents — comme une entreprise qui réalise 30 000 ventes par jour — il est rare d’utiliser des bases légères comme MariaDB Community. Les SGBD couramment employés sont Oracle, IBM Db2, Microsoft SQL Server, PostgreSQL (version entreprise) ou MySQL Enterprise Edition.
+
+
+
+Ces moteurs disposent d’optimisations avancées pour la gestion des CTE, notamment la capacité à **matérialiser intelligemment** les résultats temporaires afin d’éviter les recalculs inutiles. Ils proposent aussi des **outils d’analyse approfondie des plans d’exécution** pour s’assurer que les requêtes sont optimales.
+
+
+
+Cela signifie qu’en entreprise, bien utiliser les CTE permet non seulement de structurer proprement ses requêtes, mais aussi d’obtenir des **gains de performance significatifs** sur des volumes très importants.
+
+
+
+En revanche, certaines bases moins évoluées peuvent ne pas optimiser les CTE, ce qui nécessite alors des tests rigoureux et parfois des ajustements spécifiques.
+
+
+
+### Vérifier le plan d’exécution d’une requête avec CTE
+
+
+
+Pour s’assurer que la CTE est bien optimisée et que la requête ne fait pas de recalculs inutiles, il est essentiel d’examiner le plan d’exécution.
+
+
+
+#### Oracle
+
+
+
+Utilise la commande `EXPLAIN PLAN FOR <ta requête>` puis consulte le résultat avec :
+
+<Code code={`SELECT \* FROM TABLE(DBMS\_XPLAN.DISPLAY());
+`} lang="sql" />
+
+#### PostgreSQL
+
+
+
+Lance :
+
+<Code code={`EXPLAIN ANALYZE <ta requête>;
+`} lang="sql" />
+
+pour obtenir un plan détaillé avec les temps d’exécution.
+
+
+
+#### MySQL (Enterprise)
+
+
+
+Utilise :
+
+<Code code={`EXPLAIN <ta requête>;
+`} lang="sql" />
+
+pour voir comment MySQL prévoit d’exécuter la requête.
+
+
+
+#### SQL Server
+
+
+
+Dans SQL Server Management Studio (SSMS), clique sur “Afficher le plan d’exécution” avant d’exécuter la requête, ou utilise la commande :
+
+<Code code={`SET SHOWPLAN\_ALL ON;
+GO
+<ta requête>
+GO
+SET SHOWPLAN\_ALL OFF;
+GO
+`} lang="sql" />
+
+Analyser ce plan permet d’identifier si la CTE est recalculée plusieurs fois ou si elle est matérialisée une seule fois, et d’ajuster la requête ou les index en conséquence.
+
+
+
+## ORM et CTE : la dure réalité
+
+
+
+PostgreSQL, Db2, Ingres, MySQL 8+, SQL Server, Oracle, Informix, MariaDB… tous supportent les CTE nativement.
+
+
+
+Mais il ne faut pas oublier que :
+
+
+
+* Les **CTE n'ont été définies qu'avec la norme SQL:1999**, et leur adoption dans les SGBD a progressé très lentement, en particulier dans les outils open source ou légers.
+* Même des SGBD historiques comme *IBM Db2 for i (iSeries)*, *Informix* ou *Ingres* n’ont intégré cette fonctionnalité que très tardivement.
+
+
+
+Et côté ORM, c’est encore une autre histoire.
+
+
+
+Doctrine, Hibernate, Eloquent **ne prennent pas en charge les CTEs nativement** dans leurs langages de requête (DQL, HQL, Eloquent Query Builder).
+
+
+
+Il faut passer par du SQL brut ou des extensions, ce qui nuit à la portabilité et à la lisibilité du code.
+
+
+
+Résultat ? Si vous voulez un CTE, vous devrez probablement écrire du SQL natif, au risque de perdre un peu du confort de l’ORM. Ou ne pas utiliser de CTE.
+
+
+
+Ce n’est pas un bug. C’est juste que les ORM préfèrent masquer la complexité au lieu de la maîtriser.
+
+
+
+Enfin, la plupart des ORM. Il y en a quand même trois qui se distinguent : **SQLAlchemy Core**, **jOOQ** et **Django ORM**.
+
+
+
+### Exploiter les CTE avec SQLAlchemy Core, jOOQ et Django ORM
+
+
+
+Les Common Table Expressions (CTE) sont un outil précieux pour structurer les requêtes SQL complexes. Deux outils reconnus — **SQLAlchemy Core** (Python) et **jOOQ** (Java) — offrent un support natif et élégant des CTE, chacun avec sa propre approche.
+
+
+
+Je te donne un exemple en codant la même requête SQL avec chacun des trois ORM. On part de cette requête :
+
+<Code code={`WITH recent\_orders AS (
+SELECT DISTINCT user\_id AS user
+FROM orders
+WHERE order\_date > '2025-01-01'
+)
+SELECT \*
+FROM auth\_user
+WHERE id IN (SELECT user FROM recent\_orders);
+`} lang="sql" />
+
+#### SQLAlchemy Core et la méthode .cte()
+
+
+
+**SQLAlchemy Core** propose une API fluide permettant de construire des CTE via la méthode `.cte()` sur des requêtes `select()`. Cette approche garde la construction de la requête dans le code Python, **sans injection directe de SQL brut**, facilitant la composition dynamique de requêtes complexes. Par exemple, pour extraire les utilisateurs ayant passé des commandes après le 1er janvier 2025 :
+
+<Code code={`from sqlalchemy import select, table, column
+orders = table('orders', column('user\_id'), column('order\_date'))
+recent\_orders = select(orders.c.user\_id).where(orders.c.order\_date > '2025-01-01').cte('recent\_orders')
+users = table('users', column('id'))
+query = select(users).join(recent\_orders, users.c.id == recent\_orders.c.user\_id)
+`} lang="python" />
+
+Cette requête utilise la CTE `recent_orders` comme une table temporaire dans la requête principale, rendant le code lisible et modulaire.
+
+
+
+#### jOOQ et la méthode .with()
+
+
+
+**jOOQ**, quant à lui, offre une DSL Java très proche du SQL, avec un typage fort et une **gestion intuitive** des CTE, y compris des CTE récursives. Sa méthode `with()` permet de déclarer clairement une ou plusieurs CTE avant la requête principale. Voici l’équivalent Java du même cas :
+
+<Code code={`CommonTableExpression<Record1<Integer>> recentOrders = name("recent\_orders")
+.fields("user\_id")
+.as(create.select(field("user\_id", Integer.class))
+.from("orders")
+.where(field("order\_date").gt("2025-01-01")));
+ResultQuery<?> query = create.with(recentOrders)
+.select()
+.from(table("users"))
+.join(table("recent\_orders"))
+.on(field("users.id").eq(field("recent\_orders.user\_id")));
+`} lang="java" />
+
+Grâce à cette syntaxe, jOOQ permet d’exploiter pleinement la puissance SQL tout en restant dans un **environnement typé et sécurisé**.
+
+
+
+#### Django ORM et la méthode .cte()
+
+
+
+Depuis **Django 4.2 (avril 2023, version LTS)**, l’ORM supporte enfin les Common Table Expressions (CTE) via la méthode `.cte()`, permettant des requêtes complexes sans sortir du cadre sécurisé de l’abstraction. Voici la même requête avec Django ORM :
+
+<Code code={`from django.db.models import F
+from myapp.models import Order
+from django.contrib.auth.models import User
+# 1. CTE : commandes récentes
+recent\_orders\_cte = (
+Order.objects
+.filter(order\_date\_\_gt='2025-01-01')
+.values('user') # FK vers User
+.distinct()
+.cte('recent\_orders') # Nécessite Django 4.2+
+)
+# 2. Requête principale avec réutilisation
+users\_with\_recent\_order = (
+User.objects
+.filter(id\_\_in=recent\_orders\_cte.values('user'))
+)
+# (facultatif) Affichage du SQL généré
+print(users\_with\_recent\_order.query)
+`} lang="python" />
+
+Points importants :
+
+
+
+* `QuerySet.cte(name, *, materialized=None)` retourne un objet `CTE` (pas un `QuerySet` classique).
+* Pour l’utiliser dans une condition, on passe `cte.values('user')`.
+* Cette syntaxe reste lisible et 100 % portée par l’ORM ; aucune chaîne SQL brute n’est nécessaire.
+
+
+
+**En résumé**, *SQLAlchemy Core*, *jOOQ* et *Django ORM* offrent des outils robustes pour intégrer des CTE dans vos requêtes, facilitant ainsi la gestion de requêtes complexes tout en conservant lisibilité et maintenabilité — un atout majeur pour tout projet manipulant des bases relationnelles de taille significative.
+
+
+
+#### Compatibilité multi-SGBD des outils SQLAlchemy Core, jOOQ et Django ORM
+
+
+
+*SQLAlchemy Core*, *jOOQ* et *Django ORM* sont conçus pour fonctionner avec une large gamme de systèmes de gestion de bases de données relationnelles modernes : Oracle, PostgreSQL, MySQL/MariaDB (version 8.0+ pour le support des CTE), SQL Server, DB2, et bien d’autres.
+
+
+
+Ces outils adaptent automatiquement le SQL généré au dialecte spécifique de chaque base, ce qui garantit la **portabilité** et la **cohérence** des requêtes, notamment pour les fonctionnalités avancées comme les CTE.
+
+
+
+Toutefois, il est important de souligner que **la prise en charge effective des CTE dépend avant tout du support natif de la base cible**. Par exemple, MySQL a intégré les CTE à partir de la version 8.0, tandis que PostgreSQL ou Oracle les supportent depuis longtemps.
+
+
+
+Ainsi, pour exploiter pleinement les avantages des CTE via SQLAlchemy Core ou jOOQ, il convient de s’assurer que la base utilisée offre ce support au niveau SQL.
+
+
+
+Le problème, c'est que ces deux ORM sont plus des outsiders que des challengers. Pourquoi ?
+
+
+
+En fait, plusieurs raisons expliquent pourquoi SQLAlchemy Core et jOOQ — malgré leur puissance — ne sont pas plus répandus pour gérer les CTE, ou plus globalement, dans le monde des ORM et du développement courant :
+
+
+
+1. **Complexité perçue**  
+   Ces outils demandent une certaine maîtrise technique. SQLAlchemy Core, par exemple, est plus bas niveau que l’ORM classique de SQLAlchemy, donc moins accessible aux devs habitués à manipuler uniquement des objets. jOOQ, lui, impose une approche très proche du SQL, parfois jugée verbeuse ou trop « technique » pour certains projets.
+2. **Habitudes et confort avec l’ORM classique**  
+   Beaucoup de devs préfèrent les ORM plus abstraits (Doctrine, Hibernate, Eloquent) parce qu’ils permettent de manipuler les données via des objets métiers sans trop penser au SQL sous-jacent. Ces ORM n’intègrent pas les CTE, mais restent suffisants dans une majorité de cas simples.
+3. **Manque de support natif des CTE dans la couche ORM**  
+   Comme on l’a dit, la plupart des ORM classiques n’ont pas de support des CTE en natif. Du coup, les développeurs utilisent des requêtes brutes ou évitent les CTE pour rester dans leur zone de confort.
+4. **Contrainte du choix de la base de données**  
+   Certaines bases (comme MySQL avant la version 8) ne supportaient pas les CTE, ce qui limitait leur usage et donc leur intégration dans les outils. Intégrer les CTE aurait imposé une réécriture au moins partielle de l'ORM pour contourner son absence dans MySQL.
+5. **Documentation et exemples peu visibles**  
+   La courbe d’apprentissage est aussi liée à la disponibilité des ressources. SQLAlchemy Core et jOOQ ont des docs parfois techniques, pas toujours vulgarisées, ce qui freine la découverte.
+6. **Les besoins réels**  
+   Beaucoup de projets n’ont pas besoin de requêtes ultra-complexes ou récursives qui justifieraient l’usage intensif des CTE. Le gain en clarté et performance peut être perçu comme marginal par rapport au temps investi.
+
+
+
+Ces limites sont d’autant plus problématiques lorsqu’on souhaite exploiter les clauses `WITH` (CTE) de manière fine, par exemple pour chaîner plusieurs sous-requêtes ou pour les réutiliser dans une requête principale. Et pourtant…
+
+
+
+## CTE et ORM : Ce que vous devez savoir (Doctrine, Hibernate, Eloquent)
+
+
+
+Les **Common Table Expressions** (CTE) offrent une puissance remarquable en SQL natif — pour **structurer** des requêtes complexes, **chaîner** des sous-requêtes, ou **améliorer** la lisibilité du code.
+
+
+
+Mais côté ORM, leur prise en charge reste inégale. Doctrine, Hibernate ou Eloquent permettent parfois d'en simuler l’usage, rarement de les exprimer pleinement.
+
+
+
+Voici un aperçu des limites actuelles… et une piste propre pour exploiter les CTE si vous utilisez **Doctrine 2.8 ou supérieur**.
+
+
+
+### 1. Le constat : Les ORM ignorent (presque) les CTE
+
+
+
+* **Doctrine (PHP)** n'a pas de méthode `->with()` dans son QueryBuilder.
+* Pas mieux pour **Hibernate (Java)** : aucun support des CTE en HQL ou Criteria API.
+* **Eloquent (Laravel)** quant à lui nécessite un package tiers (`staudenmeir/laravel-cte`).
+
+
+
+**Pourquoi ?**
+
+
+
+Parce que les ORM privilégient les *sous-requêtes* ou les *requêtes orientées objets* pour rester portables et sécurisés.
+
+
+
+### 2. Solution (avec précaution) : Le SQL brut
+
+
+
+Vous pouvez exécuter des CTE via des requêtes natives, mais attention à deux risques majeurs :
+
+
+
+#### Risque n°1 : Perte des avantages de l'ORM
+
+
+
+* Plus de gestion automatique des relations (`ManyToMany`, `cascade`, etc.)
+* Plus de cache de second niveau
+* Plus de protection automatique contre les injections SQL
+
+
+
+#### Risque n°2 : Injection SQL
+
+
+
+* **Mauvaise pratique :**
+
+<Code code={`// DANGEREUX (concaténation de chaîne)
+\$sql = "WITH cte AS (...) SELECT \* FROM users WHERE id = " . \$\_GET['id'];
+`} lang="php" />
+
+* **Bonne pratique :**
+
+<Code code={`// SÉCURISÉ (requête paramétrée)
+\$sql = "WITH cte AS (...) SELECT \* FROM users WHERE id = :id";
+\$results = \$connection->executeQuery(\$sql, ['id' => \$userInput]);
+`} lang="php" />
+
+### 3. Alternatives recommandées (en fonction de votre besoin)
+
+
+
+#### a) les sous-requêtes
+
+
+
+**Doctrine :**
+
+<Code code={`\$qb = \$em->createQueryBuilder()
+->select('u')
+->from(User::class, 'u')
+->where('u.id IN (SELECT o.user FROM App\Entity\Order o WHERE o.date > :date)');
+`} lang="php" />
+
+**Hibernate :**
+
+<Code code={`Subquery<Integer> subquery = query.subquery(Integer.class);
+subquery.select(o.get("user").get("id"))
+.where(cb.gt(o.get("date"), date));
+`} lang="java" />
+
+#### b) les vues SQL
+
+
+
+Créez une vue dans votre SGBD :
+
+<Code code={`CREATE VIEW recent\_orders AS
+SELECT user\_id FROM orders WHERE date > '2025-01-01';
+`} lang="sql" />
+
+Puis mappez-la comme une entité (Doctrine/Hibernate).
+
+
+
+À noter : si tu réutilises souvent une agrégation sur des données figées (comme c'est le cas pour des ventes trimestrielles ou annuelles), **la vue est nettement plus adaptée**.
+
+
+
+##### La vue est idéale pour :
+
+
+
+* **Factoriser une logique métier** (calculs, jointures, filtres)
+* **Centraliser une règle d’agrégation** qui sera utilisée dans plusieurs rapports ou requêtes
+* **Améliorer la lisibilité** des requêtes en masquant la complexité
+* Te servir de base pour d'autres vues, ou même d’indicateurs dans des outils de Business Intelligence, d'autant que certaines vues **peuvent être matérialisées** (`MATERIALIZED VIEW`) dans PostgreSQL ou Oracle, pour éviter de recalculer à chaque fois.
+
+
+
+##### Utilises une CTE quand :
+
+
+
+* Tu fais une requête ponctuelle, potentiellement complexe
+* Tu veux clarifier ta requête (lisibilité)
+* Tu veux **éviter de recalculer une même sous-requête imbriquée** dans une requête unique
+
+
+
+Mais :
+
+
+
+* La CTE **n’existe que pendant la requête**.
+* Tu ne peux pas l’appeler depuis ailleurs
+* Elle n’est **pas factorisable sur plusieurs requêtes**
+
+
+
+#### c) Packages dédiés
+
+
+
+* **Eloquent** : Utilisez `staudenmeir/laravel-cte`
+* **Doctrine** : Extensions comme `beberlei/DoctrineExtensions` (non officielles)
+
+
+
+### 4. Quand faut-il vraiment utiliser une CTE ?
+
+
+
+* Quand tu as besoin de **récursivité** (hiérarchie parent/enfant par exemple)
+* Pour l'optimisation de **requêtes complexes** (agrégations, dédoublonnage...)
+* Dans des SGBD récents : **MySQL 8+**, **PostgreSQL**, **SQL Server**
+
+
+
+### Que retenir ?
+
+
+
+* Les ORM évitent les CTE pour des raisons de portabilité et de sécurité.
+* Si vous devez les utiliser :
+  + Privilégiez les **requêtes paramétrées**.
+  + Isolez le SQL brut dans un **Repository** ou un **Service**.
+  + Dans 80% des cas, une **sous-requête** ou une **vue SQL** suffit.
+
+
+
+### Exemple complet (Doctrine + CTE sécurisée)
+
+<Code code={`// 1. Déclarez la requête native avec paramètres
+\$sql = <<<SQL
+WITH recent\_orders AS (
+SELECT user\_id FROM orders WHERE order\_date > :date
+)
+SELECT u.\* FROM users u
+JOIN recent\_orders ro ON u.id = ro.user\_id
+SQL;
+// 2. Utilisez ResultSetMapping pour convertir les résultats en entités
+\$rsm = new ResultSetMappingBuilder(\$em);
+\$rsm->addRootEntityFromClassMetadata(User::class, 'u');
+// 3. Exécutez de manière sécurisée
+\$query = \$em->createNativeQuery(\$sql, \$rsm)
+->setParameter('date', '2025-01-01');
+\$users = \$query->getResult();
+`} lang="php" />
+
+**Au-delà des CTE**
+
+Les CTE offrent une belle souplesse de lecture et de structuration des requêtes, mais atteignent leurs limites lorsque les volumes explosent. Dans un contexte d'entreprise traitant plusieurs millions de lignes par mois réparties sur plusieurs entités (points de vente, internet…) par exemple, d’autres stratégies deviennent pertinentes : partitionnement ou **sharding par entité physique**, **vues matérialisées** pour les agrégats, **systèmes orientés colonnes** (ClickHouse, BigQuery), **ingestion temps réel** avec Kafka et Druid, voire **migration vers des bases hybrides OLTP/OLAP** comme TiDB ou MyScale. Autant de voies pour dépasser les contraintes du SQL classique.
+
+
+
+## Conclusion
+
+
+
+Les CTEs ne sont pas une lubie de DBA barbu ou un gadget compliqué.
+
+
+
+Ce sont des outils **puissants**, **standardisés**, **lisibles**, et **performants**, qui méritent d’être dans votre boîte à outils SQL, même si votre ORM ne les intègre pas encore.
+
+
+
+Alors la prochaine fois que vous devrez écrire une requête complexe, pensez `WITH`, pensez CTE. Ce n'est pas la solution à tous les maux, mais elle peut en résoudre certains.

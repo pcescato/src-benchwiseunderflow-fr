@@ -1,0 +1,681 @@
+---
+
+title: Gutenberg - la Bible de l'utilisateur
+lastmod: '2019-02-13T11:34:26+00:00'
+slug: bible-utilisateur-gutenberg
+draft: false
+categories:
+  - Extensions
+tags:
+  - constructeur de pages
+  - édition
+  - extension
+  - gutenberg
+  - Page Builder
+description: "Gutenberg est le nouvel éditeur par défaut de WordPress. Avec une nouvelle interface et de nouveaux outils, il n'a strictement rien à voir avec l'éditeur classique auquel nous étions tous habitué. Voyons comment en tirer le meilleur parti."
+image: /image/bible-gutenberg.avif
+pubDate: '2019-02-13'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Vous avez déjà entendu parler de Gutenberg ? Mais non, pas le vieux monsieur à longue barbe des livres d'Histoire ! L'outil de composition par défaut de WordPress !
+
+
+
+Au vu des réactions suscitées par son intégration au cœur de WordPress, je suppose que oui. Aimé par les uns, haï par les autres, il ne laisse pas vraiment indifférent.
+
+
+
+Tout le monde n'est pas convaincu de son utilité, et beaucoup refusent tout simplement de l'utiliser, que ce soit pour ne pas changer ses habitudes, ou parce qu'ils ne retrouvent pas les fonctionnalités dont ils ont besoin. Il n'y a qu'a voir l'engouement pour l'extension "classic Editor", active sur plus de 3 millions de sites.
+
+
+
+Mais vu qu'il est désormais l'éditeur par défaut, autant apprendre à s'en servir et à en tirer le meilleur parti.
+
+
+
+Cet article n'est pas une ode à Gutenberg, pas plus qu'un billet assassin, et l'on ne reviendra ni sur les origines du nom ni sur celles du projet. J'ai déjà donné dans l'humeur dans l'article [Ghost - Une alternative à WordPress ?](/blogging/ghost-alternative-wordpress/) et pour les origines, vous les trouverez dans l'article [J'ai essayé Gutenberg](/blogging/extensions/test-gutenberg/). Aujourd'hui, nous allons juste découvrir plus en détail cet éditeur et voir comment l'utiliser au mieux.
+
+
+
+Vous verrez, les capacités par défaut de Gutenberg sont plus qu'intéressantes. J'ai moi-même découvert en le rédigeant des blocs que je n'avais pas remarqués, et même si la mise en page de certaines sections de cet article ne sont pas des plus heureuses, elles montrent la puissance et la flexibilité de l'outil.
+
+
+
+Et au fur et à mesure de mes découvertes, ou des évolutions de Gutenberg, je ne manquerai pas de mettre cet article à jour.
+
+
+
+
+Je n'aborderai pas dans cet article les extensions étendant les capacités de l'éditeur via l'ajout de nouveaux blocs : dans le vaste monde des extensions WordPress, certaines durent, d'autre pas.
+
+
+
+Chaque extension utile aura son petit article, histoire de flatter son ego et de ne pas atteindre le mien avec un article obsolète avant même sa publication ;)
+
+
+
+Par contre, [j'ai posé la question au support](https://wordpress.org/support/topic/install-gutenberg-plugin-in-wordpress-5-x/#post-11220126), si en activant l'extension Gutenberg dans WordPress 5.x, on utilisait l'extension ou la version intégrée dans le cœur de WordPress.
+
+
+
+La réponse est que **c'est l'extension qui prend le dessus**, permettant ainsi de bénéficier des dernières mises à jour de Gutenberg, sans attendre la version suivante de WordPress.
+
+
+> When the plugin is installed, it is what will be used over the core version. This is to ensure you get all the new features that get tested via the plugin before they are released in core :)
+>
+> [Marius L. J.](https://wordpress.org/support/users/clorith/) (@clorith)
+
+
+
+Si vous subissez des plantages inexpliqués lors de l'édition, ou si vous voulez vous aussi profiter des dernières mises à jour, **je vous recommande d'installer l'extension Gutenberg** - c'est d'ailleurs ce que j'ai fait sur ce blog, ou plus exactement, sur tous mes sites propulsés par WordPress.
+
+
+
+Mais attention ! Vous pouvez aussi remarquer certains comportements "bizarres" en installant Gutenberg (l'extension) dans WordPress 5.+ dont :
+
+
+
+* nombre de mots inopérant (1 mot, quel que soit le nombre réel)
+* bugs dans l'affichage de la liste des articles dans l'interface d'administration
+
+
+
+La manipulation est donc à faire avec précaution.
+
+
+
+## Prise en main de Gutenberg
+
+
+
+Que vous vouliez écrire un nouvel article ou mettre en ligne une nouvelle page, Gutenberg est l'interface par défaut, incontournable depuis WordPress 5.0, dans sa configuration d'origine.
+
+
+
+Pour les besoins de cet article, je me suis servi d'une installation vierge de WordPress (v. 5.0.3), sans extension, sans rien d'autre que ce que nous offre l'installation par défaut.
+
+
+
+Dès votre arrivée dans l'interface d'édition, vous êtes pris en main avec une série de quatre astuces qui vous serons présentées jusqu'à ce que vous en ayez fait le tour et cliqué sur *J'ai compris*.
+
+
+
+
+Et maintenant, c'est à vous, vous êtes lâché comme un lion dans l'arène, à vous d'affronter Gutenberg !
+
+
+
+Mais vous n'êtes pas seul. Découvrons ensemble…
+
+
+
+## L'interface de l'éditeur
+
+
+
+C'est un écran dépouillé, presque vierge, qui s'offre à vous. Il n'y a que la barre d'outils en haut de l'écran, la barre contextuelle, à droite, et les indicateurs des premières zones de saisie, pour le titre et le contenu.
+
+
+
+<OptImg src="/image/accueil-editeur-gutenberg" alt="Écran d'accueil de l'éditeur Gutenberg" caption="Écran d'accueil de l'éditeur Gutenberg" align="center" />
+
+
+
+Voyons point par point les éléments de cette interface. Pour commencer, intéressons-nous à…
+
+
+
+### La barre principale d'outils
+
+
+
+La barre d'outils en haut de l'écran permet de connaitre tout de l'état de votre publication, et d'effectuer les actions essentielles.
+
+
+
+Cette barre d'outils comporte deux sections, une à gauche, une à droite.
+
+
+
+<OptImg src="/image/gutenberg-barre-outils" alt="Barre d'outils de Gutenberg" caption="Barre d'outils de Gutenberg" align="center" />
+
+
+
+La section 1, à gauche, concerne l'édition du document en cours. La section 2, à droite, sert principalement pour enregistrer le document, et pour les actions non usuelles.
+
+
+
+#### Section de gauche
+
+
+
+<OptImg src="/image/blocs-gutenberg-ouvert" alt="Blocs Gutenberg - vue par défaut" caption="Blocs Gutenberg - vue par défaut" align="left" />
+
+
+
+<OptImg src="/image/blocs-gutenberg-liste" alt="Blocs Gutenberg - box fermée" caption="Blocs Gutenberg - box fermée" align="left" />
+
+
+
+le bouton [icon name="plus-circle "] donne accès aux différents types de blocs, **où qu'il soit situé dans l'éditeur**, et l'insère à la suite du bloc courant (celui où votre curseur est positionné). Si vous cherchez un bloc particulier, vous pouvez fermer les onglets internes avec le chevron [icon name="chevron-down"] ou effectuer une recherche dans le champ texte.
+
+
+
+<OptImg src="/image/gutenberg-bloc-options-de-bloc" alt="Gutenberg - Bloc option de bloc" caption="Gutenberg - Bloc option de bloc" align="right" />
+
+
+
+Vous remarquerez aussi que lors de la création d'un nouveau bloc, vous avez trois petites icones sur la droite, en fait, les trois types de bloc les plus utilisés.
+
+
+
+Les flèches vers la gauche et vers la droite permettent d'annuler ou de refaire une action (précédemment annulée).
+
+
+
+
+<OptImg src="/image/apercu-gutenberg-document" alt="Aperçu du document" caption="Aperçu du document" align="right" />
+
+
+
+Quant au bouton [icon name="info-circle "] il permet de tout savoir du document en cours : le nombre de mots, de titres, de paragraphes et de blocs, plus une table des matières permettant une navigation rapide au sein du document.
+
+
+
+Intéressant quant on est dans un document relativement long (et bien structuré), pour revenir à un paragraphe précédent par exemple, puis pour retourner en fin de document sans scroller à vue avec la souris.
+
+
+
+Pour visualiser le travail rédactionnel accompli. Ou pour connaître le nombre de mots, quant on a par exemple une ligne à suivre : pas moins de / pas plus x mots.
+
+
+
+Le bouton suivant, [icon name="bars"] permet la navigation dans les blocs. Mais vu que les blocs se nomment quasiment tous paragraphe, ce n'est pas - à mon avis - très intuitif. Mais ce "navigateur" peut se révéler utile pour retrouver une galerie par exemple.
+
+
+
+#### Section de droite
+
+
+
+À droite, vous avez tous les outils pour l'enregistrement (*Enregistrer le brouillon* et *Publier* ou *Mettre à jour*), l'icone [icon name="cog"] pour passer en vue large (utile pour la saisie au kilomètre, sans mise en forme particulière) et l'icone [icon name="ellipsis-v"] pour accéder aux fonctions avancées. Nous reviendrons sur les fonctions avancées plus tard dans l'article.
+
+
+
+À noter le comportement par défaut de Gutenberg pour la publication : il vous demande si vous voulez vraiment publier l'article, ce qui évite les mises en lignes intempestives dues à une erreur de manipulation.
+
+
+
+### La barre latérale contextuelle
+
+
+
+<OptImg src="/image/gutenberg-barre-contextuelle-bloc" alt="Barre contextuelle - Onglet Bloc" caption="Barre contextuelle - Onglet Bloc" align="right" />
+
+
+
+<OptImg src="/image/gutenberg-barre-contextuelle-document" alt="Barre latérale - Onglet Document" caption="Barre latérale - Onglet Document" align="left" />
+
+
+
+Dans cette barre latérale, vous trouverez en permanence deux onglets : *Document* et *Bloc*. Si l'onglet *Bloc* peut être vide (quand il n'y a pas de bloc sélectionné) l'onglet Document, lui, contient en permanence les informations relative… au document en cours.
+
+
+
+Vous retrouvez dans cet onglet (*Document*) l'essentiel des fonctionnalités présentes dans la barre latérale de l'éditeur classique, et certains éléments auparavant placés en-dessus ou en-dessous du document en cours d'édition, comme par exemple le permalien ou l'extrait. Vous pouvez également y trouver des options de réglage pour le thème (concernant la page en cours), mais ce n'est pas une généralité. Ces éléments peuvent aussi se trouver en dessous de la zone de rédaction du document.
+
+
+
+Dans l'onglet *Bloc*, vous trouverez l'ensemble des informations relative au bloc en cours d'utilisation. Dans la capture d'écran ci-contre, vous avez un bloc Paragraphe, avec le réglage des couleurs de texte et de fond, la taille de la police ou encore l'apparence de la première lettre, qui peut être une lettrine.
+
+
+
+Nous verrons ultérieurement comment gérer certains éléments de cette barre contextuelle, à travers des exemples simples - le but de l'article n'étant pas d'apprendre à développer pour Gutenberg, mais d'apprendre à l'utiliser de manière optimale.
+
+
+
+Après avoir vu les fonctions de la barre de menu, ou barre haute, et le fonctionnement de la barre latérale contextuelle, nous allons nous intéresser aux différents types de blocs que Gutenberg propose par défaut.
+
+
+
+## Le mode Mise en lumière
+
+
+
+Gutenberg est doté d'un mode "sans distraction", accessible depuis l'ellipse verticale [icon name="ellipsis-v"] tout en haut à droite de l'éditeur, appelé *mode Mise en lumière*.
+
+
+
+En l'activant, vous aurez le focus sur un seul bloc, celui sur lequel vous travaillez :
+
+
+
+<OptImg src="/image/mode-sans-distraction" alt="" caption="undefined" align="center" />
+
+
+
+Je ne l'utilise pas, mais vous y trouverez éventuellement un intérêt.
+
+
+
+## Les blocs de l'éditeur
+
+
+
+Vous avez déjà eu un aperçu (très) rapide des blocs proposés, dans le "chapitre" précédent (*La barre principale d'outils / Section de gauche*).
+
+
+
+<OptImg src="/image/menu-flottant-texte" alt="" caption="Menu flottant - Éléments récurrents" align="center" />
+
+
+
+Tous les blocs ont un menu flottant, avec deux éléments systématiquement présents : le module de déplacement à gauche, externe au bloc, et l’icône [icon name="ellipsis-v"] tout à droite. Bon nombre d'entre eux ont également l’icône [icon name="paragraph"] (pour les blocs de type texte, éventuellement remplacé par un icône différent, lié au type de contenu) situé à gauche, pour pouvoir basculer d'un type de bloc à un autre.
+
+
+
+Les trois blocs essentiels sont *Titre*, *Paragraphe* et *Image*. Ce sont d'ailleurs ceux que vous trouverez le plus souvent à droite d'un nouveau bloc (vierge donc) dont le contenu n'a pas été défini.
+
+
+
+Chaque bloc (ou du moins, la plupart des blocs) a un ensemble de paramètres prédéfinis (paramètres d'usine) dont certains peuvent être modifiés via la barre latérale contextuelle, à droite de la zone de saisie (voir la capture d'écran *Barre contextuelle – Onglet Bloc*).
+
+
+
+### Le bloc classique
+
+
+
+Lorsque vous ouvrez pour la première fois un article précédemment rédigé avec l'ancien éditeur, tout le contenu sera dans un bloc dit *classique* :
+
+
+
+<OptImg src="/image/editeur-classique" alt="" caption="Bloc Gutenberg \" align="center" />
+
+
+
+Il suffira de cliquer sur l'ellipse verticale [icon name="ellipsis-v"] puis sur *Convertir en blocs*.
+
+
+
+<OptImg src="/image/transformer-bloc-classique" alt="" caption="Convertir en bloc" align="center" />
+
+
+
+Votre contenu soit automatiquement transposé sous forme de blocs Gutenberg natifs :
+
+
+
+<OptImg src="/image/bloc-classique-modifie" alt="" caption="Blocs Gutenberg natifs" align="center" />
+
+
+
+### Les blocs de texte
+
+
+
+<OptImg src="/image/gutenberg-barre-outils-texte" alt="" caption="Menu flottant du bloc Paragraphe" align="left" />
+
+
+
+Ces blocs (Titre, Paragraphe, Liste, Citation…) bénéficient d'un menu flottant, que vous pouvez "coller" dans la barre haute, à la suite des icônes à gauche. Cette mini barre d'outils s’adapte en fonction de la nature du bloc.
+
+
+
+De plus, ces blocs sont "interchangeables" dans leur nature, c'est à dire que vous commencez à saisir votre texte dans un bloc par défaut (Paragraphe) et vous décidez d'en faire un titre en cliquant sur l'icône [icon name="paragraph"] (qui elle, est toujours présente à gauche du menu flottant) puis en sélectionnant le nouveau type de bloc.
+
+
+
+#### Le bloc Titre
+
+
+
+Gutenberg limite l'utilisation des balises H, il ne descend pas jusqu'à H7 (qui n'existe de toute façon pas) mais uniquement jusqu'à H4, laissant de côté les niveaux de titre 5 et 6 (toujours accessibles depuis la barre contextuelle). Parce qu'ils ne sont pas très utilisés, et pas très utiles non plus dans un document courant.
+
+
+
+#### Le bloc Paragraphe
+
+
+
+C'est le bloc par défaut de Gutenberg. Si vous appuyez sur la touche Entrée de votre clavier, un nouveau bloc paragraphe est créé, à la suite du bloc précédent, **et ce, quel que soit son type**.
+
+
+
+Ce bloc semble manquer de corps par rapport aux fonctionnalités présentes dans la barre d'outils de l'éditeur classique, auxquelles nous étions habitués. Mais honnêtement, de quels éléments de mise en forme vous serviez-vous vraiment ? Pour la plupart d'entre nous, du gras, de l'italique, de l'alignement à droite ou centré (en plus de l'alignement par défaut, bien sûr) et des liens.
+
+
+
+Ceux qui utilisaient la justification, le texte barré ou souligné ont été contraints d'abandonner ces mises en forme ou d'installer et d'activer une extension pour gérer à nouveau cette fonctionnalité.
+
+
+
+En aparté, la justification est une hérésie créée pour les besoins de la presse écrite qui voulait une présentation irréprochable de ses colonnes. On s'est depuis aperçu que la lecture d'un texte aligné à gauche est plus aisée que la lecture d'un texte justifié.
+
+
+
+Ce qui personnellement me manque le plus, c'est l’icône **Ω** (oméga) qui servait à insérer un caractère que l'on ne trouve pas sur un clavier standard : une lettre grecque (le Ω en l’occurrence), un set de guillemets typographiques à la française, les graphèmes *Æ*, *æ*, *Œ* et *œ* que j'ai depuis trouvés sur un clavier alternatif, le clavier [FrElrick](https://sourceforge.net/projects/frelrick/). Que j'utilise dans WordPress bien sûr, mais aussi en dehors de WordPress !
+
+
+
+<OptImg src="/image/clavier-frelrick" alt="Clavier FrElrick" caption="Clavier FrElrick" align="center" />
+
+
+
+Comme quoi, en cherchant bien, on trouve toujours une solution :) dans ce cas préférable à la fonctionnalité d'origine. Ceci-dit, faut pas trop pousser, je veux bien qu'il n'y ait pas trop de place pour mettre une palanquée d'icônes, mais quand même ! Laissez-nous en quelques uns !
+
+
+
+#### Le bloc Liste
+
+
+
+On ne choisit plus entre liste ordonnée et liste non ordonnée dès le départ, on crée une liste. On aura tout le temps de cliquer sur l'une des deux icônes du menu flottant pour faire ce choix ultérieurement.
+
+
+
+### Les blocs de mise en forme
+
+
+
+#### Le bloc Citation
+
+
+
+Le nouveau bloc citation est prêt à l'emploi, avec un emplacement prévu par défaut pour renseigner la source (de la citation). Agréable, surtout quand on se souvient du formatage des citations dans l'éditeur classique.
+
+
+
+<OptImg src="/image/gutenberg-citation" alt="" caption="undefined" align="center" />
+
+
+
+Ce bloc peut être transformé en Citation en exergue, qui donne plus de volume à la citation, comme vous le voyez sur la capture d'écran suivante.
+
+
+
+<OptImg src="/image/gutenberg-citation-exergue" alt="" caption="Citation en exergue - Vue dans l'éditeur (thème Twenty Nineteen)" align="center" />
+
+
+
+En aparté, je n'ai pas mis cette illustration pour afficher une appartenance à une religion ou un mouvement quelconque, j'ai juste cherché des citations célèbres pour illustrer l'article, et celle-ci était en toute première page du site où je me suis rendu. Et, je ne le cache pas, je la trouve mignonne. Sans doute, dirait un psychanalyste, une madeleine de Proust ;)
+
+
+
+#### Le bloc Couplet
+
+
+
+Il s'agit d'un bloc paragraphe un peu spécial, prévu pour mettre en valeur la poésie.   
+Contrairement au texte de paragraphe traditionnel, il laisse tous les espaces et les sauts de ligne intacts, en les affichant exactement tels que vous les entrez.
+
+
+
+#### Le bloc Tableau
+
+
+
+Pour mettre en ligne un tableau ~~très~~ extrêmement basique, ce bloc suffira. Mais la mise en page en tableaux est un vrai casse-tête dès qu'on le veut *responsive*. Les solutions pour un tableau responsive sous WordPress mériterait un article :| sauf que je n'ai pas vraiment trouvé la solution idéale - ni dans le gratuit, ni dans le payant.
+
+
+
+### Les blocs d'images
+
+
+
+Lorsque vous créez un bloc de type Image ou Galerie, Gutenberg met à votre disposition un espace spécifique.
+
+
+
+<OptImg src="/image/gutenberg-bloc-image-galerie" alt="" caption="Ajouter une image ou une galerie, dans Gutenberg" align="center" />
+
+
+
+Mais vous pouvez aussi glisser une image (ou plusieurs) directement dans l'éditeur, qui fera le reste en créant un bloc image ou galerie que vous n'aurez plus qu'à ajuster.
+
+
+
+Le placement des images correspond à ce que vous aviez l'habitude d'avoir avec l'éditeur classique, avec en plus une présentation *grande largeur* et une *pleine largeur*. À noter que tous les thèmes ne permettent pas d'utiliser les deux derniers formats de manière optimale, notamment lorsque vous affichez une barre latérale. **Si vous souhaitez bénéficier de ces formats, effectuez des tests avant de vous décider.**
+
+
+
+<OptImg src="/image/lostinsea" alt="" caption="Bloc Image centrée, classique" align="center" />
+
+
+
+La grande largeur et la pleine largeur sont également disponibles pour les galeries. Intéressant pour mettre en valeur vos photos, ou du moins certaines.
+
+
+
+#### Le bloc Bannière
+
+
+
+C'est un bloc **image & texte** en surimpression. Vous pouvez vous en servir pour un *call to action* simple par exemple. La barre d'outils texte est simple, mais suffisante.
+
+
+
+<OptImg src="/image/gutenberg-bloc-banniere-centre" alt="" caption="Bloc bannière centré" align="center" />
+
+
+
+Vous pouvez le positionner librement, comme une image : centré, à gauche, à droite, en grande largeur ou en pleine largeur.
+
+
+<OptImg src="/image/gutenberg-bloc-banniere-pleine-largeur" alt="" caption="Bloc bannière pleine largeur (rendu dans l'éditeur)" align="full" />
+
+
+### Les blocs de mise en page
+
+
+
+#### Le bloc Colonnes
+
+
+
+Pour des colonnes (de deux à six) avec *largeur classique*, *grande largeur* comme ici ou *pleine largeur*, avec du texte, des images, ou ce que vous avez envie de présenter en colonnes.
+
+
+
+Par contre, il s'agit d'un bloc assez simple, sans mise en page particulière. Et le passage d'une colonne à l'autre, c'est à vous de le faire ;)
+
+
+
+#### Le bloc Espacement
+
+
+
+Pour créer un espacement visuel, un bloc vide, dont vous ne pouvez régler que la hauteur. Mais c'est le but recherché, non ?
+
+
+
+#### Le bloc Saut de page
+
+
+
+Sans options… mais quelles options pourrait-il accepter ?
+
+
+
+#### Le bloc *Lire la suite*
+
+
+
+C'est un bloc sans options, qui permet de séparer le texte visible en "extrait automatique" du reste de l'article.
+
+
+
+Ce bloc est moins souple dans son utilisation que la balise Lire la suite de l'éditeur classique, que l'on pouvait placer au beau milieu d'un paragraphe, et qui était donc réellement invisible.
+
+
+
+#### Le bloc Séparateur
+
+
+
+Ce bloc insère une balise `<hr />`, qui produit une ligne horizontale.
+
+
+
+#### Le bloc Média & Texte
+
+
+
+<OptImg src="/image/640px-gutenberg-bible-lenox-copy-new-york-public-library-2009-pic-01" alt="La Bible de Gutenberg" caption="undefined" align="undefined" />
+
+Aux origines de l'impression avec la Bible de Gutenberg. Le titre de cet article est aussi un clin d'œil à cet homme, qui révolutionna l'imprimerie.
+
+
+
+Par NYC Wanderer (Kevin Eng) — publié à l'origine sur Flickr sous le nom de *Bible de Gutenberg*, CC BY-SA 2.0
+
+
+
+Vous pouvez régler la taille des caractères de "petit" à "Énorme", en fonction de la quantité de contenu que vous voulez afficher dans le bloc à côté de votre image. Sur mobile, il sera certainement préférable d'empiler les deux parties du bloc pour une meilleure visibilité.
+
+
+
+<OptImg src="/image/newspaper-3988054-640" alt="" caption="undefined" align="undefined" />
+
+Mais vous pourrez aussi intervertir les positions du texte et de l'image, et jouer sur la taille du texte. Ici en pleine largeur, et le texte réglé sur *Grand* (*Énorme* dans l'exemple précédent). Ce bloc n'existe pas en largeur dite "normale".
+
+
+
+### Les blocs Widgets
+
+
+
+Les *blocs widgets* permettent d'insérer des widgets WordPress dans votre document. C'est une des fonctionnalités de Gutenberg qui n'a pas son équivalent dans l'éditeur classique.
+
+
+
+Vous pourrez insérer un code court, une listes des derniers articles ou des catégories.
+
+
+
+La présentation est simple, mais elle permet de présenter une liste de un (mais ce n'est plus une liste) à cent articles - mais je n'en ai pas autant sur mon blog :|
+
+
+
+#### Les blocs Contenus embarqués
+
+
+
+Grâce au format oEmbed, vous pouvez embarquer des dizaines de contenus multimédia dans vos articles : Twitter, Facebook, Instagram, WordPress bien sûr, mais aussi Spotify, Vimeo, Flickr… la liste est longue.
+
+
+
+Voila pour la liste des blocs par défaut de Gutenberg. J'en ai peut-être oublié en rédigeant cet article, n'hésitez pas à me les mentionner dans les commentaires.
+
+
+
+## Les fonctionnalités avancées de Gutenberg
+
+
+
+### Le drag and drop
+
+
+
+À la gauche de chaque bloc, vous avez deux flèches, pointant vers le haut ou vers le bas, séparées par une double ellipse : deux [icon name="ellipsis-h"] positionnés l'un sur l'autre. Vous pouvez n'avoir que la flèche du haut, ou uniquement celle du bas, si vous êtes sur le premier ou le dernier bloc du document.
+
+
+
+Les flèches [icon name="chevron-up"] et [icon name="chevron-down"] permettent de faire monter ou descendre le bloc, pour le placer avant ou après le bloc précédent ou suivant. La double ellipse permet de déplacer le bloc directement à l'écran, pour le placer plusieurs blocs avant par exemple, ou pour le positionner dans une autre colonne.
+
+
+
+Le fonctionnement n'est pas le plus intuitif que j'ai rencontré, mais une fois que vous l'avez compris, l'utiliser devient un jeu d'enfant.
+
+
+
+### Le bloc réutilisable
+
+
+
+Je ne l'ai pas présenté dans les blocs, vous allez vite comprendre pourquoi. Ce bloc n'est pas un bloc de contenu à proprement parler, voici d'ailleurs la définition qu'en donne WordPress :
+
+
+> Créez du contenu et enregistrez-le pour vous ou pour d’autres contributrices et contributeurs afin de le réutiliser ailleurs sur votre site, et appliquer les modifications partout où il est utilisé.
+>
+> WordPress, in Gutenberg
+
+
+
+Alors, qu'est ce qu'un bloc réutilisable et comment s'en servir ?
+
+
+
+Pour ceux qui ont déjà utilisé des constructeurs de pages (*Elementor*, *Beaver Builder*, *WPBakery Page Builder*…), c'est ni plus ni moins qu'un modèle, **réutilisable tel quel ou après modification**, dans la totalité des pages et articles de votre site.
+
+
+
+Pour le définir, rendez-vous dans le menu flottant, cliquez sur [icon name="ellipsis-v"]. Vous allez trouver, tout en bas, *Ajouter aux blocs réutilisables*. Cliquez, vous obtenez ce type de boîte de dialogue :
+
+
+
+<OptImg src="/image/gutenberg-bloc-reutilisable" alt="" caption="Enregistrement d'un bloc réutilisable" align="center" />
+
+
+
+Donnez lui un nom, enregistrez-le, et vous avez un bloc réutilisable.
+
+
+
+Pour l'utiliser à nouveau (c'est le but), vous trouverez un nouvel onglet dans le + qui sert à définir le type de bloc à utiliser. Nommé, il va de soi, *Réutilisables*. Au pluriel, même si vous n'en avez qu'un. Il suffit de le sélectionner, et le tour est joué.
+
+
+
+Vous pouvez le réutiliser tel quel, ou le transformer en bloc normal, sur place, pour en modifier le contenu. Vous devrez pour cela aller dans le menu, cliquer à nouveau sur [icon name="ellipsis-v"] puis sur *Convertir en bloc Gutenberg normal*.
+
+
+
+*C'est ce que je viens de faire avec mon encart pour vous inciter à vous abonner à la lettre d'information du blog.* Je l'ai converti en bloc normal, et j'en ai modifié le texte. Retournez en haut de l'article, si vous n'êtes pas convaincu ?
+
+
+[newsletter\_signup\_form id=1]
+
+
+
+## Les extensions indispensables à Gutenberg
+
+
+
+Gutenberg fonctionne bien, mais il est possible d'améliorer son fonctionnement grâce à quelques extensions. La première, c'est *Disable Gutenberg Autosave*. Parce que Gutenberg a la fausse bonne idée de déclencher des enregistrements automatiques qui ralentissent voire bloquent toute autre opération.
+
+
+
+
+La seconde, qui n'est pas indispensable, permet de retrouver certaines mises en forme, dont vous aurez (ou non) besoin. Il s'agit de *Advanced Rich Text Tools for Gutenberg*. Vous y gagnerez `le formatage du code`, des textes en exposant et en indice ainsi que la coloration du texte et de son arrière-plan. Même si ce n'est pas aussi propre qu'une balise `<mark>` c'est une aide simple pour surligner une portion de texte à mettre en avant.
+
+
+
+
+Pour en finir avec les extensions "indispensables", pour retrouver une des fonctionnalités de WordPress supprimée avec l'arrivée de Gutenberg, l'extension Custom Fields for Gutenberg permet d'ajouter des champs personnalisés à vos articles et pages.
+
+
+
+
+## En conclusion
+
+
+
+Johannes Gutenberg a révolutionné l'imprimerie. Ce n'est pas le premier à avoir imprimé des livre, c'est le premier à les avoir mis sous presse avec des caractères mobile en plomb.
+
+
+
+WordPress, qui fait des clins d'œil au Jazz en nommant chacune de ses versions majeures du nom d'un.e artiste reconnu.e, fait également des clins d'œil à l'Histoire : avant *Gutenberg*, il y a eu le *Codex*.
+
+
+
+La révolution Gutenberg est à nouveau d'actualité, plus de 400 ans après l'invention de l'imprimerie moderne. Autant être au rendez-vous, cette fois. J'espère juste vous avoir donné envie d'y participer, et de vous avoir fourni les armes pour.
+
+
+
+Et vous, êtes-vous passé à Gutenberg ? Avez-vous rencontré certaines difficultés lors de l'adoption de cet éditeur ? Où votre expérience est-elle plutôt positive ? J'attends votre histoire, vos réflexions, vos questions dans les commentaires…

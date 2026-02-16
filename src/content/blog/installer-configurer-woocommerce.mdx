@@ -1,0 +1,233 @@
+---
+
+title: Installer et configurer WooCommerce
+lastmod: '2019-02-21T12:21:20+00:00'
+slug: installer-configurer-woocommerce
+draft: false
+categories:
+  - WooCommerce
+description: "Installer WooCommerce, c'est (presque) facile. Des étapes à suivre, tout simplement. Cet article vous guide pour vos premiers pas dans le monde du e-commerce - enfin, du WooCommerce…"
+image: /image/installer-woocommerce.avif
+pubDate: '2019-02-21'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+WooCommerce s'est imposé ces dernières années comme [la solution e-commerce sous WordPress](/blogging/woocommerce/woocommerce-la-solution-e-commerce-de-wordpress/) - et une des solutions sérieuses à considérer, quoi qu'il en soit.
+
+
+
+Les extensions WordPress ont de plus bonne presse, c'est du cliquez deux fois et c'est prêt (un clic pour installer, un pour activer). C'est vrai, jusqu'à un certain point, nous allons le voir.
+
+
+
+## Installer l'extension WooCommerce
+
+
+
+### Les prérequis
+
+
+
+Vous vous en doutez un peu, WooCommerce étant une extension, la première étape, c'est [d'avoir installé, sécurisé et optimisé WordPress](/blogging/code/installer-optimiser-wordpress/).
+
+
+
+Pour une boutique en ligne, il n'est pas possible de faire l'impasse sur la sécurité, au risque de ne pas obtenir (ou de ne pas garder) la confiance des internautes. D'autant que la RGPD vous impose de garantir la confidentialité des informations recueillies.
+
+
+
+C'est après ces étapes préliminaires que vous allez vous rendre dans le dépôt WordPress pour installer WooCommerce. Si vous n'avez jamais installé d'extension… vous devriez chercher à en savoir un peu plus sur WordPress avant de vous lancer dans la création d'une boutique en ligne. Mais à cœur vaillant, rien d'impossible, lisez l'article [Installer, activer et mettre à jour une extension WordPress](/blogging/conseils/guide-extension-wordpress/).
+
+
+
+### L'installation
+
+
+
+Installez et activez WooCommerce, et voila, votre boutique est en ligne.
+
+
+
+Elle est en ligne, mais elle n'est pas encore opérationnelle. Elle n'est pas encore prête pour la vente, mais tout est prêt pour passer à l'étape suivante…
+
+
+
+## La configuration de WooCommerce
+
+
+
+### Configuration de WooCommerce via l'assistant
+
+
+
+Lorsque vous cliquez sur *Activer*, vous êtes redirigés vers une page de configuration.
+
+
+
+<OptImg src="/image/configuration-woocommerce" alt="Configuration WooCommerce" caption="Configuration WooCommerce" align="center" />
+
+
+
+Cette page vous propose d'installer l'extension *WooCommerce Products Block*, pour une intégration poussée de WooCommerce avec Gutenberg. J'ai essayé le module, je n'ai pas été convaincu, *tout simplement parce que les blocs WooCommerce ne s'affichaient pas dans Gutenberg*. Peut-être est-il tout simplement encore trop jeune. Je retenterai avec une version plus aboutie, d'ici quelque temps.
+
+
+
+Nous allons, nous, cliquer sur *Lancer l'assistant de configuration*, et voir ce qui se passe.
+
+
+
+En fait, vous allez être guidé.e dans la configuration de base de votre boutique à travers six écrans. Rien de compliqué, vous allez voir.
+
+
+
+En tout premier lieu, des informations générales, que vous devriez être à même de fournir :
+
+
+
+<OptImg src="/image/woocommerce-configuration-boutique" alt="Configuration de la boutique" caption="Configuration de la boutique" align="center" />
+
+
+
+Je ne vous ferai pas l'injure de vous expliquer les demandes de cette page :)
+
+
+
+Vous passez à l'étape suivante, plus technique. À savoir : par défaut, WooCommerce accepte les paiements Stripe et Paypal. Si vous n'avez pas de contrat avec votre banque, vous pouvez quand même vendre, et surtout être payé.
+
+
+
+<OptImg src="/image/woocommerce-paiement" alt="Configuration des solutions de paiement" caption="Configuration des solutions de paiement" align="center" />
+
+
+
+Qui dit boutique dit expédition. C'est le thème de l'écran de configuration suivant. Si vous n'avez pas de produits physiques, vous pouvez passer cette étape ou tout configurer en "gratuit".
+
+
+
+<OptImg src="/image/woocommerce-expedition" alt="Configuration des tarifs d'expédition" caption="Configuration des tarifs d'expédition" align="center" />
+
+
+
+On est passé par les étapes les plus importantes, mais il reste encore quelques points à indiquer à WooCommerce. Cet assistant va vous faire quelques recommandations, à suivre ou pas, en fonction de vos besoins. Voulez-vous envoyer des lettres d'information, et si oui, voulez-vous utiliser Mailchimp ? Voulez-vous confier la collecte des taxes à WooCommerce et à Jetpack ? Personnellement, je ne choisis jamais de cocher ces options.
+
+
+
+<OptImg src="/image/woocommerce-recommande" alt="Options recommandées" caption="Options recommandées" align="center" />
+
+
+
+Dernière étape, la connexion à Jetpack. Personnellement, je n'ai jamais connecté mes boutiques à Jetpack. À tenter…
+
+
+
+<OptImg src="/image/woocommerce-jetpack" alt="Connexion à Jetpack" caption="Connexion à Jetpack" align="center" />
+
+
+
+Et voila ! La configuration de base est terminée - c'est ce que nous dit l'écran suivant, qui en même temps nous invite à créer un premier article.
+
+
+
+<OptImg src="/image/woocommerce-fin-configuration" alt="Fin de la configuration" caption="Fin de la configuration" align="center" />
+
+
+
+Vous avez également la possibilité de peaufiner les réglages de votre boutique, via le panneau de configuration de WordPress.
+
+
+
+En arrière-plan, l'assistant a aussi créé les pages nécessaires au bon fonctionnement de la boutique.
+
+
+
+<OptImg src="/image/pages-woocommerce" alt="Les pages WooCommerce" caption="Les pages WooCommerce" align="center" />
+
+
+
+### Configuration manuelle de WooCommerce
+
+
+
+Nous l'avons vu juste avant, vous êtes guidés pour la création de votre boutique. Mais si vous avez manqué cette étape pour une raison ou une autre, vous pouvez toujours configurer manuellement WooCommerce. C'est un peu moins intuitif, mais c'est quand même possible.
+
+
+
+Dans la barre latérale de menu d'administration, sur la gauche, vous avez une nouvelle entrée, non, deux nouvelles entrées : *WooCommerce* et *Produits*.
+
+
+
+Pour configurer la boutique, c'est l'entrée *WooCommerce* qui nous intéresse. Au survol, ou en-dessous si vous avez déjà cliqué sur *WooCommerce*, vous trouvez une entrée *Réglages*.
+
+
+
+Vous êtes dans l'antre de la bête, c'est ici que bat le cœur de votre boutique. Ça y est, vous avez le vertige ? Pas de panique, la configuration est touffue, mais très simple. Il suffit de procéder étape par étape, une page à la fois, un bloc d'informations à la fois.
+
+
+
+Ou, plus simplement, vous cliquez sur le bouton d'aide en haut de page, et vous lancez l'assistant de configuration.
+
+
+
+<OptImg src="/image/woocommerce-aide-configuration" alt="Aide WooCommerce" caption="Aide WooCommerce" align="center" />
+
+
+
+## Créer un produit dans la boutique
+
+
+
+Le dernier écran de configuration propose de créer son premier produit. Sinon, vous pouvez chercher *Produits > Ajouter produit* dans le menu latéral de l'administration WordPress.
+
+
+
+Et vous vous retrouvez à créer un produit. La page est assez fournie, mais à nouveau, vous n'êtes pas sauvagement lâché dans la jungle. Vous avez une série d'astuces pour un démarrage serein.
+
+
+
+Elles s'affichent la première fois que vous cherchez à créer un produit, il suffit de prendre quelques instants pour en faire le tour, elle n'apparaîtront plus.
+
+
+
+Nous allons donc créer notre tout premier produit, pas à pas.
+
+
+
+<OptImg src="/image/woocommerce-premier-produit-1024x907" alt="Création d'un produit" caption="Création d'un produit" align="center" />
+
+
+
+Nous allons suivre les chiffres en rouge sur l'image pour créer notre nouveau produit :
+
+
+
+1. Il faut nommer le produit. En général, c'est une étape relativement simple, mais plus vous donnerez de détails dans un minimum de mots, plus votre produit sera reconnaissable et porteur en termes de référencement. Si vous vendez du café (en grain, moulu, en dosettes…), vous allez nommer ce café-ci d'après ses caractéristiques : pas le générique *café* ou *café en grain*, ni même *café en grains bio* mais plutôt "*Uluma du Honduras - café en grains Bio*". Bien plus parlant, bien plus vendeur pour l'amateur de café qui vient vous rendre visite.
+2. Pour vendre, il est indispensable de décrire précisément votre produit : qu'est-ce qui le rend unique, qu'est-ce qui va pousser l'acheteur à prendre CE produit plutôt qu'un autre, ici et pas ailleurs ? Pour reprendre l'exemple du café, pour le Uluma, la boutique vous dit que c'est *"un café aux notes fruitées d'orange, pêche, fraise et une pointe de chocolat"*. De quoi mettre l'eau à la bouche !
+3. Il est temps de passer aux caractéristiques techniques de votre produit ; vous avez le choix entre *produit simple*, *produit groupé*, *produit externe / d'affiliation* et *produit variable*. Nous allons faire simple, et donc créer un produit simple. Vous aurez tout loisir de tester seul les autres options, du moment que vous aurez compris comment fonctionne le produit le plus basique. C'est ici que vous allez définir s'il s'agit d'un produit expédiable, physique, ou d'un produit virtuel, téléchargeable ou non. Si nous reprenons l'exemple du café, ce n'est pas un produit facile à télécharger. Mieux vaut ne pas cocher les cases d'options.
+4. Pour que votre produit s'affiche en boutique, il est indispensable de lui attribuer un prix. Sans cela, WooCommerce ne le prendra pas en compte, jusqu'à ce que vous cédiez à ses exigences ;)
+5. Vous avez rédigé une description complète de votre produit, maintenant il va aussi falloir condenser, la description courte s'affiche le plus souvent en dessus de la ligne de flottaison et c'est elle qui va déterminer si l'acheteur potentiel va poursuivre ou fuir à toutes jambes.
+6. Une image vaut mieux que mille mots : offrez à vos visiteurs **une photo de bonne qualité**, c'est un pousse à l'action très efficace.
+7. Et si vous avez plusieurs photos en stock, faites vous plaisir ! Voir le produit sous tous les angles ne peut pas faire de mal.
+8. Si vous n'avez que peu de produits, d'un même type, vous n'avez peut-être pas besoin de catégories. Mais notre Coffee Shop en a besoin, elle : elle vend des cafés moulus, des cafés en grain, des cafés en dosettes. Du thé aussi. Et des tisanes. Sans parler des filtres, cafetières, théières et autres accessoires. Elle va donc mettre le *Uluma* dans *Café > Café en grains*.
+9. Et les étiquettes, sont-elles vraiment utiles ? Oui, parce que *Bio* par exemple peut concerner des thés, des tisanes, des cafés (en grains, moulus, etc.). Les regrouper sous l'étiquette *Bio* permettra d'afficher tous les produits bios de la boutique. Parce que quand Bertrand, qui est venu prendre son café, a vu l'étiquette BIO, il a de suite pensé à sa chérie, Sophie, pour lui offrir un thé noir bio ""*Balade de l'Himalaya*". Et à leurs jumeaux, Jacques et Jean, qui prendront volontiers une tisane de menthe bio le soir au coucher. Bilan des courses : trois produits achetés au lieu d'un. Et si le panier approche de la livraison gratuite, c'est un quatrième produit qui va tomber dedans (et comme les frais de port sont offerts, autant se faire plaisir). Voila tout l'intérêt des étiquettes : elles informent sur des caractéristiques secondaires du produit, et vous permettent de naviguer en suivant une autre logique que celle à laquelle vous avez initialement pensé.
+10. Dernière étape, essentielle : la publication, évidemment ! Tant que le produit n'est pas publié, il n'est pas disponible à la vente. Vérifiez les données saisies, et un petit clic sur *Publier*. C'est fait, votre premier produit est en ligne !
+
+
+
+Finalement, ce n'était pas très compliqué. Mais dans l'optique d'une solution e-commerce professionnelle, chacun des points ci-dessus est essentiel. Si vous ne publiez pas l'article, il ne sera pas en vente. Si vous ne lui assignez pas un prix, WooCommerce ne le mettra pas non plus en ligne. Si votre boutique est un vrai capharnaüm, le client n'y reviendra pas, et hésitera même à vous faire confiance. Et ainsi de suite…
+
+
+
+Voila, vous avez installé votre boutique, même s'il reste encore du travail pour la rendre vraiment opérationnelle et surtout vendeuse.
+
+
+
+Dans un prochain article, nous verrons la configuration complète de WooCommerce, pas à pas, en allant dans l'entrée *WooCommerce* de l’administration. Les réglages, la création d'un code promo et les rapports. Nous passerons par chacun des onglets pour une configuration complète et une utilisation en conditions réelles de la boutique.
+
+
+
+En attendant, vous pouvez déjà commencer à saisir vos produits, et à rendre votre boutique plus agréable en choisissant un thème optimisé pour WooCommerce [dans le dépôt WordPress](https://wordpress.org/themes/search/woocommerce/) ou sur les places de marché telles que [Themeforest](https://1.envato.market/c/1293900/275988/4415?u=https%3A%2F%2Fthemeforest.net%2Fcategory%2Fwordpress%2Fecommerce%2Fwoocommerce).

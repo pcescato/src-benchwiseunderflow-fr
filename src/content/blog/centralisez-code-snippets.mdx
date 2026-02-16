@@ -1,0 +1,207 @@
+---
+
+title: Centralisez vos bouts de code avec "Code Snippets"
+lastmod: '2017-02-16T13:55:14+00:00'
+slug: centralisez-code-snippets
+draft: false
+categories:
+  - Extensions
+tags:
+  - bonnes pratiques
+  - code
+  - extension
+  - Optimisation
+  - programmation
+description: "On se sert souvent des bouts de code pour ajouter des fonctionnalités à WordPress, ou pour modifier le comportement de fonctionnalités génériques. Les placer dans le fichier *functions.php* est la norme, mais c'est aussi le meilleur moyen de les perdre lors d'une mise à jour ou d'un changement de thème. Une extension, Code Snippets, permet de les gérer en toute sécurité."
+image: /image/code-snippets.avif
+pubDate: '2017-02-16'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Placer vos bouts de code dans le fichier `functions.php` est devenu une norme, et pourtant, **ce n'est pas une bonne pratique**.
+
+
+
+Nous allons voir pourquoi **il ne faut pas se servir de ce fichier** pour vos bouts de code, et surtout, quelle solution mettre en œuvre.
+
+
+
+
+
+
+## Le fichier functions.php, les extensions et Code Snippets
+
+
+
+À quoi sert exactement le fichier `functions.php` ? **À modifier le comportement du thème**. Il peut être comparé à une extension dédiée au thème.
+
+
+
+Tout ce qui concerne le thème, et uniquement le thème, peut être ajouté dans ce fichier. Mais si c'est le comportement de WordPress, indépendamment du thème, que vous voulez modifier, il faut utiliser une extension.
+
+
+
+C'est d'ailleurs ce que dit le Codex dans un article (en anglais) concernant [le développement de thèmes](https://codex.wordpress.org/Theme_Development) :
+
+
+> Vous pouvez constater que la même fonction doit être disponible **pour plus d'un thème parent**. Si tel est le cas, la fonction doit être créée dans une extension plutôt que dans le fichier `functions.php` du thème. Cela peut inclure des balises de modèle et d'autres fonctions spécifiques. Les fonctions contenues dans les extensions seront vues par tous les thèmes*.*
+>
+> Codex WordPress
+
+
+
+Pour autant, vous n'aurez probablement pas envie de créer une extension pour chaque bout de code. **Autant les centraliser**, pour pouvoir les retrouver facilement au besoin.
+
+
+
+Première solution…
+
+
+
+### Développer sa propre extension
+
+
+
+Créer une extension n'est pas compliqué. Un simple fichier PHP peut suffire, à condition de respecter certaines règles simples.
+
+
+
+Mais cette solution implique quand même **quelques connaissances de base en programmation** et n'est pas à la portée de tous les blogueurs.
+
+
+
+Il existe bien heureusement **une solution alternative**, bien plus simple à mettre en œuvre…
+
+
+
+### Utiliser l'extension Code Snippets
+
+
+
+Regrouper tous les bouts de code et les gérer comme vos articles ou vos pages… c'est exactement ce à quoi sert l'extension *Code Snippets*.
+
+
+
+
+Pour l'installation et l'activation*, j*e vous renvoie à l'article [Installer, activer, mettre à jour et supprimer une extension WordPress](/blogging/conseils/installer-activer-mettre-a-jour-supprimer-extension-wordpress/).
+
+
+
+Une fois l'extension activée, une entrée *Snippets* est insérée dans le menu latéral de l'interface d'administration de WordPress.
+
+
+
+## Utiliser Code Snippets
+
+
+
+### Configurer l'extension
+
+
+
+L'interface d'administration n'est pas traduite en français, pour autant, vous pouvez vous servir de l'extension sans toucher au moindre réglage.
+
+
+
+<OptImg src="/image/code-snippets-configuration" alt="Réglages - Code Snippets" caption="Réglages - Code Snippets" align="center" />
+
+
+
+Mais pour le moment, c'est une boîte vide qui n'attend que vos bouts de code pour les mettre en action.
+
+
+
+### Ajouter un bout de code
+
+
+
+Vous pouvez cliquer directement dans le menu sur *Add New*, ou dans l'interface de gestion de l'extension, sur *Add New* ou sur *En ajouter un →*.
+
+
+
+<OptImg src="/image/code-snippets-ajouter" alt="ajouter un bout de code" caption="ajouter un bout de code" align="center" />
+
+
+
+Voici à quoi ressemble l'interface dans laquelle vous allez saisir votre bout de code :
+
+
+
+<OptImg src="/image/code-snippets-nouveau" alt="interface de création d'un bout de code" caption="interface de création d'un bout de code" align="center" />
+
+
+
+Et voici la même interface, une fois la saisie terminée :
+
+
+
+<OptImg src="/image/code-snippets-code" alt="exemple de bout de code" caption="exemple de bout de code" align="center" />
+
+
+
+Si vous éditez un bout de code précédemment enregistré, vous n'aurez plus deux mais quatre boutons : *Enregistrer les modifications*, *Enregistrer et [dés]activer*, *Exporter* et *Supprimer*.
+
+
+
+<OptImg src="/image/enregistrer-modifier-supprimer-code-snippets" alt="boutons d'enregistrement / export / suppression" caption="boutons d'enregistrement / export / suppression" align="center" />
+
+
+
+### Le périmètre d'action du bout de code
+
+
+
+Tous les bouts de code n'ont pas à être exécutés en permanence : certains ne sont utiles que dans l'interface d'administration, d'autres sont nécessaires pour l'affichage du blog… autant ne pas gaspiller de ressources inutilement (dans un souci d'optimisation).
+
+
+
+Vous avez vos bouts de code, mais si vous voulez réinstaller votre blog dans son intégralité ? Inutile de vous tracasser, *Code Snippets* a tout prévu pour…
+
+
+
+### Importer et exporter des bouts de code
+
+
+
+Partager un bout de code, ou tous vos bouts de code, les transférer d'un blog à l'autre si vous changez d'hébergeur ou si vous voulez les réutiliser sur un autre blog est un jeu d'enfant.
+
+
+
+Chaque bout de code peut être exporté **individuellement ou par lots** :
+
+
+
+<OptImg src="/image/import-export-code-snippets" alt="Exporter des bouts de code" caption="Exporter des bouts de code" align="center" />
+
+
+
+L'importation est tout aussi simple : il suffit d'aller dans l'entrée de menu *Snippets > Import*, de sélectionner le fichier XML à importer avant de cliquer sur *Transférer et Importer*.
+
+
+
+<OptImg src="/image/code-snippets-importer" alt="" caption="importer des bouts de code" align="center" />
+
+
+
+Je vous propose cinq bouts de code dont je me sers régulièrement sur mes blogs, à dézipper et à importer une fois *Code Snippets* installé et activé (c'est le fichier *json* de l'archive qu'il faut importer, pas l'archive elle-même).
+
+
+
+[Bouts de code](/blog/download/12180/)
+
+
+
+Ces bouts de code servent à supprimer les informations concernant la version de WordPress utilisée, à permettre l'utilisation de l'espace insécable, à ne pas afficher les messages d'erreur lors de tentatives de connexion infructueuses, à calculer et insérer le temps de lecture et le nombre de mots d'un article, et à supprimer l'attribut `nofollow` des liens dans les commentaires.
+
+
+
+Voilà, vous avez (enfin !) une solution simple pour gérer efficacement vos bouts de code ;)
+
+
+
+Et vous, utilisez-vous *Code Snippets*pour vos bouts de code, ou envisagez-vous de l'utiliser ?

@@ -1,0 +1,111 @@
+---
+
+title: 'Sécurité : contrez les attaques en sécurisant XML-RPC'
+lastmod: '2025-10-14T12:48:59+00:00'
+slug: securite-attaques-xml-rpc
+draft: false
+categories:
+  - Conseils
+tags:
+  - Jetpack
+  - sécurité
+excerpt: >-
+  Pour éviter les attaques de force brute, les dénis de service et dénis de
+  service distribués, il est indispensable de sécuriser au maximum votre site.
+  Et d'être paré à toute éventualité.
+image: /image/protection-xml-rpc.avif
+pubDate: '2019-04-25'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Pour tout savoir sur le développement de la v2.0.0 avec l'IA, rendez-vous sur mon blog [Zone Test](https://zone-test.ovh/), dans l'article [Développer avec l’IA sans perdre le contrôle : Claude, Mistral et moi](/blog/developper-ia-humain-partenariat/).
+
+
+
+J'ai reçu un email de mon hébergeur, me disant que je subissais une attaque de type force brute en bonne et due forme :
+
+
+
+*Nous avons été notifiés que votre page /xmlrpc.php a été victime d'un très grand nombre d'accès provenant de nombreux pays. Après vérification, il s'agit d'une attaque par BruteForce distribué afin de trouver votre mot de passe de votre tableau de bord de votre CMS.*
+
+
+
+Bon, je ne me suis pas inquiété outre mesure, mon mot de passe… avant qu'un hacker le casse, de l'eau aura coulé sous les ponts. Sauf à avoir une chance de cocu ;) mais ça, c'est son problème, pas le mien :D Pour info, je crée mes mots de passe faciles à mémoriser, mais pas à trouver, du genre `C10fi6l@KC100&C` ou `7.1Po6Bl@TrouV`. Vous pouvez le tester sur [Under News](https://www.undernews.fr/nos-services/tester-la-force-de-votre-mot-de-passe) - voici le résultat du test de mon mot de passe actuel (je le change au gré de mes découvertes mnémotechniques) :
+
+
+<OptImg src="/image/securite-mot-de-passe" alt="sécurité - test du mot de passe" caption="Test de mon mot de passe" align="center" />
+
+
+Bon, plaisanterie mise à part, je n'aime quand même pas l'idée qu'un sombre idiot vienne chercher mon mot de passe pour défacer mon site ou pour y découvrir mes plus inavouables turpitudes - il serait bien mal payé de sa peine, il n'y a strictement rien à découvrir ;)
+
+
+
+Alors pour éviter tout problème et pour décourager toute nouvelle tentative, j'ai cherché comment me protéger des attaques menées via XML-RPC.
+
+
+
+Deux solutions :
+
+
+
+* solution radicale, je désactivais purement et simplement XML-RPC, mais dans ce cas-là, je ne pouvais plus me servir de certaines fonctionnalités de [Jetpack](/blogging/extensions/jetpack-couteau-suisse-wordpress/) et d'autres extensions pourtant intéressantes.
+* ou alors, je désactivais uniquement les fonctionnalités XML-RPC utilisées par les mécréants qui en veulent à mon mot de passe.
+
+
+
+Je ne vous fais pas un dessin, vous vous doutez que j'ai choisi la deuxième solution.
+
+
+
+Je vous fais grâce de mes recherches, je vous livre le résultat. Quelques lignes de code à insérer via [Code Snippets](/blogging/code/centralisez-code-snippets/) :
+
+<Code code={`add\_filter('xmlrpc\_methods', function (\$methods) {
+unset(\$methods['system.multicall']);
+unset(\$methods['system.listMethods']);
+unset(\$methods['system.getCapabilities']);
+unset(\$methods['pingback.extensions.getPingbacks']);
+unset(\$methods['pingback.ping']);
+return \$methods;
+});
+add\_action('wp', function () {
+header\_remove('X-Pingback');
+}, 9999);
+`} lang="php" />
+
+À activer sur tout le site, administration incluse. On n'est jamais trop prudent. Ce n'est pas le Pérou, mais ça évitera les attaques de force brute, les DoS et DDoS via XML-RPC. Tout en permettant à Jetpack et autres extensions de se servir des fonctionnalités qui n'ont pas été bloquées.
+
+
+
+Pour ceux qui ne veulent pas mettre les mains dans le code, j'ai prévu une petite extension à télécharger et à installer / activer. L'extension a été soumise à WordPress et a été approuvée, vous pouvez donc la récupérer directement depuis votre interface d'administration ou via le répertoire des extensions sur wordpress.org
+
+
+
+
+Vous pouvez télécharger puis téléverser et activer l'extension - elle fonctionne "out of the box". La version 2 introduit un changement d'approche. Il est maintenant possible d'affiner les réglages depuis la page d'administration, accessible dans la barre de menu latérale de l'admin WordPress, dans **`Réglages > XML RPC Security`**.
+
+
+<OptImg src="/image/stop-xml-rpc-attacks-886x1024" alt="Page d'administration - Stop XML RPC Attacks" caption="Page d'administration - Stop XML RPC Attacks" align="center" />
+
+
+Vous avez trois options disponibles : un mode minimal (Selective Blocking), celui par défaut lors de l'activation de l'extension, un mode de blocage pour les utilisateurs non connectés (Guest Disable), et finalement un mode désactivation complète (Full Disable) si vous n'avez pas besoin de XML-RPC sur votre site.
+
+
+
+Bon, je vous préviens quand même : vu qu'on parle de sécurité, cette extension ne fonctionnera pas avec WordPress 3.5 et du PHP 5.3 - la sécurité, c'est aussi **une version récente de PHP** (8.1 minimum, la version 7.4 et la version 8.0 ne sont plus maintenues) ,et **la toute dernière version de WordPress**.
+
+
+
+En plus de cette sécurisation, il est indispensable de passer au HTTPS (pour les retardataires), de **mettre à jour régulièrement WordPress, les thèmes et les extensions,** et d'opter pour une extension telle que WP Cerber, Wordfence, Sucuri ou SecuPress.
+
+
+
+Jetpack propose lui aussi de bloquer les attaques de type DoS / DDoS / force brute, mais ce n'est pas son point fort, du moins pas dans sa version gratuite. Je vous conseille vivement d'installer une extension dédiée à la sécurité, et bien sûr [d'effectuer des sauvegardes régulières](/blogging/extensions/sauvegarde-blog/) de votre site.
+
+
+
+Voilà, tout est dit. Téléchargez l'extension, ou copiez / collez le bout de code dans *Code Snippets*, *et n'hésitez pas à partager l'article* pour qu'un maximum de sites puissent contrer les attaques sans pour autant se priver des avantages de XML-RPC.

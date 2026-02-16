@@ -1,0 +1,271 @@
+---
+title: To Code or Not to Code? Serait-ce la question ?
+pubDate: "2025-08-12T09:35:50+00:00"
+updated: "2025-08-30T09:24:38+00:00"
+slug: "coder-plugin-avec-ai"
+draft: false
+categories:
+  - "Apartés"
+tags:
+  - "Gemini CLI"
+  - "PoC"
+  - "prototype"
+description: "Seul devant mon terminal, trois assistants à portée de prompt. L’un génère, l’autre corrige, le troisième surveille. Moi ? Je coordonne. En quatre heures, un plugin WordPress sur mesure. Magie ? Non. Méthode. Alors, coder… est-ce encore la vraie question ?"
+image: /image/interactions.avif
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+## Chapitre 1 : L'énigme du formulaire fantôme
+
+
+
+L'idée était simple, mais pas banale : insérer automatiquement un formulaire d'inscription dans un article WordPress, mais pas n'importe où - plus ou moins à 60 % de la longueur du contenu. Au cœur même de l'article, pour capter l'attention du lecteur au bon moment, quand il est suffisamment accroché pour envisager de s'abonner, mais pas encore arrivé à la fin où son attention se disperse.
+
+
+
+Un placement stratégique, chirurgical presque. Ni trop tôt (le lecteur n'a pas encore accroché), ni trop tard (il a déjà quitté la page ou passe à une autre). Cette zone mystérieuse des 60%, ce sweet spot que tout marketeur rêve d'atteindre.
+
+
+
+J'avais passé une bonne heure à fouiller les répertoires de plugins WordPress. Les solutions étaient soit trop génériques (un shortcode à placer manuellement - quelle corvée !), soit trop rigides (popup agressive au bout de 30 secondes), soit complètement à côté de la plaque (déclenchement au scroll, mais impossible de définir une position précise dans le contenu).
+
+
+
+Bon, soyons honnêtes : il existe bien *Thrive Leads* qui fait plus ou moins ça. Mais à 300€ par an pour *Thrive Suite*, dont je n'utiliserai qu'un seul élément... c'est un peu utiliser un 38 tonnes pour déménager un studio. Une usine à gaz alors que je n'ai besoin que d'un rouage, et encore, il n'est pas exactement comme je le veux.
+
+
+
+Bref, rien ne correspondait précisément à mon besoin. Et puis, il y avait ces petits détails qui font la différence : l'envoi en AJAX vers Mailjet (parce que personne n'a envie d'attendre qu'une page se recharge pour savoir si son email a été pris en compte), et surtout, le masquage définitif post-soumission via localStorage. Une fois inscrit, plus jamais embêté par ce formulaire sur ce navigateur. Élégant et respectueux.
+
+
+
+Ce positionnement précis du formulaire, couplé à un envoi AJAX fluide et à une mémoire locale intelligente, formait le cahier des charges de mon micro-plugin. Un puzzle technique pas si simple, finalement.
+
+
+
+## Chapitre 2 : Constituer l'équipe (et distribuer les rôles)
+
+
+
+Plutôt que de me lancer seul dans le code, comme un cow-boy solitaire face à son éditeur, j'ai décidé de m'appuyer sur une équipe un peu particulière. Pas de réunions interminables, pas de mails à rallonge, juste des algorithmes disciplinés et complémentaires.
+
+
+
+Première escale : chatGPT, mon conseiller stratégique. Avec lui, j'affine le besoin, je formule un prompt clair, précis et efficace. Parce qu'un bon départ, ça change tout, et qu'un prompt mal ficelé, c'est la garantie d'un code bancal. On passe vingt minutes à découper le problème, identifier les contraintes techniques, prévoir les cas limites. chatGPT pose des questions pertinentes : "Et si l'article fait moins de 300 mots ? Et si Mailjet est en panne ? Et si l'utilisateur a désactivé localStorage ?"
+
+
+
+Puis Gemini CLI entre en scène, maître incontesté du code. Contrairement à ce qu'on pourrait croire, ce n'est pas le stagiaire de l'équipe. Au contraire : véloce, efficace, et surtout étonnamment juste dans ses choix techniques. Il prend en charge la génération initiale du plugin avec une précision qui m'a surpris. En une quinzaine de minutes d'interaction active (sur les 2h35 de temps total qu'il m'aura fallu pour boucler le projet en interagissant avec lui), il me pond une première version non seulement fonctionnelle, mais carrément bien foutue.
+
+
+
+50 appels d'API, 82% de taux de succès, et surtout : 100% d'accord de ma part sur les solutions proposées. Ces chiffres parlent d'eux-mêmes. La logique est là, la structure aussi, et même la sécurité de base est respectée. Du code qui respire et qui fonctionne du premier coup.
+
+
+
+Enfin, GitHub Copilot entre en jeu, mais plus pour du fine-tuning que pour des corrections majeures. Son rôle ? Ajouter les petits plus qui font la différence : un select pour choisir la mailing list (j'en gère trois différentes selon mes projets), quelques optimisations sur les bonnes pratiques WordPress, des conventions de nommage plus strictes. Il peaufine plus qu'il ne corrige, transformant un bon code en code irréprochable.
+
+
+
+Mon rôle dans tout ça ? Chef de projet, architecte, testeur et garde-fou. Je définis le besoin, j'arbitre les choix techniques, je supervise les tests et je valide la qualité finale. J'ai aussi pris en charge le conseil et la recherche de documentation technique pour mes assistants - par exemple, comment gérer l'API Mailjet sans Composer sur serveur minimaliste (distro nue), un point technique non trivial qui demandait de fouiller la doc et comprendre les subtilités de leur API REST.
+
+
+
+Cette approche en mode "équipe augmentée" a permis de réduire drastiquement le temps de développement tout en garantissant un résultat professionnel. Pas de syndrome de la page blanche, pas de blocage technique qui traîne des heures. Juste un flux de travail fluide et des compétences qui se complètent.
+
+
+
+## Chapitre 3 : Premiers tests et premières satisfactions
+
+
+
+À 16h15, première version opérationnelle. Le plugin s'installe, s'active, et... fonctionne parfaitement du premier coup. Le formulaire apparaît exactement où il faut, l'AJAX répond sans broncher, l'email arrive chez Mailjet dans la seconde qui suit.
+
+
+
+Un moment de surprise, presque de déception : j'étais préparé à déboguer pendant des heures, armé de ma console JavaScript et de mes breakpoints, et là, rien. Gemini CLI avait livré du code propre et fonctionnel dès le premier jet. Pas de "Uncaught TypeError", pas de "403 Forbidden", pas de mystérieux bugs à traquer dans les méandres du code.
+
+
+
+La seule intervention nécessaire : ajouter quelques fonctionnalités supplémentaires que j'avais oubliées dans mon brief initial : une page d'admin pour ne pas avoir à coder les infos sensibles en dur dans le plugin, quelques options comme le choix de mettre le code en fin d'article s'il fait moins de 300 mots… ensuite GitHub Copilot s'est chargé d'ajouter le select pour choisir entre différentes mailing lists, et de quelques améliorations UX mineures. Le localStorage, cette mémoire discrète qui se souvient qu'un utilisateur s'est déjà inscrit pour ne plus jamais l'embêter sur ce device, fonctionne comme une horloge suisse.
+
+
+
+## Chapitre 4 : La chasse aux warnings (ou comment rendre un code propre)
+
+
+
+17h30, le plugin fonctionne. Mais fonctionne-t-il bien ? Une fois le premier jet obtenu, il ne s'agissait pas de se contenter d'un simple « ça marche ». Le code généré par Gemini CLI, même amélioré par Copilot, méritait une passe critique approfondie.
+
+
+
+J'active l'outil [Plugin Check (PCP)](https://wordpress.org/plugins/plugin-check/), cette sentinelle implacable qui scrute chaque ligne de code à la recherche d'anomalies. Résultat : une trentaine d'alertes qui s'affichent comme autant de reproches. La plupart mineures, certes, mais chacune méritait mon attention. Principalement des variables non échappées d'ailleurs.
+
+
+
+Point par point, GitHub Copilot optimise le code comme un orfèvre polit un bijou : sécurité renforcée (sanitisation des données, validation des nonces), respect des standards WordPress (hooks appropriés, conventions de nommage), internationalisation (parce qu'un plugin propre, c'est un plugin traduisible), meilleure organisation des fichiers (séparation claire entre PHP, CSS et JavaScript).
+
+
+
+Le tout sans dénaturer le code initial, juste en le rendant plus robuste, plus maintenable, et prêt à être soumis au dépôt officiel si l'envie m'en prenait (elle m'a pris très vite).
+
+
+
+Cette phase de polissage, c'est celle qui sépare un bidouillage d'un plugin pro. Pas forcément visible pour l'utilisateur final, mais essentiel pour la maintenance à long terme.
+
+
+
+## Chapitre 5 : Tests en conditions réelles (et petites sueurs froides)
+
+
+
+18h45, code finalisé. Restait la validation terrain. Pour tester le fonctionnement, j'ai déployé le plugin sur trois environnements différents : d'abord mon site de test (une installation WordPress vanille, parfaite pour les premiers essais), puis mes deux blogs en production, avec leurs thèmes personnalisés, leurs autres plugins, leurs particularités.
+
+
+
+Premier site : tout fonctionne parfaitement. Le formulaire s'insère exactement où il faut, l'AJAX répond en moins d'une seconde, l'email arrive dans ma liste Mailjet. Une petite satisfaction, mais la méfiance reste de mise.
+
+
+
+Deuxième et troisième sites : catastrophe. Le formulaire apparaît bien, mais l'interface d'administration renvoie une erreur 500. Puis une autre. Mais le formulaire s'affichait correctement, et le nouvel abonné apparaissait dans ma console Mailjet.
+
+
+
+Puis l'interface d'administration est revenue, mais là les enregistrements ne passaient plus…
+
+
+
+À 19h30, après quelques corrections, le plugin tournait parfaitement sur les trois sites. Test ultime : désinstallation et réinstallation complète. Aucune trace, aucun résidu. Propre. Prêt pour la prod. Il est d'ailleurs sur ce site, vous l'avez certainement vu, l'encart "*Abonnez vous*"…
+
+
+
+## Épilogue : Quand la méthode devient plus importante que l'outil
+
+
+
+Ce plugin n'est qu'un prétexte. Un prétexte à expérimenter, à comprendre, à documenter cette nouvelle façon de créer. Ce que je retiens de cette expérience de 3h40, c'est l'efficacité redoutable d'un mode de production hybride : poser clairement un besoin, définir des contraintes, puis orchestrer les bons outils - Gemini pour amorcer, Copilot pour affiner - comme on constituerait une petite équipe projet.
+
+
+
+Avec un cadrage clair en amont (merci chatGPT) et une vision produit assumée, on obtient un résultat propre, fonctionnel, et suffisamment robuste pour un usage en production… en quelques heures au lieu de quelques jours.
+
+
+
+Le temps gagné ne se mesure pas uniquement en heures de développement évitées, mais en autonomie technique acquise, en réduction de la charge mentale, et surtout en capacités réutilisables. Demain, si j'ai besoin d'un autre plugin, ou d'une appli légère, je sais exactement comment procéder, quels outils mobiliser, dans quel ordre, quels écueils éviter.
+
+
+
+Ce n'est pas un simple gain de productivité : c'est une méthode de travail qui s'installe, une nouvelle façon d'aborder le développement. Pas pour remplacer l'humain, mais pour le libérer des tâches répétitives et lui permettre de se concentrer sur l'essentiel : l'idée, la stratégie, la vision d'ensemble.
+
+
+
+Et ce plugin WordPress ? Il tourne sur ce blog, insérant discrètement ses formulaires à 60% des articles, collectant des emails avec la régularité d'un métronome. Mission accomplie.
+
+
+
+
+---
+
+
+
+
+Vous voulez l'original, pour l'adapter, le forker ou tout simplement y jeter un œil ? Il est sur Github, il a son dépôt bien à lui : [Newsletter Optin Block](https://github.com/pcescato/newsletter-optin-block).
+
+
+
+Il est aussi [dans le dépôt WordPress](https://wordpress.org/plugins/newsletter-optin-block/), après quelques ajustements mineurs pour que toutes les règles de publication soient respectées.
+
+
+
+Pour une présentation plus détaillée du plugin et pour son installation, j'ai rédigé un article sur mon autre blog, *Tout sur WordPress* : [Newsletter Optin Block - pour optimiser l'inscription depuis vos posts](/blog/newsletter-optimiser-inscription/).
+
+
+
+J'ai également soumis le plugin à DeepWiki qui l'a analysé : [https://deepwiki.com/pcescato/newsletter-optin-block/](https://deepwiki.com/pcescato/newsletter-optin-block/). Avec un point de vue technique, l'organisation, les dépendances, la distribution… pour les curieux - et les afficionados.
+
+
+
+## Annexes
+
+
+
+### Cahier des charges (prompt détaillé transmis à Gemini CLI)
+
+
+
+**Fonctionnalités**
+
+
+
+1. **Injection automatique dans `the_content`**
+   * Intercepter `the_content` et injecter un shortcode `[‌contact-form-7 id="..."‌]` au pourcentage défini.
+   * Mode d’insertion configurable : par **paragraphes** (`<p>`) ou par **nombre de mots**.
+   * Exemple : seuil 60 % → insertion après 60 % des paragraphes (ou mots).
+2. **Envoi en AJAX via Contact Form 7**
+   * Utiliser l’AJAX natif de CF7.
+   * Le formulaire fonctionne sans rechargement de page.
+3. **Masquage post-soumission (localStorage)**
+   * À succès (`wpcf7mailsent`) : écrire `newsletter_submitted=true` dans `localStorage`.
+   * Si le flag existe : remplacer/masquer le formulaire par un message de remerciement.
+4. **Interface d’administration**
+   * Menu : `Réglages > Formulaire Auto-injecté`.
+   * Options :
+     + Sélection du formulaire CF7 (select list avec `post_title` / `post_ID`).
+     + Message de remerciement personnalisable.
+     + Seuil d’insertion (en %).
+     + Mode de découpage : mots | paragraphes.
+     + Activer / désactiver le plugin.
+
+
+
+**Dépendances & contraintes**
+
+
+
+* WordPress ≥ 6.8
+* PHP ≥ 8.1
+* Contact Form 7 actif
+* Possibilité d’utiliser `wpcf7_before_send_mail` pour traitement serveur additionnel
+
+
+
+**Structure de plugin recommandée**
+
+
+
+```
+/form-injector-cf7/    
+│     
+├── form-injector-cf7.php # Fichier principal du plugin   
+├── admin/    
+│ └── settings-page.php # Interface admin (options API)   
+├── includes/     
+│ ├── injector.php # Logique d’injection dans the_content     
+│ └── ajax-handler.js # Gestion localStorage + écoute CF7     
+└── assets/   
+ └── form-injector.js # JS frontend (insertion visible, classes)
+```
+
+
+
+### Sortie / métriques Gemini CLI (fin de tâche)
+
+
+
+* **Interaction Summary**
+  + Tool Calls : **50** (✔ 41 ✖ 9)
+  + Success Rate : **82.0%**
+  + User Agreement : **100.0%** (7 revues)
+* **Performance**
+  + Wall Time : **2h 35m 40s** (durée totale de session)
+  + Agent Active : **15m 40s**
+    - API Time : **14m 11s** (90,5%)
+    - Tool Time : **1m 28s** (9,5%)
+* **Model Usage**
+  + `gemini-2.5-pro` — Reqs 71
+    - Input Tokens : **1,884,131**
+    - Output Tokens: **37,216**
+  + `gemini-2.5-flash` — Reqs 1
+  + **Savings Highlight** : **931,570** tokens (49.4%) servis depuis le cache

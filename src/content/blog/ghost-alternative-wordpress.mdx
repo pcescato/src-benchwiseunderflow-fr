@@ -1,0 +1,230 @@
+---
+
+title: Ghost - Une alternative à WordPress ?
+lastmod: '2018-12-27T02:21:30+00:00'
+slug: ghost-alternative-wordpress
+draft: false
+categories:
+  - Blogging
+tags:
+  - Ghost
+  - gutenberg
+  - WordPress
+description: "Cet article a été écrit en utilisant l'éditeur de Ghost, que j'ai installé après une prise de bec avec Gutenberg. WordPress, c'est top, Gutenberg, c'est joli, convivial mais pas forcément très fiable. Et moi, je suis peut-être un poil susceptible. Mais un poil, alors."
+image: /image/ghost.avif
+pubDate: '2018-12-27'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Oui, j'ai commis un sacrilège ! J'ai testé Ghost, un CMS tout javascript ou presque. Et je m'en suis servi pour écrire un article publié dans un blog WordPress. *Mea culpa*.
+
+
+
+Mais voila, j'ai des circonstances atténuantes. Parce que, je vous explique…
+
+
+
+Après une année d'attente, [WordPress 5 est enfin dans les bacs](/blogging/wordpress-5twenty-nineteen-gutenberg-refonte-blog/). Avec Gutenberg, sa mise à jour la plus importante.
+
+
+
+Mais honnêtement, après l'euphorie des premiers jours, des premiers essais… je suis loin d'être convaincu - je dirais même que je suis franchement déçu.
+
+
+
+## Gutenberg et les extensions - la source du problème
+
+
+
+J'ai la nette impression que WordPress a voulu s'aligner sur d'autres plateformes telles que Ghost, Medium ou Wix. Mais il ne suffit pas de vouloir pour pouvoir, hélas !
+
+
+
+Bon, pour la création d'un site d'entreprise, pas de problème, WordPress est toujours idéal, mais pour un blog, ça se corse ~~un peu~~ beaucoup (un peu serait, on va dire, un doux euphémisme).
+
+
+
+Les extensions censées fonctionner avec Gutenberg ont un fonctionnement
+erratique, et le nombre d'extensions compatibles est bien évidemment
+restreint ?
+
+
+
+La gestion des liens, par exemple, semble plus simple que celle de l'éditeur classique. Mais dès qu'une extension la contrarie, elle fonctionne à son idée, n’accepte plus de gérer le texte du lien et le remplace par le lien brut, par exemple.
+
+
+
+Je vérifie la compatibilité annoncée de l'extension : 5.0.2 ? Aïe. Ça fait mal. Je désactive l'extension fautive et je ne garde que Gutenberg ? Ou je garde mon extension - utile - et je repars vers l'éditeur historique ?
+
+
+
+Pour la gestion des images, c'est un peu le même cas de figure. Ça fonctionne… ou pas selon le cas. C'est un problème avec les liens qui m'a initialement motivé, mais à plusieurs reprises, j'ai eu des bugs liés aux fichiers média.
+
+
+
+Par exemple, après avoir inséré dans l'article les images **via Gutenberg**, lors de la mise à jour, l'éditeur ne voulait plus les intégrer telles quelles et me demandait de résoudre des problèmes de blocs… pas engageant pour deux sous.
+
+
+
+Et même si, à nouveau, ce n'est pas directement Gutenberg qui est en cause, mais une extension censée fonctionner avec, c'est désagréable.
+
+
+
+Je suis peut-être susceptible - ça reste à démontrer - mais si je le suis un peu, Gutenberg l'est beaucoup. Susceptible, ou paranoïaque, ou psycho-rigide, enfin bref, pas conciliant du tout.
+
+
+
+Parce que d'un point de vue purement technique, j'entends par là au niveau de la validité du code HTML, il n'y a pas de problème. Mais lui ne l'entend pas de cette oreille. Ce n'est pas SON code, alors ça ne lui va pas.
+
+
+
+Alors en désespoir de cause, j'ai décidé d'aller voir ailleurs si l'herbe était plus verte. Oui, je sais, elle est toujours plus verte dans le jardin du voisin - mais si ce n'était pas une illusion, pour une fois ?
+
+
+
+Et me voila embarqué dans l'installation et la configuration de *[Ghost](https://ghost.org/fr/)*, l'une des alternatives à ce bon vieux WordPress.
+
+
+
+## Ghost - de l'installation à la déception
+
+
+
+### Première étape, l'installation
+
+
+
+Si l'installation de WordPress est relativement rapide et aisée, celle de Ghost nécessite quelques connaissances techniques. On n'est plus sur du PHP / MySQL, mais sur du node.js - et très honnêtement, sur mon serveur Plesk, je ne sais pas trop ce qu'il y a sous le capot de Ghost. Tout ce que je sais, c'est que j'ai installé node.js, Docker, et qu'ensuite, tout est allé très vite. Vite. Très vite. Enfin bref, moins d'un quart d'heure plus tard, mon blog était installé, et je fouinais dans l'administration pour comprendre un peu les rouages de ce CMS.
+
+
+
+### Deuxième étape, la prise en main
+
+
+
+Rien de transcendant, une interface hyper simple, facile à comprendre et à utiliser pour un débutant. Mais un peu déroutante par rapport à celle de WordPress. Hé oui, quand on est habitué à la complexité de WordPress, on est un peu désorienté.
+
+
+
+<OptImg src="/image/administration-ghost" alt="" caption="L'interface d'administration" align="center" />
+
+
+
+Par exemple, pas de sélection de l'ensemble des articles livrés en standard lors de l'installation. Pour les supprimer, j'ai ouvert chacun d'entre eux, je les ai manuellement supprimés via la barre latérale accessible via l'icone des réglages, en haut à droite.
+
+
+
+### Troisième étape, la rédaction d'un article
+
+
+
+Pour rédiger un article, on est dans du *Gutenberg like*, avec une barre d'édition hyper réduite.
+
+
+
+<OptImg src="/image/ghost-editeur" alt="" caption="La barre d'outils flottante de Ghost - un air de famille avec Gutenberg ?" align="center" />
+
+
+
+Pour insérer une image, il suffit de la tirer depuis son dossier jusqu'à l'écran… pas spécialement compliqué ! Par contre, il est préférable d'optimiser l'image avant de l'insérer, parce que je n'ai pas connaissance d'outil d'optimisation intégré à Ghost ?
+
+
+
+Autrement dit, une fois qu'on s'est fait la main, c'est génial. D'autant que Ghost gère nativement la syntaxe [Markdown](https://fr.wikipedia.org/wiki/Markdown).
+
+
+
+Le texte entre deux ~ : `~~texte~~` par exemple, est barré, comme ici : ~~texte~~.
+
+
+
+Entre deux =, comme `==mark==` par exemple, il est mis en surbrillance avec le tag HTML mark.
+
+
+
+Et insérer un bout de code dans l'article ne pose pas non plus vraiment problème, il suffit de mettre le code entre `` ` ``et `` ` `` , ou, pour un bout de code, entre les lignes ```` ```php ```` et ```` ``` ```` par exemple, pour du PHP - on obtient le rendu suivant :
+
+
+
+<OptImg src="/image/code-ghost" alt="" caption="Rendu d'un bloc de code dans Ghost" align="center" />
+
+
+
+Peut-être un poil plus complexe qu'avec WordPress, mais bien plus puissant. Et avec l'habitude, écrire un article, même technique, devient un jeu d'enfant !
+
+
+
+Et le rendu n'est pas mal non plus :
+
+
+
+<OptImg src="/image/rendu-ghost" alt="" caption="Rendu de l'article avec Ghost" align="center" />
+
+
+
+Jusqu'ici, tout est rose, trop rose même pour n'être que rose. Ghost, c'est génial, mais il y a aussi la face cachée du CMS, nous allons donc passer en revue…
+
+
+
+### Les inconvénients
+
+
+
+#### Ghost ne gère pas nativement les commentaires
+
+
+
+Premier point noir par rapport à WordPress, pas de système de commentaires intégré ?. On a beau râler après, parce que, parce que - en fait, je le trouve génial, le système de commentaires de WordPress - donc on a beau râler pour râler, ou à la rigueur, parce qu'en bon français, on ne peut pas s'en empêcher, ils ont le mérite d'exister.
+
+
+
+Alors qu'avec Ghost, pour les commentaires, il faut passer par Disqus. Oops. Beurk, dirait ma fille, Valentine (je la comprends ?).
+
+
+
+#### On trouve moins de thèmes que pour WordPress
+
+
+
+Les thèmes. On en a beaucoup moins que pour WordPress. Mais ça, ce n'est pas rédhibitoire. C'est juste ennuyeux. Après tout, rien ne vous nous empêche d'en créer un. Même si créer un thème, c'est pas franchement ma tasse de thé (enfin, si, parce qu'entre thé et café, le choix est vite fait).
+
+
+
+*What else?* Honnêtement, je ne sais pas, mais je ne cherche pas non plus la petite bête.
+
+
+
+## En conclusion
+
+
+
+Ghost est bien sympa, tout dépend de l'usage qu'on veut en faire. Pour moi, il manque les commentaires et cette "lacune" suffit à me faire préférer WordPress.
+
+
+
+Pour le moment, je vais donc retourner à WordPress, en râlant quand même un peu, parce que je ne suis pas content, mais alors pas content du tout du mauvais tour que nous a joué la team d'Automattic avec son Gutenberg pas abouti. Et puis parce que je suis français. D'origine italienne, oui. Mais français quand même ? Alors si je ne râle pas, au moins pour la forme…
+
+
+
+Et en cherchant bien, peut-être que je vais le trouver, ce CMS parfait, open source, avec une communauté active, des thèmes aboutis, des fonctionnalités intéressantes et un éditeur digne de ce nom. Ou un éditeur alternatif qui me permette de garder mon CMS favori sans ses inconvénients, sans pour autant retrouver un TinyMCE vieillissant.
+
+
+
+Quoique. Il a bien fonctionné, jusqu'à maintenant. Sans bug particulier. Et sans se faire remarquer. Peut-être vais-je tenter de rédiger mes articles en utilisant un constructeur de pages. Elementor ? Beaver Builder ? On peut les utiliser pour les articles aussi. Je vais tenter, je vous dirai.
+
+
+
+Peut-être que je ne trouverai pas d'alternative satisfaisante.
+
+
+
+Mais au moins, j'aurai tenté. Et j'ai bien apprécié un éditeur simple et qui fait son job. À bon entendeur…
+
+
+
+Et vous, que pensez-vous de Gutenberg ? Êtes-vous tenté d'aller voir ailleurs, ou avez-vous enfin l'éditeur que vous attendiez ?

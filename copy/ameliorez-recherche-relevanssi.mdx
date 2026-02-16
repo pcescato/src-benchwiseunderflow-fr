@@ -1,0 +1,415 @@
+---
+
+title: Améliorez les résultats de recherche sur votre blog avec Relevanssi
+lastmod: '2017-01-25T16:28:19+00:00'
+slug: ameliorez-recherche-relevanssi
+draft: false
+categories:
+  - Extensions
+tags:
+  - extension
+  - Optimisation
+  - recherche
+  - référencement
+description: "La recherche n'est pas le point fort de WordPress. Les résultats sont présentés par ordre antéchronologique et non par pertinence, aucune personnalisation n'est possible depuis l'interface d'administration. Une extension, Relevanssi, va changer la donne sur votre blog."
+image: /image/relevanssi.avif
+pubDate: '2017-01-25'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Depuis 2003, WordPress a évolué considérablement, mais sa fonction de recherche est toujours à la traîne. Les résultats sont présentés **dans un ordre antéchronologique** et c'est tout. Pas question de pertinence, ni d'extraits personnalisés des articles et pages retournés.
+
+
+
+
+
+
+Imaginez les résultats sur Google triés ainsi : aucune pertinence, des heures à chercher l'article publié en 2015 et pourtant si intéressant, en 24 834ième page… **un vrai cauchemar**. Est-ce le sentiment de votre visiteur, lorsqu'il cherche un article sur votre blog ?
+
+
+
+Peut-être que vous n'avez pas l'utilité d'une telle extension. Ou vous n'y avez tout simplement pas réfléchi.
+
+
+
+Mais si vous avez déjà un nombre conséquent d'articles, si l'analyse de vos statistiques met en évidence de multiples recherches sur votre blog, **vérifiez la pertinence des résultats**.
+
+
+
+Effectuez une recherche sur votre blog, vous savez mieux que quiconque quels articles sont les plus pertinents pour un mot clé.
+
+
+
+Le résultat vous convient ? Pas vraiment… alors en attendant le jour béni (on peut toujours rêver) où [Automattic](https://automattic.com/) va intégrer un vrai moteur de recherche à WordPress, une extension va prendre le relais, et offrir à vos lecteurs **des résultats pertinents**.
+
+
+
+Il s'agit de *Relevanssi*, l'une des trop rares extensions dédiées à la recherche et toujours maintenue.
+
+
+
+
+## Comment fonctionne Relevanssi
+
+
+
+*Relevanssi* indexe vos articles, vos pages, et même les custom post types si vous le souhaitez. Il offre, à l'instar des moteurs tels que Google, une option de **mise en évidence** des mots recherchés, avec un extrait de l'article ou de la page, contenant le terme de la recherche.
+
+
+
+Pour ne rien gâcher, **Relevanssi respecte votre mise en page**, ce qui est est loin d'être la norme avec ce type d'extension.
+
+
+
+Voici un exemple en images des résultats pour le terme [Jetpack](https://jetpack.com/?aff=399), avec la recherche par défaut de WordPress dans un premier temps :
+
+
+
+<OptImg src="/image/recherche-wordpress" alt="Recherche par défaut WordPress" caption="Recherche par défaut WordPress" align="center" />
+
+
+
+Et maintenant la même recherche, avec Relevanssi :
+
+
+
+<OptImg src="/image/relevanssi" alt="Résultats de recherche avec Relevanssi" caption="Résultats de recherche avec Relevanssi" align="center" />
+
+
+
+Les résultats sont **bien plus pertinents**, et l'extrait personnalisé permet de se repérer plus facilement par rapport à ce que l'on cherche effectivement sur le blog.
+
+
+
+Intéressés ? Alors voyons comment…
+
+
+
+## Installer et configurer Relevanssi
+
+
+
+Pour l'installation et l'activation de l'extension, je vous renvoie à l'article [Installer, activer, mettre à jour et supprimer une extension WordPress](/blogging/conseils/installer-activer-mettre-a-jour-supprimer-extension-wordpress/).
+
+
+
+Une fois l'extension activée, il reste à la configurer - sans quoi vous n'aurez plus le moindre résultat.
+
+
+
+<OptImg src="/image/relevanssi-avant-index" alt="Relevanssi - avant indexation" caption="Relevanssi - avant indexation" align="center" />
+
+
+
+La configuration est simple, mais la page est longue comme un jour sans pain. Nous allons passer chaque section l'une après l'autre.
+
+
+
+### Options basiques
+
+
+
+La recherche peut être utilisée dans l'administration, personnellement je n'en vois pas l'utilité. Mais si vous voulez, vous pouvez.
+
+
+
+Pour **l'opérateur par défaut** (*AND* ou *OR*) je vous recommande *OR* - sachant que si vous configurez sur *AND*, et que la recherche s'avère infructueuse, une recherche *OR* sera lancée. Mais s'il y a ne serait-ce qu'un résultat… le fonctionnement par défaut des moteurs de recherche est *OR*, ce n'est pas pour rien.
+
+
+
+Et si la recherche sur les termes exacts n'aboutit pas, une recherche approximative sera effectuée, mais vous pouvez désactiver cette option. Vous pouvez, mais sachant que si vous recherchez un masculin singulier et que dans l'article il y a un féminin ou un pluriel, **vous vous privez d'un résultat pourtant pertinent**.
+
+
+
+De là à toujours effectuer une recherche approximative, il n'y a qu'un pas. À vous de voir au vu des statistiques de recherche.
+
+
+
+De même, les résultats sont triés par pertinence, enfin ! Ils sont aussi triables par date, mais l'intérêt est limité, sauf à vouloir retrouver un ensemble d'articles en fonction de la date de parution.
+
+
+
+### Importance
+
+
+
+Les titres, le contenu, les catégories et les étiquettes ont un coefficient multiplicateur qui détermine le score final de l'article et donc sa pertinence.
+
+
+
+Si vous effectuez une recherche [sur Jetpack](/?s=jetpack) par exemple, sur ce blog, le terme recherché se retrouve dans le titre des deux premiers résultats.
+
+
+
+*Ce n'est pas toujours le cas : si le terme n'apparaît que dans le titre, et qu'un autre article l'inclut 20 fois dans son contenu, mais pas dans le titre, le score final du deuxième article sera plus élevé que le score du premier, il apparaîtra donc en toute logique en première position.*
+
+
+
+### Journal
+
+
+
+Le journal sert pour une fonction très intéressante, *"Vouliez-vous écrire"*, basée sur les recherches précédentes.
+
+
+
+Un exemple : sur votre blog, le terme *"magret"* apparaît régulièrement dans les termes de recherche. Un internaute fait une erreur de saisie, et effectue une recherche sur *"mzgret"*. S'il ne trouve pas de résultat, *Relevanssi*va aller puiser dans les logs pour trouver une correspondance approximative.
+
+
+
+Cette fonctionnalité doit être incluse dans votre template des résultats de recherche (`search.php`), avant la vérification `have_posts()` :
+
+<Code code={`<?php
+if ( function\_exists ( 'relevanssi\_didyoumean' ) )
+relevanssi\_didyoumean ( get\_search\_query(), "<p>Vouliez-vous écrire ", "</p>lt;/p</p>gt;", 5 );
+?>
+`} lang="php" />
+
+Le premier paramètre passe le terme de recherche, le deuxième sert à définir le texte avant, le troisième le texte qui vient après le terme retourné, le dernier indique le nombre de résultats en-dessous duquel une telle recherche est lancée.
+
+
+
+Le journal sert aussi à **établir des statistiques**, affichées dans le tableau de bord de WordPress. Intéressant pour affiner votre stratégie SEO, par exemple.
+
+
+
+### Exclusions et restrictions
+
+
+
+Si vous souhaitez restreindre la recherche à certaines catégories ou étiquettes par exemple, ou certains articles, c'est ici que ça se passe.
+
+
+
+### Extraits / snippets personnalisés
+
+
+
+Un plus que j'apprécie vraiment avec *Relevanssi* : la possibilité d’afficher des extraits personnalisés comprenant les termes recherchés.
+
+
+
+Vous pourrez même inclure la répartition des résultats dans l'extrait personnalisé :
+
+
+
+<OptImg src="/image/repartition-relevanssi" alt="Répartition des termes de recherche" caption="Répartition des termes de recherche" align="center" />
+
+
+
+### Mise en évidence des résultats de recherche
+
+
+
+Cerise sur le gâteau, **il est aussi possible de mettre en évidence les termes recherchés**, soit en les encapsulant dans une balise `<mark>` par exemple, ou en changeant la couleur du texte, du fond, ou encore en y appliquant un style ou une classe CSS particulière.
+
+
+
+La balise `<mark>` est lu par les moteurs de recherche comme une simple aide visuelle, contrairement à `<strong>` ou `<em>` qui marquent un passage plus important dans le texte.
+
+
+
+### Options d’indexation
+
+
+
+Que souhaitez-vous indexer ? Les articles certainement, mais peut-être les pages aussi, certains type d'articles personnalisés (Custom Post Types), et certaines taxonomies (les catégories mais pas les étiquettes, par exemple).
+
+
+
+Vous rédigez avec soin les extraits (*excerpts* en anglais) pour vos articles ? Si vous les avez optimisés pour le référencement, ils contiennent certainement des mots clés qui permettront d'**affiner la recherche**. Alors, pourquoi ne pas les indexer ?
+
+
+
+Relevanssi propose enfin une **indexation des commentaires** (ceux de vos lecteurs, mais aussi les *pingbacks* et *trackbacks* si vous le voulez).
+
+
+
+### Synonymes
+
+
+
+Pour étendre la recherche de type *OR*, vous pourrez saisir des paires `clé=valeur` à mettre dans les deux sens si vous voulez une correspondance parfaite.
+
+
+
+### Stopwords
+
+
+
+Ou mots d'arrêt. On retrouve ce concept dans *Yoast SEO* pour supprimer les mots non signifiants des permaliens (*je, tu, il, nous, le, la, les, des, et, ou, un, une, dessus, dessous, dans, comme…*). Ces mots ne seront pas indexés, permettant d’accélérer la recherche.
+
+
+
+### Les 25 mots des plus fréquents de l’index
+
+
+
+Ces 25 mots peuvent être rajoutés aux mots d'arrêt si besoin est. Il s'agit des mots les plus présents dans votre contenu, potentiellement sans intérêt pour une recherche pertinente.
+
+
+
+*Lors d'une première utilisation, cette liste sera bien évidemment vide. Il faudra donc y retourner après indexation.*
+
+
+
+Ça y est, nous sommes arrivés au bout des options de configuration de Relevanssi. IL ne reste plus qu'à sauvegarder, et à…
+
+
+
+## Indexer les contenus
+
+
+
+Cliquez sur *Générez l'index* (en haut de page, à côté du bouton *Enregistrer les options*). Si vous avez plus de 500 articles / pages, vous ne passerez pas tout en une fois, il faudra cliquer sur *Continuer l'indexation*. Ce comportement évite des bugs et des crashs sur les configurations les plus légères.
+
+
+
+<OptImg src="/image/relevanssi-apres-index" alt="Relevanssi - après indexation" caption="Relevanssi - après indexation" align="center" />
+
+
+
+Et voilà, vos documents sont indexés, il ne vous reste plus qu'à lancer quelques recherches pour vérifier la pertinence des résultats de recherche.
+
+
+
+## Les résultats de recherches utilisateur
+
+
+
+Après quelque temps, une nouvelle entrée apparaît dans le menu d'administration WordPress : ***Tableau de bord > Recherches utilisateur***. Je ne saurais vous dire au bout de combien de temps, je me suis juste aperçu qu'elle était là :|
+
+
+
+<OptImg src="/image/relevanssi-recherches-utilisateurs-1024x482" alt="Relevanssi - Les recherches utilisateur" caption="Relevanssi - Les recherches utilisateur" align="center" />
+
+
+
+L'intérêt de ces tableaux ? Google ne vous dit ~~pas~~ plus quels mots, quelles expressions ont amené le visiteur jusqu'à vous, mais une fois "chez vous", vous pouvez au moins savoir ce que cherchent vos visiteurs… et sur ce blog, *jetpack* est en pole position - même si, dans les faits, elles ne sont pas les plus lues (à peine 2% des pages vues). Il serait certainement intéressant d'écrire un peu plus sur *jetpack*, à priori…
+
+
+
+Satisfaits ? La différence entre le moteur de recherche natif et celui de *Relevanssi* saute aux yeux, et si vous voulez [une liste exhaustive des fonctionnalités](https://www.relevanssi.com/features/), vous la trouverez sur le site officiel. Mais pour ceux qui voudraient plus encore, il existe…
+
+
+
+## Une version Premium
+
+
+
+La version gratuite suffira à la plupart des blogueurs, mais en payant une licence (de 60 à 250 € selon le type de licence), vous allez encore gagner quelques fonctionnalités, et non des moindres :
+
+
+
+* La recherche de type *"Vouliez-vous écrire"* est basée sur un **correcteur orthographique**, elle est donc plus efficace
+* La possibilité d'ajouter **l'opérateur NOT** pour exclure certains termes de la recherche
+* Le support de WordPress en version multisite
+* **Le support technique - très réactif**
+
+
+
+La version Premium est disponible [sur le site de l'extension](https://www.relevanssi.com/buy-premium/).
+
+
+
+## Documentation
+
+
+
+Vous pourrez approfondir vos connaissances sur le site officiel (en anglais), qui offre une [base de connaissances](https://www.relevanssi.com/category/knowledge-base/) très fournie, en plus d'un [manuel utilisateur](https://www.relevanssi.com/user-manual/).
+
+
+
+Un exemple ? L'auteur explique l'utilisation du *shortcode* :
+
+
+
+<OptImg src="/image/shortcode-relevanssi" alt="shortcode" caption="shortcode" align="center" />
+
+
+
+Qui va donner ceci en HTML :
+
+<Code code={`[search term="jetpack" phrase="on"]l'extension Jetpack[/search]
+`} lang="txt" />
+
+Les arguments `term` et `phrase` sont facultatifs. Si vous n'utilisez pas `term` pour définir l'expression à rechercher, *Relevanssi* effectuera la recherche sur le(s) terme(s) entre les balises du shortcode.
+
+
+
+Si vous voulez une correspondance exacte portant sur plusieurs mots, `phrase` rajoute les guillemets et la recherche portera donc sur l'expression entière, telle quelle.
+
+
+
+Voici le résultat du code ci-dessus : [search term="jetpack" phrase="on"]l'extension Jetpack[/search].
+
+
+
+## Incompatibilités et limites
+
+
+
+Avec *Sensei* ou *BuddyPress*, l'extension ne fonctionnera pas. Avec *bbPress*, l'indexation semble possible mais plus compliquée à mettre en œuvre.
+
+
+
+D'après le site officiel, ce moteur n'est pas prévu pour les très gros sites : au-delà de 50 000 articles, d'après l'auteur, qui nous conseille [WP Solr](https://wordpress.org/plugins/wpsolr-search-engine/) pour les sites plus importants.
+
+
+
+Mais cette extension est **bien moins simple à configurer**, et ne convient pas aux hébergements mutualisés (ou du moins pas à tous), vu qu'il est nécessaire d'installer *Apache Solr*, *Java 1.6* et un conteneur tel que *Tomcat*, *Jetty*, ou *Resin* (ou de payer un abonnement mensuel pour un *web service*) avant de pouvoir utiliser l'extension.
+
+
+
+## Autour de Relevanssi
+
+
+
+Dans le dépôt WordPress, [cherchez Relevanssi](https://wordpress.org/plugins/tags/relevanssi/). Vous trouverez quelques extensions, dont quelques unes encore maintenues, pour améliorer l'expérience utilisateur avec Relevanssi ou étendre ses fonctionnalités.
+
+
+
+Dont *Related Posts with Relevanssi* que j'utilise sur ce blog.
+
+
+
+
+Les recommandations dans la barre latérale, c'est cette extension qui les fournit en se basant sur l'index créé par Relevanssi. Et, a priori, les propositions sont plutôt pertinentes.
+
+
+
+Une deuxième extension présente un certain intérêt, il s'agit de *Autocomplete for Relevanssi*, qui va chercher des suggestions dans l'index pour aider et guider l'internaute dans sa recherche.
+
+
+
+
+Si vous avez déjà une bonne base d'articles et un index conséquent, cette extension apporte un plus à vos visiteurs lors de leurs recherches.
+
+
+
+## En conclusion
+
+
+
+Pour **des résultats de recherche vraiment pertinents**, le moteur intégré nativement à WordPress ne fait pas le poids face à *Relevanssi*.
+
+
+
+Simple à mettre en œuvre, facile à configurer, gratuit (c'est un modèle freemium, mais les rares fonctionnalités manquantes à la version gratuite ne sont pas essentielles pour la majorité des blogueurs). Que demander de plus ?
+
+
+
+Un coup de pouce **pour bien référencer votre blog**: au-delà de tous les avantages pour votre blog, *Relevanssi* peut aussi servir à **améliorer le référencement** en incluant les pages de recherches les plus pertinentes dans les sitemaps Google.
+
+
+
+Alors si vous n'êtes pas satisfaits de la fonctionnalité d'origine, vous n'avez aucune raison de râler et de vous plaindre… installez *Relevanssi*, **pour une recherche relevante** ;)
+
+
+
+Et vous, utilisez vous la recherche intégrée à WordPress, *Relevanssi* ou une autre extension ? N'hésitez pas à partager votre expérience via un commentaire !

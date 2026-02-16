@@ -1,0 +1,180 @@
+---
+
+title: Allégez votre blog avec "Plugin Organizer"
+lastmod: '2017-01-08T15:47:18+00:00'
+slug: allegez-blog-plugin-organizer
+draft: false
+categories:
+  - Extensions
+tags:
+  - Optimisation
+  - SEO
+description: "Certaines de vos extensions n'ont pas besoin d'être utilisées en permanence sur votre blog. Elles alourdissent inutilement votre page et impactent les performances. Fatalité ? Non ! Une extension va nous sauver la mise, voyons comment…"
+image: /image/plugin-organizer.avif
+pubDate: '2017-01-08'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Pour l'internaute, et pour Google, la rapidité de chargement d'une page est un point crucial. Des études l'on montré, au-delà de 3 secondes, **plus de 50%** des visiteurs quittent votre blog **sans même s'intéresser au contenu**.
+
+
+
+Vous ne pouvez pas retenir vos visiteurs contre leur gré, alors il ne reste plus qu'à… il ne reste plus qu'à quoi, d'ailleurs ? **Alléger vos pages**, bien entendu ! Mais comment ?
+
+
+
+
+
+
+J'ai déjà abordé certains points sur ce blog :
+
+
+
+* [Optimisez vos photographies pour un affichage rapide](/blogging/conseils/optimisez-vos-photographies-pour-un-affichage-rapide/) consacré à l'optimisations des images
+* [Installer et optimiser WordPress](/blogging/conseils/installer-et-optimiser-wordpress/) où vous trouverez des conseils plus généralistes, visant à optimiser les performances globales
+
+
+
+Ces deux articles permettent déjà d'optimiser votre blog, mais elles ne règlent pas tout  Que faire si vous utilisez un nombre incalculable d'extensions par exemple ? En tout premier lieu, il va falloir…
+
+
+
+## Faire un état des lieux
+
+
+
+Combien d'extensions sont actives sur votre blog ? Une dizaine ? Une vingtaine ? Plus ?
+
+
+
+Celles pour la sécurité, pour la mise en cache, pour les formulaires de contact, pour les galeries photo, pour… il y a les indispensables, mais certaines ne sont utiles que sur une page ou un article. Ce qui ne veut pas dire que vous pouvez vous en passer.
+
+
+
+Et malheureusement, WordPress les charge toutes par défaut :( C'est l'occasion, dans un premier temps, de passer en revue chaque extension et de décider si elle est vraiment utile, si vous l'utilisez encore et si il n'y a pas de solution en dehors des extensions - parfois un simple bout de code placé dans *Code Snippets* suffirait.
+
+
+
+Vous avez fait un peu de ménage ? Bien ! Mais ce n'est pas fini. Vous allez encore alléger vos pages en installant une extension :o
+
+
+
+Oui, vous avez bien lu ! Une extension qui vous permettra de charger chaque extension en fonction de l'article ou de la page sur laquelle vous vous trouvez. Il s'agit de…
+
+
+
+## L'extension "Plugin Organizer"
+
+
+
+Il s'agit d'une extension gratuite que vous trouverez [dans le dépôt WordPress](https://fr.wordpress.org/plugins/plugin-organizer/).
+
+
+
+
+Pour vous faire une idée, j'ai mis en place cette extension sur ce blog. Et j'ai effectué un test avant / après avec [Pingdom Website Speed Test](https://tools.pingdom.com). Les résultats sont parlants :
+
+
+
+<OptImg src="/image/pingdom-avant" alt="Test avant activation de " caption="Test avant activation de \" align="center" />
+
+
+
+<OptImg src="/image/pingdom-apres" alt="Test après activation de " caption="Test après activation de \" align="center" />
+
+
+
+Vous voyez les flèches rouges ? Ce sont les points sur lesquels j'ai gagné. Ok, j'ai perdu en *Performance Grade* (1 point). Mais en revanche, j'ai gagné sur tous les autres. Temps de chargement, nombre de requêtes, taille de la page, tout est quasiment **divisé par deux** !
+
+
+
+Plus rapide que 54% des sites testés dans le premier test, et que 83% dans le second. **Pour un rendu identique**.
+
+
+
+Convaincus ? Alors voyons comment…
+
+
+
+### Installer et activer "Plugin Organizer"
+
+
+
+Rendez-vous dans l'interface d'administration de WordPress, allez à *Extensions > Ajouter*. Dans la zone de saisie en haut à droite, entrez le nom de l'extension, cliquez sur *Installer* puis sur *Activer*. Voilà, c'est terminé. Enfin, il reste à…
+
+
+
+### Configurer "Plugin Organizer"
+
+
+
+Dans la barre de menu latérale, vous avez une nouvelle entrée - je vous la donne en mille… *Plugin Organizer* ;) Un petit regret, l'extension n'est pas traduite en français - mais rien ne vous empêche de contribuer.
+
+
+
+En tout premier lieu, cliquez sur l'entrée de menu (*Plugin Organizer* ou *Plugin Organizer >  Settings*) pour accéder aux réglages de l'extension elle-même.
+
+
+
+Veillez à activer *Selective Plugin Loading* si vous souhaitez charger ou plutôt **ne pas charger certaines extensions** en fonction de chaque article ou de chaque page.
+
+
+
+<OptImg src="/image/reglages-plugin-organizer" alt="Réglages " caption="Réglages \" align="center" />
+
+
+
+Et de fait, il y a des extensions qui n'ont pas à être chargée sur votre blog, parce qu'elles ne servent que dans l'administration du site. Certaines prennent en compte ce fait, d'autres non. Je vous conseille donc de passer par *Global Settings* et  de sélectionner les extensions à ne pas charger.
+
+
+
+L'entrée de menu *Search Plugins* est réservée aux extensions à ne pas charger **dans la page des résultats de recherche**. Le formulaire de contact par exemple ne devrait pas y être chargé, à moins que vous n'ayez un formulaire permanent dans la barre latérale ou dans le pied de page.
+
+
+
+*Post Type Plugins* vous permettra de gérer les extensions à ne pas charger **par type de contenu** : Page, Article, Custom Post Type…
+
+
+
+Et pour finir, vous pouvez régler les extensions à ne pas charger au cas par cas sur chaque page, article, ou type de contenu personnalisé.
+
+
+
+<OptImg src="/image/configuration-specifique" alt="Configuration au cas par cas" caption="Configuration au cas par cas" align="center" />
+
+
+
+Dans cet article par exemple, j'utilise par exemple un add-on à Gutenberg pour afficher les extensions. Dans les articles où je ne fais pas un lien vers une extension, je ne charge pas cet add-on. Et je fais ainsi pour chaque article. Je charge, ou pas. Pour l'add-on qui me sert à afficher les bouts de codes. Pour celui qui permet de twitter un message personnalisé en lien avec l'article. Pour celui qui gère les galeries. Pour celui qui… vous avez compris.
+
+
+
+Voilà, nous avons passé en revue l'essentiel de *Plugin Organizer*.
+
+
+
+Cette extension permet également de réorganiser l'ordre de chargement des extensions, de créer des groupes d'extensions… mais ce n'est pas le propos de cet article.
+
+
+
+### Mise à jour
+
+
+
+Certains bugs affectent parfois la mise à jour, principalement la réinitialisation des réglages globaux de l'extension. Il suffit de se rendre dans *Plugin Organizer > Settings* et de cocher les options requises pour que tout rentre dans l'ordre (les réglages par article / page ne sont pas perdus, bien heureusement !).
+
+
+
+## En conclusion
+
+
+
+Que vous utilisiez un nombre incalculable d'extensions ou que vous en limitiez l'usage au strict minimum, **vous gagnerez en en installer une de plus**… pour éviter de charger à chaque page celles qui ne sont pas utiles.
+
+
+
+Et vous, pensez-vous que *Plugin Organizer* soit utile à votre blog ? Allez-vous l'installer ?

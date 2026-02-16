@@ -1,0 +1,348 @@
+---
+title: Comment transformer votre site WordPress en PWA en 6 étapes
+lastmod: '2025-08-06T18:10:07+00:00'
+slug: transformer-wordpress-en-pwa
+draft: false
+categories:
+  - Code
+description: "Transformez facilement votre blog ou site vitrine WordPress en PWA sans passer par une extension dédiée ! Découvrez les étapes clés pour améliorer les performances, l’expérience utilisateur et boostez votre SEO avec un site rapide, fiable et installable comme une application mobile."
+image: /image/wpa.avif
+pubDate: '2025-04-28'
+
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+## Introduction
+
+
+
+Passer son site WordPress en Progressive Web App (PWA) n'est plus réservé aux géants du web ! J'ai passé ce site en PWA en moins de 5 minutes - mais avec l'aide de [chatGPT](https://chatgpt.com/), j'en conviens ;) Ce qui donne à cet article un statut particulier : après m'être servi de chatGPT pour accélérer ce blog, je m'en suis également servi pour établir la trame de l'article… j'ai gagné du temps, la rédaction en a été simplifiée.
+
+
+
+Avec quelques ajustements simples, un blog ou un site vitrine peut devenir rapide, fiable et installable comme une application mobile, **sans utiliser d'extension dédiée**.
+
+
+
+Voyons ensemble comment faire proprement, avec uniquement du code et deux extensions, une pour le code et une pour la mise en cache.
+
+
+
+## C’est quoi une PWA et pourquoi l'utiliser sur un blog ou sur un site vitrine ?
+
+
+
+Une application web progressive ou **PWA** (Progressive Web App) offre une expérience fluide, même non connectée, et s'installe sur smartphone comme une application Android ou iOS native. De plus, la PWA offre des **avantages** non négligeables pour un blog ou un site vitrine :
+
+
+
+* un temps de chargement ultra rapide.
+* une lecture hors ligne possible.
+* une meilleure fidélisation (icône sur l'écran d'accueil).
+* une SEO amélioré (Google aime les sites rapides et fiables).
+
+
+
+## Prérequis
+
+
+
+Avant de commencer :
+
+
+
+* Votre site doit être en **HTTPS** (certificat SSL actif).
+* Votre thème WordPress doit être **responsive** (adapté au mobile). Un thème responsive first et léger tel qu'[Astra](/blog/astra-theme-wordpress/) sera parfait.
+* Vous devez pouvoir accéder à votre hébergement via FTP (ou via un gestionnaire de fichiers).
+* Même si ce n'est pas indispensable, un éditeur de code vous apportera plus de confort pour éditer et adapter les bouts de code proposés.
+* **Pensez à faire une sauvegarde** avant toute modification !
+
+
+
+## Étape 1 : Ajouter un manifeste
+
+
+
+Le fichier `manifest.json` est un fichier de configuration essentiel pour transformer votre site en **Progressive Web App (PWA)**. Il définit des métadonnées comme le nom du site, l'icône, les couleurs et le comportement lors de l'installation.
+
+
+
+Ce fichier permet à votre site de s'afficher comme une application native sur les appareils mobiles, avec la possibilité de l'ajouter à l'écran d'accueil et d'offrir une expérience hors ligne. En résumé, il améliore l'intégration et l'expérience utilisateur de votre site web sur mobile.
+
+
+
+Créez le fichier **`manifest.json`** à la racine de votre site et insérez-y le code suivant :
+
+<Code code={`{
+"name": "Nom de votre site",
+"short\_name": "NomCourt",
+"start\_url": "/",
+"display": "standalone",
+"background\_color": "#ffffff",
+"theme\_color": "#1976d2",
+"orientation": "portrait-primary",
+"icons": [
+{
+"src": "/wp-content/uploads/[chemin vers votre fichier favicon + nom de fichier]",
+"sizes": "192x192",
+"type": "image/png" // ou jpeg, ou gif…
+},
+{
+"src": "/wp-content/uploads/[chemin vers votre fichier favicon + nom de fichier]",
+"sizes": "512x512",
+"type": "image/png" // ou jpeg, ou gif…
+}
+]
+}
+`} lang="json" />
+
+## Étape 2 : Créer un Service Worker
+
+
+
+Le fichier `sw.js` (Service Worker) est un script JavaScript qui s'exécute en arrière-plan de votre site web, permettant de gérer des fonctionnalités comme le **cache**, la gestion des **notifications push**, et le **fonctionnement hors ligne**.
+
+
+
+Il intercepte les requêtes réseau, ce qui permet de **mettre en cache des ressources** (comme des pages et des images) et de les servir même sans connexion Internet. En résumé, il permet d'améliorer la performance, la fiabilité et l'expérience utilisateur de votre site, notamment pour les PWA.
+
+
+
+À la racine de votre site, créez un fichier `sw.js` :
+
+<Code code={`const CACHE\_NAME = 'static-cache-v1';
+const urlsToCache = [
+'/',
+'/offline.html',
+'/wp-content/themes/[votre-theme]/style.css',
+'/wp-content/themes/[votre-theme]/js/main.js'
+];
+// Installation
+self.addEventListener('install', (event) => {
+event.waitUntil(
+caches.open(CACHE\_NAME)
+.then((cache) => cache.addAll(urlsToCache))
+);
+});
+// Activation
+self.addEventListener('activate', (event) => {
+event.waitUntil(
+caches.keys().then((cacheNames) =>
+Promise.all(
+cacheNames.filter((cacheName) => cacheName !== CACHE\_NAME)
+.map((cacheName) => caches.delete(cacheName))
+)
+)
+);
+});
+// Fetch
+self.addEventListener('fetch', (event) => {
+event.respondWith(
+fetch(event.request)
+.catch(() => caches.match(event.request) || caches.match('/offline.html'))
+);
+});
+`} lang="js" />
+
+## Étape 3 : Enregistrer le manifeste JSON et le Service Worker
+
+
+
+Ajoutez un bout de code via Code Snippets :
+
+<Code code={`add\_action('wp\_head', function() {
+echo '<link rel="manifest" href="/manifest.json">';
+echo '<meta name="theme-color" content="#0d6efd">';
+});
+add\_action('wp\_footer', function() {
+?>
+<script>
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('/sw.js')
+.then(function() { console.log('Service Worker enregistré !'); });
+}
+self.addEventListener('activate', function(event) {
+event.waitUntil(
+caches.keys().then(cacheNames => {
+return Promise.all(
+cacheNames.filter(name => name !== CACHE\_NAME)
+.map(name => caches.delete(name))
+);
+}).then(() => self.clients.claim())
+);
+});
+</script>lt;/script</script>gt;
+<?php
+});
+`} lang="php" />
+
+## Étape 4 : Prévoir une page offline
+
+
+
+Si votre hébergement est momentanément indisponible, une page statique sera servie aux visiteurs. Pour cela, créez un fichier `offline.html` :
+
+<Code code={`<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hors connexion</title>lt;/title</title>gt;
+<style>
+body {
+background: #fafafa;
+color: #333;
+font-family: Arial, sans-serif;
+text-align: center;
+padding: 50px;
+}
+h1 {
+font-size: 2em;
+color: #1976d2;
+}
+p {
+font-size: 1.2em;
+}
+.logo {
+width: 100px;
+margin: 20px auto;
+}
+</style>lt;/style</style>gt;
+</head>lt;/head</head>gt;
+<body>
+<img src="/icons/icon-192x192.png" alt="Logo" class="logo">
+<h1>Vous êtes hors connexion</h1>lt;/h1</h1>gt;
+<p>Pas d'inquiétude ! Dès que vous retrouverez Internet, tout redeviendra normal.</p>lt;/p</p>gt;
+</body>lt;/body</body>gt;
+</html>lt;/html</html>gt;
+`} lang="html" />
+
+## Étape 5 : Mettre en cache vos pages WordPress avec "Serve Static"
+
+
+
+Pour que votre Service Worker fonctionne efficacement, vous devez servir des pages statiques.  
+➡️ Le plugin **"Serve Static – Automatic WordPress Static Page Generator"** est parfait pour cela !
+
+
+
+
+**Serve Static** permet de mettre en cache la totalité des pages de votre site. Les fichiers générés sont au format HTML et ne nécessitent pas d'appel en base de données. D'où une plus grande réactivité et des temps de chargement largement inférieurs.
+
+
+
+### Fonctionnement de Serve Static
+
+
+
+* À chaque publication ou mise à jour d'une page/article, une **version HTML statique** est générée.
+* Les visiteurs accèdent directement aux fichiers statiques (sans exécuter PHP ou MySQL).
+* Compatible avec votre Service Worker pour une navigation rapide et fiable.
+
+
+
+### Configuration de Serve Static
+
+
+
+Après avoir [installé et activé](/blog/guide-extension-wordpress/) l'extension, rendez-vous à **Server Static > Settings** dans le menu latéral gauche de l'administration.
+
+
+<OptImg src="/image/serve-static-settings-1024x904" alt="Settings Server Static" caption="Settings Server Static" align="center" />
+
+
+**Configuration recommandée :**
+
+
+
+* Activez la génération automatique.
+* Excluez les pages dynamiques si besoin (admin, formulaires, etc.).
+
+
+
+Une fois la configuration terminée, rendez-vous à **Server Static > Cache generator** dans le menu latéral gauche de l'administration et cliquez sur le bouton "**Create Cache Files**", les fichiers statiques seront générés.
+
+
+<OptImg src="/image/serve-static-generate" alt="Génération des fichiers statiques" caption="Génération des fichiers statiques" align="center" />
+
+
+## Étape 6 : Tester votre PWA
+
+
+
+Utilisez **Chrome DevTools > Lighthouse** pour vérifier les performances, l'accessibilité, si l'option PWA installable est détectée.
+
+
+
+Testez également l’ajout du site à l'écran d'accueil sur un mobile Android ou iOS.
+
+
+
+## Mon expérience avec mon blog
+
+
+
+Après avoir transformé mon propre blog WordPress en PWA en suivant cette méthode, j'ai constaté des améliorations sensibles :
+
+
+<OptImg src="/image/lighthouse" alt="Performances lighthouse en PWA" caption="Performances lighthouse en PWA" align="center" />
+
+
+* le score **Pagespeed Insights mobile** est passé de **59** à **88** sans autre optimisation ! ????
+* le score **Pagespeed Insights desktop** a atteint **99**.
+* le **temps de chargement** perçu par les utilisateurs a été divisé par **deux**.
+
+
+
+**Bref :** Les gains en performance et en expérience utilisateur sont réels, avec très peu de travail par rapport aux bénéfices obtenus.
+
+
+
+## Limites et précautions
+
+
+
+* Cette méthode est idéale pour un **blog** ou un **site vitrine**.
+* Pour un site avec forte interaction utilisateur (comme une boutique WooCommerce), un Service Worker spécifique sera nécessaire.
+* Pensez à tester votre navigation offline sur plusieurs pages !
+* Serve Static peut bugger : j'ai remarqué qu'à chaque fois que j'enregistre ne serait-ce qu'un brouillon, l'ensemble des fichiers de cache s'effacent.
+
+
+
+## Checklist rapide
+
+
+
+Avant de vous lancer, imprimez cette checklist et cochez chaque action effectuée.
+
+
+
+
+| Étape | Action à réaliser | Statut |
+| --- | --- | --- |
+| HTTPS activé | Assurez-vous que votre site utilise un certificat SSL. | ???? |
+| Thème responsive | Votre thème WordPress doit être mobile-friendly. | ???? |
+| Créer `manifest.json` | Ajouter les métadonnées de votre site pour l'installation. | ???? |
+| Ajouter `<link rel="manifest">` dans `<head>` | Lier votre manifest au site via `header.php`. | ???? |
+| Créer `sw.js` (Service Worker) | Gérer le cache des pages et des ressources. | ???? |
+| Enregistrer le Service Worker | Ajouter le script d’enregistrement dans `footer.php`. | ???? |
+| Créer `offline.html` | Prévoir une page simple pour les visiteurs hors-ligne. | ???? |
+| Installer "Serve Static" | Générer des pages HTML statiques automatiquement. | ???? |
+| Tester avec Chrome Lighthouse | Vérifier la conformité et la performance de votre PWA. | ???? |
+| Ajouter à l'écran d'accueil | Tester l’ajout de votre site sur un mobile Android/iOS. | ???? |
+
+
+
+
+## Conclusion (motivante)
+
+
+
+En quelques étapes simples et légères, votre blog ou site vitrine WordPress devient aussi rapide qu'une application mobile.  
+Vous offrez à vos visiteurs une expérience plus fluide, plus fiable, et vous boostez votre référencement naturel.  
+**N'attendez plus : transformez votre WordPress en PWA dès aujourd'hui et passez dans une nouvelle dimension du web !**

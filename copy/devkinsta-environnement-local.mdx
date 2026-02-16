@@ -1,0 +1,234 @@
+---
+
+title: DevKinsta - un environnement de développement local pour WordPress
+lastmod: '2021-01-25T09:51:13+00:00'
+slug: devkinsta-environnement-local
+draft: false
+categories:
+  - Outils
+tags:
+  - développement
+  - environnement
+  - local
+description: DevKinsta - un environnement de développement performant et gratuit pour créer rapidement et facilement un site WordPress sur votre poste de travail
+image: /image/devkinsta-environnement.avif
+pubDate: '2021-01-25'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Créer un site WordPress demande du temps et quelques outils. Le premier, c'est un environnement de développement. [Dans un article récent](/blog/blogging/outils-creation-site-wordpress/), je vous présentais *DevKinsta*, un environnement de développement local dédié à WordPress, développé et offert à la communauté des développeurs et créateurs de sites WordPress par Kinsta.
+
+
+
+<OptImg src="/image/site-devkinsta-1024x522" alt="DevKinsta - développement WordPress en local" caption="DevKinsta - développement WordPress en local" align="center" />
+
+
+
+Dans cet article, nous allons découvrir cet outil et le comparer à un outil similaire dont je vous ai déjà parlé : [Local by FlyWheel](/blog/blogging/local-by-flywheel/).
+
+
+
+En premier lieu, découvrons l'outil lui-même.
+
+
+
+## DevKinsta - c'est quoi au juste ?
+
+
+
+### La finalité de DevKinsta
+
+
+
+Pour reprendre le discours officiel de Kinsta…
+
+
+> DevKinsta est une suite gratuite d’outils de développement local permettant de construire, tester et déployer des sites WordPress en quelques minutes.
+>
+> https://kinsta.com/fr/devkinsta/
+
+
+
+Comment ? En offrant un environnement de développement dédié à WordPress : serveur (NGINX), PHP, MySQL, routines de création de site, email local…
+
+
+
+### Les fonctionnalités de DevKinsta
+
+
+
+Que peut-on attendre de cette suite d'outils ? Certainement pas qu'elle nous fasse le café ;) Plus sérieusement, DevKinsta permet de créer des sites WordPress sur votre poste informatique local en s'affranchissant de la configuration nécessaire : serveur web, serveur de base de données, serveur de courriels…
+
+
+
+DevKinsta permet de :
+
+
+
+* Créer des sites WordPress locaux en un seul clic (et le remplissage de 3 champs maxi)
+* Gérer les bases de données grâce à Adminer
+* Tester la messagerie via un serveur SMTP local
+* Travailler en local avec HTTPS
+* Enregistrer les erreurs PHP via WP\_DEBUG (les fichiers de logs sont au format texte et demandent quand même un minimum de compétences pour être exploités)
+* Déployer directement depuis l'outil si votre site est hébergé par Kinsta
+
+
+
+L'environnement de travail est très classique : *NGINX* (le serveur sur lequel tourne wordpress.org, wordpress.com et bon nombre de sites à fort trafic), *MariaDB* (une alternative open-source à MySQL) et *PHP en versions 7.2, 7.3, 7.4 ou 8.0*, au choix. Plus *un serveur SMTP* (on ne nous dit pas lequel) et *Adminer* (pour la gestion des bases de données)
+
+
+
+Maintenant que nous avons fait le tour du propriétaire, nous allons passer à la pratique avec…
+
+
+
+## L'installation de DevKinsta
+
+
+
+Le logiciel est disponible en téléchargement pour Windows et MacOS [sur une page dédiée](https://kinsta.com/devkinsta/?kaid=XFVWBAJFNUWT). Après installation, DevKinsta n'est pas immédiatement prêt à l'usage. Il va télécharger [Docker](https://fr.wikipedia.org/wiki/Docker_(logiciel)) et un conteneur pour créer un environnement de travail dédié.
+
+
+
+J'ai rencontré un petit problème lors de l'installation : il faut a priori, au moins sous Windows 10 Pro, [activer la virtualisation au niveau du BIOS](https://www.google.com/search?q=activer+la+virtualisation+au+niveau+du+BIOS) pour pouvoir lancer les conteneurs Docker. Si vous ne savez pas comment faire, cliquez sur le lien et Google vous offrira une certaine assistance. Si vous ne trouvez pas l'information concernant votre carte mère, cherchez [en utilisant l'anglais](https://www.google.com/search?q=enable+virtualization+at+BIOS+level) et en rajoutant éventuellement le modèle de votre carte mère.
+
+
+
+Le programme installé, passons à…
+
+
+
+## L'utilisation de DevKinsta
+
+
+
+Le premier écran, quand aucun site n'est encore créé, propose…
+
+
+
+### La création d'un nouveau site
+
+
+
+<OptImg src="/image/devkinsta-nouveau-site-1024x511" alt="Créer un nouveau site avec DevKinsta" caption="Créer un nouveau site avec DevKinsta" align="center" />
+
+
+
+Nous n'importerons pas depuis Kinsta, ce qui nécessiterait un hébergement chez cet hébergeur haut de gamme. Nous nous intéresserons aux deux autres options proposées.
+
+
+
+La première, sobrement intitulée *Nouveau site WordPress*, permet la création en quelques secondes à peine… d'un site WordPress, en utilisant les paramètres standard - à l'heure actuelle NGINX, PHP 7.4 et MariaDB.
+
+
+
+<OptImg src="/image/nouveau-site-express-1024x558" alt="DevKinsta - Nouveau site standard" caption="DevKinsta - Nouveau site standard" align="center" />
+
+
+
+Notez bien le mot de passe, c'est la seule fois ou vous pourrez l'afficher en clair. Sinon, vous aurez toujours la possibilité de le modifier via la procédure classique incluse dans WordPress.
+
+
+
+La troisième option, la seconde qui nous intéresse dans cet article, permet de personnaliser dès la création certains éléments de votre nouveau site.
+
+
+
+<OptImg src="/image/site-personnalise" alt="DevKinsta - nouveau site personnalisé" caption="DevKinsta - nouveau site personnalisé" align="center" />
+
+
+
+Les personnalisations portent sur la version de PHP, l'activation de HTTPS, la capacité à créer un site multisite, le nom de la base de données, le titre du site et l'email de l'admin. Intéressant. À noter toutefois que ces personnalisations - à l'exception du multisite - sont également accessibles depuis la console d'administration du logiciel, une fois que vous avez créé un site avec la procédure standard.
+
+
+
+Une fois ce premier site créé, l'écran d'accueil change :
+
+
+
+<OptImg src="/image/devkinsta-accueil-1024x511" alt="DevKinsta - écran de gestion des sites" caption="DevKinsta - écran de gestion des sites" align="center" />
+
+
+
+Depuis cet écran, vous avez un accès rapide à l'outil de gestion de la base de données, au site, au dossier sous Windows, à l'administration du site, et vous pouvez supprimer le site, ou en créer un nouveau (vous atterrirez sur l'écran de création de site avec les trois options vue précédemment).
+
+
+
+Nous allons pouvoir nous occuper de…
+
+
+
+### La gestion d'un site avec DevKinsta
+
+
+
+Soyons clair : l'administration du site reste le pré carré de WordPress. Ce que vous pourrez administrer dans DevKinsta, c'est l'hébergement et les options liées.
+
+
+
+<OptImg src="/image/infos-1024x946" alt="DevKinsta - détails pour un site" caption="DevKinsta - détails pour un site" align="center" />
+
+
+
+Vous pourrez activer / désactiver HTTPS et `WP_DEBUG`, changer la version de PHP, et récupérer la plupart des infos via le presse papiers.
+
+
+
+Vous pourrez également accéder au site en ligne, à l'administration du site, et à l'outil de gestion des bases de données, *adminer*, une alternative à phpMyAdmin, certes moins aboutie graphiquement mais bien plus légère et tout aussi puissante.
+
+
+
+<OptImg src="/image/adminer-1024x492" alt="Adminer - Gestion des bases de données" caption="Adminer - Gestion des bases de données" align="center" />
+
+
+
+Pour ceux dont le site en ligne est hébergé par Kinsta, il est également possible de pousser le site en staging directement depuis la console d'infos. Un petit plus offert aux clients. Pour les autres, l'extension [Migrate Guru](https://wordpress.org/plugins/migrate-guru/) permet une mise en ligne rapide et indolore.
+
+
+
+Voila pour l'essentiel. Un environnement de travail intéressant, agréable et performant.
+
+
+
+Pour ma part, j'utilise Local by FlyWheel. Quelles sont les différences entre ces deux outils ?
+
+
+
+## DevKinsta vs Local by FlyWheel
+
+
+
+**Local est plus riche en options**, quand DevKinsta est plus intuitif - sauf lors de l'installation qui peut éventuellement poser problème.
+
+
+
+À mon avis, ces deux environnements se valent mais ne s'adressent pas forcément à la même cible :
+
+
+
+* Les deux intègrent une solution de messagerie - intégrée et intuitive pour DevKinsta, un peu plus rustique via mailhog pour Local
+* Les deux permettent l'importation et l'exportation de sites depuis / vers une sélection d'hébergeurs
+* Les deux proposent la création d'un site WordPress multisite, l'activation du HTTPS et des outils de débogage.
+* Quand DevKinsta ne permet que le choix de la version de PHP, Local propose deux serveurs (Apache ou NGINX), différentes versions de PHP et côté bases de données, MariaDB 10, MySQL en version 5.7 ou en version 8.0. De quoi vous adapter à l'environnement de travail du site en ligne.
+* Mais seul Local propose **la visualisation via internet d'un site hébergé en local** sur votre poste de travail, via *ngrock.io* et ça, c'est quand même un plus non négligeable pour le travail en équipe et pour les points éventuels avec le.la.les commanditaire.s du site.
+
+
+
+Sous Windows ou MacOS, vous avez le choix. **Sous Linux, ce sera Local**. Enfin, pour l'instant… il ne faut pas oublier que DevKinsta est un challenger tout récent, quand Local affiche déjà quelques années au compteur.
+
+
+
+De même, si vous êtes hébergé chez Kinsta, le choix de DevKinsta sera plus logique. Local, créé par FlyWheel, sera un choix de raison pour les clients FlyWheel et WP Engine.
+
+
+
+Et pour les autres, ce sera en fonction de leurs besoins, de leur feeling ou des outils utilisés dans l'entreprise ou par leurs collaborateurs.
+
+
+
+Et vous, avez-vous déjà testé DevKinsta ou un autre environnement de développement ? Si vous souhaitez partager votre expérience, direction les commentaires… c'est à vous !

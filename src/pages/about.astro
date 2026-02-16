@@ -1,0 +1,172 @@
+---
+// src/pages/about.astro
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import MainCard from "@/components/MainCard.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<BaseLayout
+  title="À propos"
+  description="Benchwise Underflow : un espace où la technique se pense avant de se déployer. 30 ans d'expérience entre code, systèmes et pédagogie."
+>
+  <MainCard
+    title="À propos"
+    description="Un espace où la technique se pense avant de se déployer"
+    infoIcon="lucide:info"
+  >
+    <div class="prose prose-lg max-w-none">
+      <!-- Hero Section -->
+      <div class="text-center mb-12 not-prose">
+        <h1 class="text-5xl font-bold mb-4">Benchwise Underflow</h1>
+        <p class="text-2xl text-primary font-semibold mb-6">
+          Dive into Performance — Beyond the Overflow.
+        </p>
+      </div>
+
+      <!-- Intro -->
+      <div class="mb-12">
+        <div class="flex items-start gap-4 mb-6">
+          <div class="flex-shrink-0">
+            <Icon name="lucide:compass" class="w-8 h-8 text-primary" />
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold mb-4 mt-0">Intro</h2>
+            <p class="text-lg leading-relaxed">Bienvenue dans <strong>Benchwise Underflow</strong>, un lieu où la technique se conçoit avant de s’exécuter. 
+              Ici, on explore ce qui se cache sous la surface : les flux, la structure, la logique qui font tenir les systèmes.</p>
+            <p class="text-lg leading-relaxed">Ni mode ni manifeste : un atelier de terrain, fait d'essais, d'outils et de réflexions sur la durabilité des architectures modernes.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sections principales -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-8 flex items-center gap-3">
+          <Icon name="lucide:layers" class="w-7 h-7 text-primary" />
+          <span>Trois manières d’explorer</span>
+        </h2>
+
+        <div class="space-y-6 not-prose">
+          <!-- Notes d'atelier -->
+          <div class="card bg-base-100 shadow-lg border border-base-300">
+            <div class="card-body">
+              <div class="flex items-start gap-4">
+                <Icon name="lucide:pen-line" class="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <div>
+                  <h3 class="text-xl font-bold mb-3">Notes d'atelier</h3>
+                  <p class="text-base-content/80 leading-relaxed">
+                    Observations rapides, retours d'expérience, corrections invisibles. La trace du travail au banc : 
+                    là où les idées prennent forme avant d'être polies.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Explorations et trajectoires -->
+          <div class="card bg-base-100 shadow-lg border border-base-300">
+            <div class="card-body">
+              <div class="flex items-start gap-4">
+                <Icon name="lucide:map" class="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <div>
+                  <h3 class="text-xl font-bold mb-3">Explorations et trajectoires</h3>
+                  <p class="text-base-content/80 leading-relaxed mb-4">Mes textes relient conception et exécution, principes et pratiques.</p>
+                  <p class="text-base-content/80 leading-relaxed mb-4">J’écris comme je conçois : en cherchant la structure, la cohérence, l'approche pertinente, et chaque projet devient une exploration - de la logique, de la méthode, de la durée.</p>
+                  <p class="text-base-content/80 leading-relaxed mb-4">Ce n’est pas une production de plus, mais une manière de comprendre comment les systèmes tiennent, évoluent et parfois échouent.</p>
+                  <p class="text-base-content/80 leading-relaxed mb-4">L’écriture prolonge le travail d’atelier : elle met en forme le flux, trace les liens, garde mémoire des ajustements.</p>
+                  <p class="text-base-content/80 leading-relaxed mb-4">Penser, construire, corriger, transmettre - un même mouvement, plusieurs profondeurs.</p>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Projets -->
+          <div class="card bg-base-100 shadow-lg border border-base-300">
+            <div class="card-body">
+              <div class="flex items-start gap-4">
+                <Icon name="lucide:code-2" class="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <div>
+                  <h3 class="text-xl font-bold mb-3">Projets</h3>
+                  <p class="text-base-content/80 leading-relaxed">
+                    Proofs of Concept, scripts, pipelines, intégrations. Des outils simples, testés, conçus pour durer.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- From Underflow to Overflow -->
+      <div class="mb-12">
+        <div class="card bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/20 shadow-xl">
+          <div class="card-body">
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
+              <Icon name="lucide:waves" class="w-7 h-7 text-primary" />
+              <span>From Underflow to Overflow</span>
+            </h2>
+            <div class="space-y-4 text-base-content/90">
+              <p class="leading-relaxed">
+                Tout commence dans le flux caché : comprendre la mécanique, la stabiliser, la rendre intelligible. 
+                Puis vient le moment de remonter - de partager, documenter, transmettre.
+              </p>
+              <p class="leading-relaxed">
+                <strong>Underflow</strong>, c'est la couche interne : la pensée, la structure, la performance. 
+                <strong>Overflow</strong>, c'est la diffusion : la publication, la mise en pratique, l'ouverture vers les autres.
+              </p>
+              <p class="leading-relaxed font-semibold text-primary">
+                Entre les deux : un espace d'équilibre, celui où la compréhension devient création.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L'auteur -->
+      <div class="mb-12">
+        <div class="flex items-start gap-4 mb-6">
+          <div class="flex-shrink-0">
+            <Icon name="lucide:user" class="w-8 h-8 text-primary" />
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold mb-4 mt-0">L'auteur</h2>
+            <p class="text-lg leading-relaxed mb-4">
+              Depuis plus de trente ans, Pascal Cescato conçoit, forme et accompagne autour du code, des systèmes et de la transmission du savoir.
+              Son parcours traverse des environnements variés - de la formation à l’ingénierie, du terrain au design d’outils.</p>
+
+              <p class="text-lg leading-relaxed mb-4">Son fil conducteur : transformer la complexité en structure claire. Faire de la pratique une compréhension durable.</p>
+
+              <p class="text-lg leading-relaxed mb-4"><em>Benchwise Underflow</em> est la continuité naturelle de ce parcours - un espace pour relier la technique et la pensée.</p>
+
+              <p class="text-lg leading-relaxed mb-4">Son leitmotiv : penser avant d’écrire, structurer avant d’automatiser, documenter avant d’oublier.
+            </p>
+            <div class="card bg-base-100 border-l-4 border-primary shadow-md not-prose">
+              <div class="card-body py-4">
+                <p class="text-lg font-semibold text-primary mb-0">
+                  Clear systems. Honest tools. Real results.<br />
+                  — une phrase, trois principes.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="text-center mt-16 not-prose">
+        <div class="divider"></div>
+        <h3 class="text-xl font-semibold mb-6">Prêt à explorer ?</h3>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href="/blog" class="btn btn-primary gap-2">
+            <Icon name="lucide:book-open" class="w-5 h-5" />
+            <span>Lire le blog</span>
+          </a>
+          <a href="/contact" class="btn btn-outline gap-2">
+            <Icon name="lucide:mail" class="w-5 h-5" />
+            <span>Me contacter</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </MainCard>
+</BaseLayout>

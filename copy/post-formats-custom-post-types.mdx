@@ -1,0 +1,351 @@
+---
+
+title: Les formats d'article et les Custom Post Types
+lastmod: '2020-01-06T11:27:30+00:00'
+slug: post-formats-custom-post-types
+draft: false
+categories:
+  - Code
+tags:
+  - administration
+  - menu WordPress
+  - personnalisation
+  - WordPress
+description: "WordPress propose des formats d'article, et des types d'articles personnalisés. De quoi s'agit-il, et comment les utiliser ?"
+image: /image/custom-post-types.avif
+pubDate: '2020-01-06'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+J'ai récemment publié un article concernant [les différences entre page et article](/blogging/conseils/article-page-wordpress/). J'y évoquais les *types d'articles personnalisés* (*Custom Post Types)* et les *formats d'article* (*Post formats*).
+
+
+
+De quoi s'agit-il, et comment utiliser les uns et les autres à bon escient ? C'est ce que nous allons voir.
+
+
+
+## Les formats d'article
+
+
+
+Les formats d'article ne sont pas un type de publication particulière, mais **un type de contenu spécifique, normalisé**, gérés nativement par WordPress.
+
+
+
+Il existe neuf formats différents (en plus du format standard), chacun destiné à publier un type de contenu particulier :
+
+
+
+* **aside** : généralement traduit par *en passant*, il s'agit d'un aparté, habituellement sans titre.
+* **gallery** : pour présenter une galerie, tout simplement.
+* **link** : un lien vers un autre site
+* **image** : une image simple (par opposition à la galerie)
+* **quote** : une citation
+* **status** : l'équivalent d'un tweet, un message court et (si possible) percutant
+* **video** : une vidéo, sur une plateforme telle que Vimeo ou Youtube, ou auto-hébergée
+* **audio** : un document audio, auto-hébergé ou non
+* **chat** : la retranscription d'une discussion
+
+
+
+Certains thèmes créent un modèle par format d'article, d'autres ne proposent que le format standard, ou uniquement certains formats utiles en fonction de l'orientation du thème. Un thème orienté musique par exemple aura tout intérêt à implémenter des modèles a minima pour l'audio, et éventuellement pour la vidéo.
+
+
+
+<OptImg src="/image/formats-articles" alt="formats d'articles" caption="formats d'articles" align="left" />
+
+
+
+Pour implémenter les formats d'articles dans un thème enfant, il suffit de les déclarer ; ouvrez le fichier `functions.php` et cherchez `add_theme_support`. Si vous ne la trouvez pas, ajoutez la ligne suivante (en ne gardant que les formats dont vous avez besoin :
+
+<Code code={`add\_theme\_support( 'post-formats', array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' ) );
+`} lang="php" />
+
+Si vous n'utilisez pas de thème enfant, passez par [Code Snippets](/blog/blogging/code/centralisez-code-snippets/) mais **ne surchargez pas le fichier `functions.php`**, les modifications seraient perdues *à la première mise à jour du thème*.
+
+
+
+Chaque format implémenté peut disposer de son propre modèle dans le thème, nommé d'après le nom du format. Mais s'il n'existe pas de modèle spécifique à un format, c'est le modèle par défaut qui sera utilisé.
+
+
+
+Vous trouverez les formats disponibles pour le thème activé dans l'onglet Document de Gutenberg.
+
+
+
+Par contre, **vous ne pouvez pas créer votre propre format** d'article. Il vous faudra utiliser un de ceux proposés par WordPress, ou passer par…
+
+
+
+## Les Custom Post Types
+
+
+
+WordPress permet en effet de créer **des types de contenu personnalisés**, et de nombreuses extensions mettent à profit cette fonctionnalité : les produits, les événements, les portfolios sont en fait des *Custom Post Types*.
+
+
+
+À l'instar des articles, ils peuvent être classés par catégories, être étiquetés, et inclus dans les flux RSS. Vous pouvez leur assigner une image mise en avant, un résumé… bref **ils ont exactement les mêmes propriétés que les articles**.
+
+
+
+Créer ses propres types d'articles présente plusieurs avantages :
+
+
+
+* on ne mêle pas des types de contenus qui n'ont rien en commun
+* il est possible de personnaliser l'affichage en fonction du type de contenu
+* les types d'articles personnalisés peuvent être listés, exactement comme les articles, dans des pages d'archives dédiées
+* ils peuvent être inclus ou exclus de fonctions de recherche globale sur le site
+
+
+
+## Créer vos Custom Post Types
+
+
+
+Il est possible de créer ses propres Custom Post Types directement, en PHP. Je vous recommande de les inclure via un bout de code, via [Code Snippets](/blogging/centralisez-code-snippets/).
+
+
+
+Je me suis récemment servi des *Custom Post Types*, lors de la refonte du site du restaurant [Les Marronniers](https://les-marronniers.restaurant), pour la création de la carte. Chaque plat est un *Custom Post Type*, regroupés au sein de taxonomies par catégories de plats (entrées, viandes, desserts, boissons…). Nous allons nous prendre ce *Custom Post Type* comme exemple.
+
+
+
+Voici le code :
+
+<Code code={`function my\_cpts\_plat() {
+\$labels = [
+"name" => \_\_( "plats", "twentytwenty" ),
+"singular\_name" => \_\_( "Plat", "twentytwenty" ),
+];
+\$args = [
+"label" => \_\_( "plats", "twentytwenty" ),
+"labels" => \$labels,
+"description" => "",
+"public" => true,
+"publicly\_queryable" => true,
+"show\_ui" => true,
+"delete\_with\_user" => false,
+"show\_in\_rest" => true,
+"rest\_base" => "",
+"rest\_controller\_class" => "WP\_REST\_Posts\_Controller",
+"has\_archive" => false,
+"show\_in\_menu" => true,
+"show\_in\_nav\_menus" => true,
+"delete\_with\_user" => false,
+"exclude\_from\_search" => false,
+"capability\_type" => "post",
+"map\_meta\_cap" => true,
+"hierarchical" => false,
+"rewrite" => [ "slug" => "plat", "with\_front" => true ],
+"query\_var" => true,
+"supports" => [ "title", "editor", "thumbnail" ],
+];
+register\_post\_type( "plat", \$args );
+}
+add\_action( 'init', 'my\_cpts\_plat' );
+`} lang="php" />
+
+Voila pour un Custom Post Type basique, éditable via Gutenberg, avec un titre et une image pise en avant. Mais nous n'allons pas nous attarder sur le code en lui-même, parce qu’il existe une extension qui va faire tout le travail à notre place !
+
+
+
+Cette extension, c'est *Custom Post Type UI*, que nous appellerons **CPTUI**. Son point fort ? L'extension génère le code PHP nécessaire à la déclaration du *Custom Post Type*. Vous pouvez donc l'utiliser, récupérer le code et la désactiver.
+
+
+
+
+Utiliser cette extension est quasi intuitif, son interface est vraiment simple à appréhender. Lors de l'activation, vous arrivez sur la page *À propos de CPT UI* :
+
+
+
+<OptImg src="/image/a-propos-cptui" alt="À propos - CPT UI" caption="À propos - CPT UI" align="center" />
+
+
+
+Vous noterez le menu CPT UI dans le menu latéral gauche de l'administration WordPress.
+
+
+
+Pour créer un Custom Post Type ou en modifier un, direction *Ajouter/modifier des types de contenu*. Le premier encart est destiné à la configuration par défaut. Vous pouvez vous contenter de renseigner les champs de cet encart pour avoir un Custom Post Type pleinement fonctionnel.
+
+
+
+<OptImg src="/image/cptui-ajout-custom-post-type-base" alt="Ajout de Custom Post Types via CPTUI" caption="Ajout d'un Custom Post Type" align="center" />
+
+
+
+Ou, vous pouvez affiner les réglages via les encarts suivants, *Libellés supplémentaires* et *Réglages*. Le premier permet de gérer les messages de l'administration liés au type de contenu (pour la création, la modification, la suppression… d'un article de type personnalisé). Le second permet de gérer les options disponibles pour le type d'article. Inutile de changer les réglages par défaut, à l'exception de l'icône du menu.
+
+
+
+<OptImg src="/image/cptui-options-type-publication" alt="Options du Custom Post Type dans l'encart Réglages" caption="Options du Custom Post Type dans l'encart Réglages" align="center" />
+
+
+
+Dans ce deuxième encart, *Formats de publication*, l'avant-dernière entrée du bloc *Options du type de contenu*, permet d'utiliser les formats d'articles que nous avons découvert dans la première partie de l'article pour le Custom Post Type en cours de création.
+
+
+
+Le tout dernier encart, *Options de taxonomie*, propose de lier le nouveau type d'article personnalisé aux catégories et étiquettes par défaut de WordPress. **Je vous déconseille vivement** de cocher les cases correspondantes avant d'avoir créé une taxonomie dédiée, au risque de mettre un joyeux bazar sur votre site. Nous verrons dans un deuxième temps comment créer nos propres taxonomies personnalisées.
+
+
+
+<OptImg src="/image/menu-custom-post-type" alt="menu d'un type d'article personnalisé" caption="undefined" align="left" />
+
+
+
+Voici ci-contre comment votre Custom Post Type apparaîtra une fois quand vous aurez cliqué sur *Ajouter un type de publication*. J'ai utilisé la classe `dashicons-carrot` pour le menu (la police *dashicons* est déjà utilisée par l'administration WordPress pour toutes les icônes de menu), mais rien ne vous empêche d'utiliser une image différente (de préférence au format PNG avec un fond transparent, et obligatoirement en 20x20px).
+
+
+
+Voila ce que donne le *Custom Post Type* **Plats** une fois configuré via *CPTUI* :
+
+<Code code={`function cptui\_register\_my\_cpts\_plat() {
+/\*\*
+\* Post Type: plats.
+\*/
+\$labels = [
+"name" => \_\_( "plats", "twentytwenty" ),
+"singular\_name" => \_\_( "Plat", "twentytwenty" ),
+"menu\_name" => \_\_( "La carte", "twentytwenty" ),
+"all\_items" => \_\_( "Tous les plats", "twentytwenty" ),
+"add\_new" => \_\_( "Ajouter un nouveau", "twentytwenty" ),
+"add\_new\_item" => \_\_( "Ajouter un nouveau plat", "twentytwenty" ),
+"edit\_item" => \_\_( "Modifier le plat", "twentytwenty" ),
+"new\_item" => \_\_( "Nouveau plat", "twentytwenty" ),
+"view\_item" => \_\_( "Voir le plat", "twentytwenty" ),
+"view\_items" => \_\_( "Voir les plats", "twentytwenty" ),
+"search\_items" => \_\_( "Rechercher des plats", "twentytwenty" ),
+"not\_found" => \_\_( "Aucun plat trouvé", "twentytwenty" ),
+"not\_found\_in\_trash" => \_\_( "Aucun plat trouvé dans la corbeille", "twentytwenty" ),
+"parent" => \_\_( "Plat parent", "twentytwenty" ),
+"featured\_image" => \_\_( "Image mise en avant pour ce plat", "twentytwenty" ),
+"set\_featured\_image" => \_\_( "Définir l'image mise en avant pour ce plat", "twentytwenty" ),
+"remove\_featured\_image" => \_\_( "Retirer l'image mise en avant pour ce plat", "twentytwenty" ),
+"use\_featured\_image" => \_\_( "Utiliser l'image mise en avant pour ce plat", "twentytwenty" ),
+"archives" => \_\_( "Archives de plats", "twentytwenty" ),
+"insert\_into\_item" => \_\_( "Insérer dans le plat", "twentytwenty" ),
+"uploaded\_to\_this\_item" => \_\_( "Téléversé sur ce plat", "twentytwenty" ),
+"filter\_items\_list" => \_\_( "Filtrer la liste des plats", "twentytwenty" ),
+"items\_list\_navigation" => \_\_( "Navigation de liste de plats", "twentytwenty" ),
+"items\_list" => \_\_( "Liste des plats", "twentytwenty" ),
+"attributes" => \_\_( "Attributs des plats", "twentytwenty" ),
+"name\_admin\_bar" => \_\_( "Plat", "twentytwenty" ),
+"item\_published" => \_\_( "Plat publié", "twentytwenty" ),
+"item\_published\_privately" => \_\_( "Plat publié en privé", "twentytwenty" ),
+"item\_reverted\_to\_draft" => \_\_( "Plat repassé en brouillon", "twentytwenty" ),
+"item\_scheduled" => \_\_( "Plat planifié", "twentytwenty" ),
+"item\_updated" => \_\_( "Plat mis à jour", "twentytwenty" ),
+"parent\_item\_colon" => \_\_( "Plat parent", "twentytwenty" ),
+];
+\$args = [
+"label" => \_\_( "plats", "twentytwenty" ),
+"labels" => \$labels,
+"description" => "",
+"public" => true,
+"publicly\_queryable" => true,
+"show\_ui" => true,
+"delete\_with\_user" => false,
+"show\_in\_rest" => true,
+"rest\_base" => "",
+"rest\_controller\_class" => "WP\_REST\_Posts\_Controller",
+"has\_archive" => "plats",
+"show\_in\_menu" => true,
+"show\_in\_nav\_menus" => true,
+"delete\_with\_user" => false,
+"exclude\_from\_search" => false,
+"capability\_type" => "post",
+"map\_meta\_cap" => true,
+"hierarchical" => false,
+"rewrite" => [ "slug" => "plat", "with\_front" => false ],
+"query\_var" => true,
+"menu\_icon" => "dashicons-carrot",
+"supports" => [ "title", "editor", "thumbnail", "revisions", "post-formats" ],
+];
+register\_post\_type( "plat", \$args );
+}
+add\_action( 'init', 'cptui\_register\_my\_cpts\_plat' );
+`} lang="php" />
+
+Vous noterez le format des noms de fonctions : cptui\_register\_my\_cpts\_plat par exemple. Je vous recommande de **ne pas modifier ce nommage** si vous désactivez l'extension après avoir créé vos Custom Post Types. En effet, si vous souhaitez les modifier ultérieurement, il vous suffira de réactiver l'extension et d'importer le code précédemment créé pour pouvoir en modifier les réglages et générer un code mis à jour.
+
+
+
+Voila pour le *Custom Post Type*. Une fois configuré, nous allons créer une taxonomie spécifique, toujours via *CPTUI*.
+
+
+
+Pour cela, rendez-vous dans *Ajouter/modifier des taxonomies*. À nouveau, nous nous trouvons devant un encart pour configurer rapidement une nouvelle taxonomie.
+
+
+
+<OptImg src="/image/cptui-custom-taxonomy" alt="CPTUI - Taxonomies personnalisées" caption="CPTUI - Taxonomies personnalisées" align="center" />
+
+
+
+Vous remarquerez que le nouveau *Custom Post Type* (plats) est listé, et c'est lui que nous allons cocher pour l'associer à notre nouvelle taxonomie.
+
+
+
+Par défaut, la nouvelle taxonomie est de type *étiquette*, sans relation hiérarchique de type Parent / Enfant. Pour créer des catégories, il faut aller dans l'encart *Réglages* et sélectionner *Vrai* pour *Hiérarchique*.
+
+
+
+Le code est automatiquement créé, comme pour les Custom Post Types. Nous verrons plus loin comment récupérer le code généré par l'extension et comment l'utiliser.
+
+
+
+Vous pouvez maintenant retourner dans *Ajouter/modifier des types de contenu* pour lier votre type de contenu à la nouvelle taxonomie.
+
+
+
+Voila pour l'essentiel, vous pouvez utiliser vos types de contenus personnalisés sans effectuer d'opération supplémentaire.
+
+
+
+Ou, vous pouvez décider de…
+
+
+
+## Récupérer le code, et désactiver l'extension
+
+
+
+En tout premier lieu, rendez-vous dans le menu *CPT UI > Outils*. Cliquez sur l'onglet *Obtenir le code*. Vous allez trouver les bouts de code dans des zones sélectionnable via un simple clic. Un clic gauche, un clic droit pour copier, tout d'abord *Tous les types de publication Custom Post Type UI*, puis *Toutes les taxonomies de Custom Post Type UI*.
+
+
+
+Contrairement à ce que vous conseille l'extension, **ne rajoutez pas le code généré** à votre fichier `functions.php` : à la première mise à jour du thème, tout votre code serait perdu ! Ou, dans le meilleur des cas, si vous utilisez un thème enfant, vous auriez à récupérer ce code si vous décidez de changer de thème.
+
+
+
+Je vous ai déjà expliqué comment utiliser des bouts de codes via l'extension [Code Snippets](/blogging/centralisez-code-snippets/). Nous allons donc créer un nouvel extrait de code, que nous nommerons *Custom Post Types & Taxonomies*.
+
+
+
+<OptImg src="/image/cpt-extrait-de-code" alt="" caption="undefined" align="center" />
+
+
+
+En 1, vous saisissez le titre, puis vous insérez le code copié en 2. Vous aurez besoin de 2 passages, un pour le(s) Custom Post Type(s), un pour la/les taxonomie(s). Vous sélectionnez *Exécuter l'extrait partout* (3) et vous cliquez sur *Enregistrer et activer* (4). C'est terminé, vous êtes rendus.
+
+
+
+Vous pouvez désactiver l'extension CPT UI sans perdre le bénéfice des actions menées, votre Custom Post Type est toujours disponible.
+
+
+
+Et voila ! Vous avez créé votre propre type de contenu personnalisé, ajouté une taxonomie, et après avoir récupéré le code, vous avez supprimé l'extension utilisée.
+
+
+
+Et vous, utilisez-vous les Custom Post Types et les formats d'articles ?  
+Si vous avez une question, ou si vous voulez partager votre propre expérience, direction les commentaires !

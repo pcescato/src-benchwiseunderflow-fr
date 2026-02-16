@@ -1,0 +1,331 @@
+---
+
+title: Centralisez la gestion de vos sites WordPress avec MainWP
+lastmod: '2017-07-05T05:36:32+00:00'
+slug: gestion-wordpress-mainwp
+draft: false
+categories:
+  - Extensions
+tags:
+  - gratuit
+  - mise à jour
+  - Optimisation
+  - sécurité
+  - WordPress
+description: "Pour faciliter la gestion des vos sites propulsés par WordPress, MainWP met à disposition une extension gratuite pour les mises à jours, la sécurité, les performances, la disponibilité…"
+image: /image/main-wp.avif
+pubDate: '2017-07-05'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+La mise à jour de WordPress , des thèmes et des extensions a une importance capitale, ne serait-ce que pour garantir la sécurité de votre site. Mais si vous gérez plusieurs sites, cette opération peut vite devenir chronophage et fastidieuse. La solution ? **Une interface de gestion centralisée** pour les mises à jour, les sauvegardes, et pour bien d'autres tâches encore…
+
+
+
+
+
+
+En cherchant sur Google, on trouve finalement peu d'outils, la plupart sont payants et offrent une interface déportée : vous gérez vos sites depuis leur interface. Tous, sauf [MainWP](/aller-a/mainwp/) **qui transforme gratuitement WordPress en console d'administration**. Les avantages d'un multisite, sans ses inconvénients et sans ses limitations.
+
+
+
+*[Jetpack](/blogging/extensions/jetpack-couteau-suisse-wordpress/) permet également de manager gratuitement vos sites (dans une certaine mesure), mais c'est toujours du service "déporté" - et personnellement je n'aime pas trop l'écran suivant quand il y a le feu chez moi ;) - ceci-dit personne n'est à l'abri d'un bug, d'une panne ou même d'un crash…*
+
+
+
+<OptImg src="/image/wordpress-error" alt="Service réduit" caption="Service réduit" align="center" />
+
+
+
+MainWP fonctionne selon un principe simple : une installation fraîche de WordPress dédiée à la gestion de tous vos autres sites, une extension "mère" à y greffer, et une extension "fille" à installer sur chacun des sites à gérer pour communiquer avec elle.
+
+
+
+Voici un aperçu du tableau de bord, une fois personnalisé (par glisser / déposer) :
+
+
+
+<OptImg src="/image/mainwp-tableau-de-bord" alt="Tableau de bord MainWP" caption="Tableau de bord MainWP" align="center" />
+
+
+
+Les fonctions essentielles et les principaux indicateurs sont accessibles, et si ce n'est pour les réglages ou des opérations plus pointues, vous n'aurez pas besoin d'aller voir ailleurs.
+
+
+
+L'aventure vous tente ? Allons-y !
+
+
+
+Première étape, installer WordPress. La plupart des offres d'hébergement permettent de créer des sous-domaines, par contre, si vous n'avez droit qu'à une seule base de données, il faudra impérativement choisir un préfixe personnalisé pour vos tables - si vous avez gardé wp\_  pour votre site principal (et c'est déjà une très mauvaise idée), vous aurez à faire preuve d'imagination ;)
+
+
+
+Ou, vous pouvez installer WordPress sur votre ordinateur, en local, et utiliser cette installation pour manager vos sites web.
+
+
+
+Une fois WordPress installé, il faut bien sûr…
+
+
+
+## Installer et configurer MainWP
+
+
+
+### Installer et activer
+
+
+
+Si vous n'avez jamais installé d'extension, vous trouverez le mode d'emploi dans l'article [Installer, activer, mettre à jour et supprimer une extension WordPress](/blogging/conseils/guide-extension-wordpress/).
+
+
+
+MainWP est dans le dépôt WordPress, mais attention ! Il y a deux extensions : *MainWP Dashboard* et *MainWP Child*. *C*'est la première que nous allons installer dans notre nouveau site WordPress.
+
+
+
+
+Installez, activez… mais on est loin d'avoir fini :|
+
+
+
+L'extension prend d'ailleurs la main et ouvre une page plein écran pour vous aider à…
+
+
+
+### Configurer MainWP Dashboard
+
+
+
+Une bonne surprise, l'extension est  traduite en français - enfin, partiellement traduit, mais c'est déjà un bon point.
+
+
+
+<OptImg src="/image/mainwp-install" alt="Configuration - page d'accueil" caption="Configuration - page d'accueil" align="center" />
+
+
+
+Chaque étape est simple et ne prend pas plus de quelques secondes. Vous aurez fini de configurer l'extension en moins de cinq minutes, inscriptions comprises à [mainwp.com](https://mainwp.com/) et à *Advanced Uptime Monitor* (qui vérifie à intervalles réguliers que vos sites sont accessibles).
+
+
+
+L'installation sur un serveur local Windows (sur votre propre ordinateur) est à peine un peu plus longue : il va falloir trouver un fichier de configuration SSL : openSSL.cnf pour assurer en toute sécurité la communication entre la console et les sites administrés.
+
+
+
+### Les modules additionnels
+
+
+
+Le cœur de MainWP est gratuit, certains modules également, mais pas tous. Ils ne sont pas utiles à tous, et ce sont eux qui rendent possible la gratuité de l'extension : les fonctionnalités de bases sont gratuites, certains modules quasi-indispensables le sont aussi, et tout le reste est payant.
+
+
+
+Vous trouverez la liste de ces modules (*add-ons* en anglais, *extensions* dans la traduction) dans l'interface d'administration ou [sur le site lui-même](/aller-a/mainwp-extensions/).
+
+
+
+Vous pouvez les acheter à l'unité ou via l'un des [abonnements](/aller-a/mainwp-plans/) proposés. Intéressant par rapport au prix unitaire, surtout si vous vendez de la maintenance ou si vous souhaitez acquérir plusieurs modules (le coût total à l'unité est de plus de 1200$, à comparer aux 399$ de l'abonnement à vie).
+
+
+
+Vous avez probablement activé un voire deux de ces modules additionnels lors de l'installation (*Advanced Uptime Monitor* et la solution de sauvegarde que vous avez choisie), pour lesquels il va falloir entrer une clé et un email de licence.
+
+
+
+Rendez-vous dans [votre compte](https://mainwp.com/my-account/my-api-keys/) (sur le site de MainWP). Cliquez sur *My API Keys* dans le menu latéral.
+
+
+
+<OptImg src="/image/mainwp-api-keys" alt="Clés de licence" caption="Clés de licence" align="center" />
+
+
+
+Sélectionnez la clé du module que vous souhaitez activer, et retournez dans votre console d'administration WordPress / MainWP.
+
+
+
+Cliquez sur *Extensions* dans le menu latéral de MainWP, faites défiler la page jusqu'à trouver les modules installés. Cliquez sur *Saisissez la clé de licence*, renseignez les champs *Clé de licence d'API* et *E-mail d'API de licence* (oui, oui, je sais, ce n'est pas du très bon français, mais bon…). Cliquez sur *Activer l'API*, et c'est fini.
+
+
+
+<OptImg src="/image/mainwp-activer-extensions" alt="Activer une extension MainWP" caption="Activer une extension MainWP" align="center" />
+
+
+
+Parmi les modules payants les plus utiles, [Comments](/aller-a/mainwp-comments/) permet de gérer les commentaires de tous vos blogs depuis une interface unique. **Gain de temps assuré** si vos lecteurs sont en verve ;)
+
+
+
+De même [Custom Post Types](/aller-a/mainwp-custom-post-types/) permet de créer, éditer, supprimer des Custom Post Types sur tous les blogs que vous administrez (comme vous pouvez aussi créer un article ou une page pour un ou plusieurs de vos blogs depuis MainWP).
+
+
+
+D'autres modules seront utiles à ceux qui maintiennent des sites pour leurs clients, comme par exemple [Branding](/aller-a/mainwp-branding/) pour de la marque blanche ou [Clients Reports](/aller-a/mainwp-clients-reports/) pour informer vos clients des opérations effectuées sur leur site pour une période donnée.
+
+
+
+Une fois la configuration de MainWP terminée, vous pourrez ajouter les sites à gérer - mais avant d'ajouter un site, il est impératif d'installer l'extension [MainWP Child](https://wordpress.org/plugins/mainwp-child/) (sur le site à administrer).
+
+
+
+
+Installer et activer, et hop, c'est terminé pour le site à administrer, on retourne à la console d'administration MainWP pour…
+
+
+
+### Ajouter un site
+
+
+
+<OptImg src="/image/mainwp-install-first-site" alt="Installer un site" caption="Installer un site" align="center" />
+
+
+
+Si tout se passe bien (et en général tout se passe bien) vous aurez à renseigner les champs de la section *Sites*, et à cliquer en bas de page sur *Ajouter un nouveau site*. Et c'est tout.
+
+
+
+Enfin, presque. Si vous avez souscrit à l'option gratuite *Advanced Uptime Monitor*, il reste à…
+
+
+
+### Demander le monitoring
+
+
+
+Dans le menu latéral gauche de l'extension, allez à *Extensions MainWP*, puis cliquez sur *Advanced Uptime Monitor*. Dans la section Monitors, cliquez sur *Add New Monitor* :
+
+
+
+<OptImg src="/image/mainwp-advanced-uptime-monitor" alt="Advanced Update Monitor - ajouter un site" caption="Advanced Update Monitor - ajouter un site" align="center" />
+
+
+
+MainWP vous propose même les sites que vous pouvez ajouter et remplit automatiquement le formulaire en fonction de votre sélection. Difficile de faire plus *user friendly*.
+
+
+
+Dès qu'un site est inaccessible, vous recevez une alerte par email :
+
+
+
+<OptImg src="/image/uptime-monitor-down" alt="Alerte Uptime Monitor (down)" caption="Alerte Uptime Monitor (down)" align="center" />
+
+
+
+Et une autre dès que le site est à nouveau accessible :
+
+
+
+<OptImg src="/image/uptime-monitor-up" alt="Alerte Uptime Monitor (up)" caption="Alerte Uptime Monitor (up)" align="center" />
+
+
+
+Voila, votre site est administré via MainWP. Nous allons justement nous intéresser à…
+
+
+
+## La gestion d'un site avec MainWP
+
+
+
+Pour tout ce qui concerne les mises à jour ou la disponibilité, vous n'aurez pas à aller bien loin : tout est dans le tableau de bord. Un simple clic, et ce n'est pas une extension, un thème ou une traduction que vous mettrez à jour, mais **l'ensemble des mises à jours de tous vos sites**.
+
+
+
+Mais MainWP va plus loin dans la gestion des sites que vous lui confiez : vous pouvez gérer les articles, les pages, les Custom Post Types (avec un module payant), mais aussi activer, désactiver et supprimer les extensions et les thèmes.
+
+
+
+<OptImg src="/image/mainwp-site-enfant" alt="Gestion d'un site enfant" caption="Gestion d'un site enfant" align="center" />
+
+
+
+Les onglets sont tous ouverts par défaut, mais vous pouvez les ouvrir ou les fermer au gré de vos besoins.
+
+
+
+MainWP vous propose même de sécuriser votre site en appliquant quelques règles simples :
+
+
+
+<OptImg src="/image/mainwp-securite" alt="Détection des problèmes de sécurité" caption="Détection des problèmes de sécurité" align="center" />
+
+
+
+Soit vous cliquez sur *Fixer tout* pour sécuriser votre site, soit vous êtes curieux (ou inquiet) et vous cliquez sur *Problèmes de sécurité*, une nouvelle page s'affiche qui détaille les différents problèmes et vous permet de les fixer tous en une fois ou un à un.
+
+
+
+<OptImg src="/image/mainwp-securite-detail" alt="Résolution des problèmes de sécurité" caption="Résolution des problèmes de sécurité" align="center" />
+
+
+
+Voila, nous avons passé en revue les fonctionnalités essentielles de MainWP, mais on est loin d'avoir fait le tour de cette extension qui moyennant l'installation d'un site WordPress réservé à la gestion de tous vos autres sites, vous fera gagner un temps précieux.
+
+
+
+## Mise à jour vers MainWP 4
+
+
+
+Depuis la rédaction de cet article, MainWP est passé en version 4. Ce qui signifie qu'à plus ou moins long terme, vous serez amené à mettre à jour l'extension (la version 3 ne sera pas maintenue).
+
+
+
+### Mise à jour du module principal
+
+
+
+La mise à jour s'effectue pour MainWP comme pour toutes les autres extensions WordPress, via le tableau de bord. Il n'y a pas d'action spéciale à mener.
+
+
+
+### Mise à jour des modules additionnels
+
+
+
+Il va falloir **désactiver et supprimer** l'ensemble des modules complémentaires, avant de les réinstaller via MainWP (*Bulk Install and Activate page*).
+
+
+
+Pas besoin d'entrer les clés d'API comme précédemment, juste votre identifiant MainWP et le mot de passe associé, l'installation et la mise à jour se feront automatiquement pour l'ensemble des modules additionnels pour lesquels vous avez une licence active.
+
+
+
+## Mon expérience personnelle
+
+
+
+Lorsque j'ai écrit cet article, je gérais 4 sites avec MainWP, et déjà, je n'y voyais que des avantages. Gain de temps, console centralisée, monitoring facilité… près de 3 mois plus tard et trois fois plus de sites à gérer, j'étais réellement conquis. Je n'y passe pas plus de temps, mes sites sont toujours à jour, et en cas de pépin, je suis averti immédiatement.
+
+
+
+De plus, ayant eu un (petit) problème technique avec l'extension *Uptime Monitor*, j'ai fait appel au support technique qui m'a répondu rapidement, et a cherché une solution au problème avec moi. Moins de 30 minutes plus tard, tout était rentré dans l'ordre.
+
+
+
+## En conclusion
+
+
+
+Vous l'aurez compris, MainWP est une solution **performante et peu coûteuse**, voire gratuite si vos besoins sont couverts par l'extension et ses modules gratuits.
+
+
+
+Mais l'agence web y trouvera aussi son compte pour **gérer à peu de frais** les sites de ses clients et pour industrialiser certaines tâches récurrentes : les pages de mentions légales, gérer la sécurité, la sauvegarde ou l'optimisation des sites de ses clients…
+
+
+
+Et vous, quelle solution avez-vous adoptée pour gérer vos sites WordPress ? Allez-vous tenter l'expérience MainWP ?
+
+
+
+Certains liens de cet article sont des liens affiliés, c’est à dire que si vous achetez une extension ou un abonnement en les suivant, je toucherai éventuellement une petite commission, mais vous, vous ne payerez pas un centime de plus.

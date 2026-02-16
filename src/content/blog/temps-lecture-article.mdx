@@ -1,0 +1,187 @@
+---
+
+title: Ajoutez le temps de lecture à vos articles
+lastmod: '2016-09-26T23:26:45+00:00'
+slug: temps-lecture-article
+draft: false
+categories:
+  - Code
+tags:
+  - programmation
+  - shortcode
+  - WordPress
+excerpt: >-
+  Pourquoi afficher le temps de lecture et le nombre de mots ? Ces indications
+  ne risquent-elles pas de faire fuir un lecteur pressé ?
+image: /image/time-words-post.avif
+pubDate: '2016-09-26'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Vous avez certainement remarqué, en dessous du titre de chaque article, que le temps de lecture et le nombre de mots sont affichés.
+
+
+
+
+
+
+Pourquoi avoir rajouté ces indications ? Il semble, d'après plusieurs blogueurs, que l'ajout de ces indications **réduisent le taux de rebond**, parfois de manière significative.
+
+
+
+L'internaute est un homme pressé - paraît-il. Sauf quand il trouve une information dont il a besoin.
+
+
+
+Les études menées par les psychologues Claude Messner et Michaela Wänke montrent que plus le lecteur a d'indications annexes (pertinentes), **plus l'implication est importante**.
+
+
+
+Dans le cas présent, il sait combien de temps il va passer à la lecture de votre article, et si le nombre de mots est élevé, c'est (subjectivement) un indice de qualité.
+
+
+
+Ces données n'ont pas d'utilité pour un produit par exemple, l'intérêt n'est pas dans le nombre de mots sur la page, ni dans le temps de lecture, mais dans le taux de conversion !
+
+
+
+Il ne va peut-être pas tout lire, mais au moins, il aura eu un aperçu du contenu de l'article.
+
+
+
+Vous trouverez des extensions pour le temps de lecture, mais en fait, **un simple bout de code** suffit, et permet plus de souplesse.
+
+
+
+Voici comment procéder…
+
+
+
+## Enregistrer temps de lecture et nombre de mots
+
+
+
+Placez le bout de code suivant dans votre fichier functions.php, ou mieux, **créez un nouveau snippet**  dans *Code Snippets :*
+
+<Code code={`function pc\_reading\_time(\$post\_id, \$post, \$update) {
+if( !\$update || wp\_is\_post\_revision(\$post\_id) || \$post->post\_type != 'post' || ( defined( 'DOING\_AUTOSAVE' ) && DOING\_AUTOSAVE ) ) {
+return;
+}
+\$theContent = str\_replace('[', '<', \$post->post\_content);
+\$theContent = str\_replace(']', '>', \$theContent);
+\$word\_count = str\_word\_count(strip\_tags(\$theContent));
+\$minutes = ceil( \$word\_count / 250 );
+// ajout du nombre de mots
+update\_post\_meta( \$post\_id, 'words\_count', \$word\_count );
+// ajout du temps de lecture en minutes
+update\_post\_meta( \$post\_id, 'time\_to\_read', \$minutes );
+}
+add\_action('save\_post', 'pc\_reading\_time', 10, 3);
+`} lang="php" />
+
+Ce bout de code est exécuté lors de l'enregistrement d'un article - si vous avez plusieurs articles déjà en ligne, vous pouvez tous les sélectionner (par page), choisir *Modifier* dans les *Actions groupées* et *Enregistrer*, même sans effectuer la moindre modification.
+
+
+
+C'est la méthode que j'ai choisi pour ce site et les 10 articles précédemment publiés.
+
+
+
+Mais **si vous avez des centaines d'articles déjà publiés**, vous pourrez dans un premier temps créer une boucle de type foreach par exemple, l'exécuter une fois, puis la supprimer, plutôt que de passer page après page pour enregistrer une vingtaine d'articles à la fois.
+
+
+
+Pour ceux qui ne connaissent pas *Code Snippets*, direction l'article [Centralisez vos bouts de code avec « Code Snippets »](/blogging/code/centralisez-vos-bouts-de-code-avec-code-snippets/) où vous trouverez toutes les explications quant à l'utilité et à l'utilisation de cette extension.
+
+
+
+Vous avez les données stockées, il ne vous reste plus qu'à…
+
+
+
+## Afficher temps de lecture et nombre de mots
+
+
+
+Pour afficher ces données, il suffit de récupérer l'option pour l'article en cours :
+
+<Code code={`// temps de lecture
+echo get\_post\_meta(\$post->ID, 'time\_to\_read', true). ' mn';
+// nombre de mots
+echo number\_format ( get\_post\_meta(\$post->ID, 'words\_count', true), 0, ',', ' ' ) . ' mots';
+`} lang="php" />
+
+Vous insérerez ce bout de code dans vos fichiers de modèles (single.php par exemple), là où vous avez décidé d'afficher l'information.
+
+
+
+Mais il est aussi possible d'afficher ces données en utilisant un shortcode, voici comment faire…
+
+
+
+## Afficher avec un shortcode
+
+
+
+Si vous souhaitez afficher le temps de lecture ou le nombre de mot dans l'article, il suffit de créer un shortcode.
+
+
+
+Voici le shortcode pour le temps de lecture :
+
+<Code code={`function mysite\_time2read\_shortcode() {
+return get\_post\_meta(get\_the\_ID(), 'time\_to\_read', true);
+}
+add\_shortcode('time2read', 'mysite\_time2read\_shortcode');
+`} lang="php" />
+
+Et celui pour le nombre de mots :
+
+<Code code={`function mysite\_wordscount\_shortcode() {
+return get\_post\_meta(get\_the\_ID(), 'words\_count', true);
+}
+add\_shortcode('wordscount', 'mysite\_wordscount\_shortcode');
+`} lang="php" />
+
+Il ne vous restera plus qu'à insérer vos shortcodes dans l'article, comme suit (le résultat ligne suivante) :
+
+
+
+Cet article prend `[time2read /]` minutes à lire et comporte `[wordscount /]` mots.
+
+
+
+Cet article prend [time2read /] minutes à lire et comporte [wordscount /] mots.
+
+
+
+Et si vous ne souhaitez plus afficher le temps de lecture (ou le nombre de mots, ou les deux) sur votre blog…
+
+
+
+## Supprimez les données
+
+
+
+Vous pourrez supprimer l'entrée correspondante en ajoutant temporairement ce bout de code dans *Code Snippet* ou - dans le pire des cas - dans le fichier `functions.php`  :
+
+<Code code={`if ( get\_option( 'words\_count', null ) !== null )
+delete\_option( 'words\_count' );
+if ( get\_option( 'time\_to\_read', null ) !== null )
+delete\_option( 'time\_to\_read' );
+`} lang="php" />
+
+En fait, il suffit d'une seule exécution pour supprimer toute trace sur votre blog. Rafraîchir la page d'accueil devrait suffire. Vous pouvez ensuite supprimer ce bout de code.
+
+
+
+## Et maintenant
+
+
+
+Il ne vous reste plus qu'à tester. Peut-être cette indication n'est pas utile pour votre blog, vous vous en rendrez vite compte en jetant un œil sur vos statistiques.

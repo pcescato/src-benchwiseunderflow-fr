@@ -1,0 +1,581 @@
+---
+
+title: Installer et optimiser WordPress
+lastmod: '2016-08-12T12:27:36+00:00'
+slug: installer-optimiser-wordpress
+draft: false
+categories:
+  - Conseils
+tags:
+  - hébergement
+  - initiation
+  - Optimisation
+  - sécurité
+  - WordPress
+excerpt: >-
+  Le blogueur n'est pas forcément technicien, il ne ressent pas naturellement le
+  besoin de mettre les mains dans le cambouis pour partager sa passion. Oh,
+  l'envie viendra certainement, mais avant, il va lui falloir installer
+  WordPress ! En 5 minutes qu'ils disent… en cinq minutes ? Voyons voir !
+image: /image/installer-optimiser-wordpress.avif
+pubDate: '2016-08-12'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Installation en un clic, en cinq minutes chrono… WordPress est réputé pour être simple à installer. Et c'est le cas.
+
+
+
+Il suffit de savoir faire. Ah la jolie phrase ! Et si on ne sait pas faire ? Si on ne sait pas, il y a quatre solutions :
+
+
+
+
+
+
+* on installe en un clic avec un service proposé par l'hébergeur (mais souvent avec des limitations)
+* on loue les services d'un prestataire (mais on ne saura pas davantage faire ensuite, sauf à prendre une formation avec)
+* on essaie par soi-même, tout seul comme un grand en se disant que Google est notre ami (mais on va finir par le traiter de faux-frère - oops)
+* on vient sur le blog suivre le tutoriel ;)
+
+
+
+Il y a bien une cinquième solution, dite solution de repli : on reste sur Blogger ou sur WordPress.com, mais c'est plus une renonciation qu'une solution.
+
+
+
+Alors si vous êtes (encore) là, autant rentrer tout de suite dans le vif du sujet, nous allons installer WordPress, pas à pas !
+
+
+
+Mais avant de l'installer, il y a quelques étapes préliminaires à franchir, et la première concerne…
+
+
+
+## Le nom de domaine et l'hébergement
+
+
+
+### Le choix du nom de domaine
+
+
+
+**Choisir un nom de domaine est une étape importante**, il est préférable qu'il soit en rapport direct avec le contenu de votre site ; le nom de votre entreprise pour un professionnel, un élément clé sinon : autour-des-boutons  conviendra à un blog sur les chemises (ça existe ? sûrement…) ou sur l'acné, mais le rapport sera bien plus difficile à trouver si vous parlez de… je ne sais pas, aidez-moi ! De cartes postales par exemple !
+
+
+
+La grande majorité des hébergeurs proposent un nom de domaine gratuit la première année. Mais le service rendu varie de mauvais, voire médiocre, à excellent. Il va donc falloir faire…
+
+
+
+### Le choix d'un hébergeur de qualité
+
+
+
+Pour un tout premier blog, vous pouvez tenter les hébergeurs grand public : [OVH](https://www.ovh.com/fr/), [1&1 Ionos](https://www.ionos.fr/), [Amen](https://www.amen.fr/)…
+
+
+
+Si vous souhaitez un hébergement de base de qualité, performant, avec un service technique réactif, orientez-vous plutôt vers [Planet Hoster](https://oceanwp.org/?ref=388), [Nuxit](http://www.nuxit.com/hebergement/) ou vers [Siteground](https://www.siteground.com/go/offres-wordpress), pour ceux qui maîtrisent l'anglais.
+
+
+
+Mon blog est hébergé par [Planet Hoster]( https://www.planethoster.com/goph-pascal-cescato ), après des années sur un VPS OVH. Les performances sont au rendez-vous, et le support technique est excellent.
+
+
+
+Et une fois que vous aurez validé le nom de domaine et l'hébergement, il va falloir…
+
+
+
+## Installer WordPress
+
+
+
+Oui mais… l'installer, comment ? Ce qui va de soi pour un geek, un blogueur aguerri ou un webmaster ne va pas de soi pour le commun des mortels.
+
+
+
+Alors nous allons commencer par rassembler tout ce sont nous aurons besoin pour mener à bien cette opération ~~périlleuse~~ au final bien simple.
+
+
+
+En tout premier lieu, nous avons besoin des données que l'hébergeur nous a gentiment envoyées. La plupart du temps, un nom d'hôte (soit une adresse IP numérique de forme `127.0.0.0.1`, soit une adresse ftp : `ftp.mondomaine.com`), un identifiant FTP et son mot de passe, et le couple identifiant / mot de passe pour la base de donnée MySQL.
+
+
+
+Nous aurons besoin de WordPress aussi. Facile, il suffit de se rendre sur [la page dédiée à la dernière version en français](https://fr.wordpress.org/). Vous y trouverez une archive (en fait deux, une au format *zip*, universel, et une au format *tar.gz* plus spécifique aux plateformes Linux). Je cite l'intro :
+
+
+> "La dernière version francisée de WordPress sera toujours accessible depuis cette page. Il vous suffit de cliquer sur le bouton se trouvant ici à droite pour la télécharger."
+>
+> fr.wordpress.org
+
+
+
+Il va falloir transférer cette archive (décompressée) sur l'espace mis à disposition par l'hébergeur, en se servant d'un logiciel tel que [Filezilla](https://filezilla-project.org/download.php) ou [Cyberduck](https://cyberduck.io/).
+
+
+
+Vous trouverez deux excellents tutoriels pour ces logiciels chez OVH : [Utilisation Cyberduck (MAC)](https://docs.ovh.com/fr/fr/web/hosting/utilisation-cyberduck-mac/) valable aussi pour Windows à présent, et [Utilisation logiciel FileZilla avec votre hébergement](https://docs.ovh.com/fr/fr/web/hosting/mutualise-guide-utilisation-filezilla/). À vous de choisir selon vos préférences personnelles si vous êtes sous Windows.
+
+
+
+Le transfert terminé (de quelques secondes à quelques minutes en fonction de votre connexion internet), nous allons passer à l'installation à proprement parler de WordPress. Il suffit de saisir L’URL de votre site dans la barre d'adresse de votre navigateur : `http://autour-des-boutons.xyz` par exemple.
+
+
+
+C'est parti, l'installation est en route ! Le premier écran est un écran informatif :
+
+
+
+<OptImg src="/image/installer-wordpress-1" alt="" caption="Installation - écran d'accueil" align="center" />
+
+
+
+Avec l'écran suivant on entre directement dans le vif du sujet : c'est maintenant qu'il faut saisir toutes les données précédemment reçues de notre hébergeur.
+
+
+
+<OptImg src="/image/installer-wordpress-2" alt="" caption="Installation - saisie des données" align="center" />
+
+
+
+**Il est fortement recommandé de changer le préfixe par défaut des tables** : passez de `wp_` à une suite aléatoire de caractères alphanumériques suivis d'un underscore (tiret bas) : `t45fe6_` par exemple. Vous n'aurez pas besoin de vous souvenir de cette donnée ensuite, la gestion des tables est transparente pour l’administrateur autant que pour l'utilisateur lambda.
+
+
+
+Une fois les données de la base de données validées, un troisième écran apparaît :
+
+
+
+<OptImg src="/image/installer-wordpress-4" alt="" caption="Installation - saisie des données générales" align="center" />
+
+
+
+Les mots de passe générés automatiquement lors de l'installation sont très longs du type reToPLdkY6trARYaBvNu4VrA  par exemple.
+
+
+
+Vous avez un indicateur de force si vous saisissez vous-même le mot de passe, servez vous en pour en générer un de plus simple à retenir sans pour autant perdre en sécurité. Pas d'idée pour votre mot de passe ? Vous avez peut-être une expression, une citation ou une phrase qui vous vient naturellement à l'esprit, écrivez-la et transormez-la. Un exemple ? `Sécurité site WordPress` peut devenir `CQriT6teWP:)` - attention, n'utilisez pas cet exemple, mais voila un mot de passe quasi incassable !
+
+
+
+Et l'étape suivante, c'est pour vous indiquer que tout c'est bien passé :
+
+
+
+<OptImg src="/image/installer-wordpress-5" alt="" caption="Installation - Fin" align="center" />
+
+
+
+WordPress est installé, le thème par défaut est activé automatiquement, vous pouvez déjà voir le résultat en entrant à nouveau l'URL de votre site dans la barre d'adresses de votre navigateur.
+
+
+
+Mais il reste encore à…
+
+
+
+## Sécuriser et optimiser le site
+
+
+
+### Les réglages depuis l'administration
+
+
+
+Dans l'interface d'administration de WordPress, cliquez sur ***Réglages > Général***. Réglez le fuseau horaire, le format de la date, le premier jour de la semaine.
+
+
+
+<OptImg src="/image/reglages-generaux" alt="Réglages > Général" caption="Réglages > Général" align="center" />
+
+
+
+Même si ces petits riens vous semblent insignifiants, "publié le Mars 2016, 17" ne fait pas bonne impression. Un clic plus tard vous afficherez "publié le 17 mars 2016", et le lecteur n'y prêtera pas attention ;)
+
+
+
+Ensuite, rendez-vous dans ***Réglages > Permaliens*** pour définir le format des URL de vos pages et articles.
+
+
+
+<OptImg src="/image/reglages-permaliens" alt="Réglages > Permaliens" caption="Réglages > Permaliens" align="center" />
+
+
+
+Pour optimiser le référencement, un lien texte sera toujours plus parlant qu'un identifiant numérique. Donc tout, sauf *Simple* et *Numérique*.
+
+
+
+Vous pouvez préfixer les catégories et les étiquettes, pour ma part je préfixe les archives de catégories du terme *rubrique*, bien plus approprié sur mon blog.
+
+
+
+Une fois ces réglages basiques effectués, nous allons passer au plat de résistance.
+
+
+
+### Personnaliser les fichiers de configuration
+
+
+
+Deux fichiers vont retenir toute notre attention, ils sont tous les deux situés dans le répertoire principal. Commençons par…
+
+
+
+#### Paramétrer le fichier wp-config.php
+
+
+
+Voici à quoi ressemble ce fichier, généré automatiquement lors de l'installation de WordPress :
+
+
+
+<OptImg src="/image/config-php" alt="fichier wp\_config.php" caption="fichier wp-config.php" align="center" />
+
+
+
+En personnalisant ce fichier, nous allons et optimiser, et sécuriser notre site. Ce n'est pas le seul fichier que nous allons modifier, il y en a un second que nous verrons ensuite.
+
+
+
+Tout ce  que nous allons ajouter dans `wp-config.php` va l'être au-dessus du commentaire de la ligne 87.
+
+
+
+Nous allons commencer par définir deux constantes, qui éviteront des recherches en base de données :
+
+<Code code={`define( 'WP\_HOME', 'http://autour-des-boutons.xyz' );
+define( 'WP\_SITEURL', 'http://autour-des-boutons.xyz' );
+`} lang="php" />
+
+En règle générale, ces deux constantes ont la même valeur.
+
+
+
+Nous allons aussi définir trois constantes supplémentaires, une pour le nombre de révisions  (états antérieurs de l'article) que WordPress garde en base de données, la deuxième pour déterminer l'intervalle en secondes entre deux enregistrements automatiques, la dernière pour définir après combien de jours un élément placé dans la corbeille doit être définitivement supprimé :
+
+<Code code={`define( 'WP\_POST\_REVISIONS', 3 ); // nombre entier, ou false pour 0
+define( 'AUTOSAVE\_INTERVAL', 300 );
+define( 'EMPTY\_TRASH\_DAYS', 7 );
+`} lang="php" />
+
+Nous allons également augmenter la quantité de mémoire allouée à WordPress :
+
+<Code code={`define( 'WP\_MEMORY\_LIMIT', '64M' );
+define( 'WP\_MAX\_MEMORY\_LIMIT', '96M' );
+`} lang="php" />
+
+La première sert pour le site vu par le visiteur, la seconde est destinée à allouer encore plus de mémoire à l'administration, certaines tâches pouvant s'avérer très gourmandes.
+
+
+
+Pour réparer automatiquement la base de données, nous allons rajouter la ligne suivante :
+
+<Code code={`define( 'WP\_ALLOW\_REPAIR', true );
+`} lang="php" />
+
+Et enfin, pour éviter que qui que ce soit vienne modifier les thèmes ou les extensions depuis l'interface d'administration, nous rajouterons :
+
+<Code code={`define( 'DISALLOW\_FILE\_EDIT', true );
+`} lang="php" />
+
+Voilà pour l'essentiel de ce qui peut être fait dans les fichier de configuration de WordPress.
+
+
+
+Pour aller plus avant dans sa configuration, vous pouvez vous reporter à l'article [Modifier wp-config.php](https://codex.wordpress.org/fr:Modifier_wp-config.php) dans le Codex WordPress.
+
+
+
+Mais il y a un autre fichier que j'ai évoqué plus haut dans l'article. Nous allons donc…
+
+
+
+#### Configurer le fichier .htaccess
+
+
+
+D'origine, il ressemble à ceci :
+
+
+
+<OptImg src="/image/htaccess" alt="" caption="fichier .htaccess pour WordPress" align="center" />
+
+
+
+Nous allons sécuriser le fichier wp-config.php  en rajoutant ces lignes :
+
+
+
+```
+<file wp-config.php>
+    order allow,deny
+    deny from all
+</file>lt;/file</file>gt;
+```
+
+
+
+Et sécuriser le fichier `.htaccess` lui-même :
+
+
+
+```
+<file .htaccess>
+    order allow,deny
+    deny from all
+</file>lt;/file</file>gt;
+```
+
+
+
+Il est également possible de modifier certaines valeurs de PHP directement dans le fichier `.htaccess` :
+
+
+
+```
+php_value upload_max_filesize 24M
+php_value post_max_size 24M
+php_value max_execution_time 300
+php_value max_input_time 300
+```
+
+
+
+Ces nouvelles valeurs vont permettre de  mettre en ligne des fichiers plus conséquents (les photographies sont de plus en plus lourdes, si vous voulez mettre en ligne les originaux, la valeur d'origine de 2Mo ne suffira pas. Elles vont aussi permettre de rallonger le temps d'exécution des scripts PHP, ce qui sera particulièrement utile dans l'administration de WordPress.
+
+
+
+Et pour finir l'optimisation de notre blog, nous allons nous finalement…
+
+
+
+## Utiliser des extensions pour sécuriser et optimiser le site
+
+
+
+Trois extensions vont nous être particulièrement utiles : *Jetpack*, *Akismet* et *Code Snippets*.
+
+
+
+Pour installer et activer une extension, vous pouvez suivre le tutoriel [Installer, activer, mettre à jour et supprimer une extension WordPress](/blogging/guide-extension-wordpress/).
+
+
+
+En ce qui concerne *Jetpack*, je vous renvoie à l'article [Jetpack – le couteau suisse pour WordPress](/blogging/extensions/jetpack-le-couteau-suisse-pour-wordpress/) pour l'installation et la mise en service.
+
+
+
+### Akismet
+
+
+
+*Akismet* est livré avec WordPress, c'est la seule extension (avec *Hello Dolly*) à faire partie de l'installation par défaut. Il suffira de l'activer, et de saisir une clé pour le mettre en service.
+
+
+
+Dès que vous aurez activé l'extension, un bandeau va vous inviter à saisir cette clé :
+
+
+
+<OptImg src="/image/akismet-activer" alt="" caption="activer Akismet" align="center" />
+
+
+
+En cliquant, vous allez obtenir un écran vous invitant à acquérir une clé :
+
+
+
+<OptImg src="/image/akismet-demarrer" alt="" caption="écran d'accueil d'Akismet" align="center" />
+
+
+
+Cliquez sur le bouton bleu *GET AN AKISMET API KEY*. L'écran suivant va vous présenter les différents plans et tarifs pour Akismet. Choisissez le plan *Basic* et cliquez sur *GET STARTED*.
+
+
+
+<OptImg src="/image/akismet-tarifs-1" alt="" caption="Plans et tarifs" align="center" />
+
+
+
+Vous pouvez obtenir la clé gratuitement, ou payer la somme que vous souhaitez, pour ce plan-ci uniquement.
+
+
+
+<OptImg src="/image/akismet-definir-prix" alt="" caption="Définir le prix pour Akismet" align="center" />
+
+
+
+Et voila, une fois la clé obtenue, vous obtiendrez cet écran-ci, indiquant que votre clé est bien active, et que vous êtes protégé efficacement contre le spam.
+
+
+
+<OptImg src="/image/akismet-cle-ok-1" alt="" caption="Écran de contrôle Akismet" align="center" />
+
+
+
+Nous allons maintenant passer à l'installation et à l'activation de…
+
+
+
+### Une solution de protection des formulaires contre le spam
+
+
+
+Il n'y a pas une mais des solutions pour lutter contre le spam. La moins intrusive consiste en l'ajout de deux extensions, [antispam](https://fr.wordpress.org/plugins/anti-spam/) pour les commentaires dans vos articles et [Contact Form 7 Honeypot](https://fr.wordpress.org/plugins/contact-form-7-honeypot/) par exemple, si vous utilisez *Contact Form 7* pour vos formulaires de contact. L'internaute ne sera pas sollicité pour prouver qu'il n'est pas un robot, et vous serez efficacement protégé.
+
+
+
+Certaines extensions de sécurité proposent aussi d'activer une protection en arrière plan, invisible mais très efficace - ce qui évite de multiplier les extensions à maintenir.
+
+
+
+Pour finir, nous allons installer…
+
+
+
+### Code Snippets
+
+
+
+Cette extension permet de rajouter des bouts de codes pour modifier le comportement de WordPress.
+
+
+
+Certains placent, à tort, ces bouts de codes dans le fichier de fonctions du thème activé, `functions.php`. Sauf qu'à chaque changement de thème, ou lors des mises à jour, il vous faudrait recommencer l'opération. Alors autant utiliser une extension prévue pour.
+
+
+
+Pour l'installer, retournez dans ***Extensions > Ajouter***, saisissez *Code Snippets*, et installez la toute première, avec une jolie paire de ciseaux noir, et activez. Il y a bien un panneau de configuration, mais vous n'avez pas besoin d'y toucher, l'extension est fonctionnelle.
+
+
+
+Nous allons saisir une première fonctionnalité, à vous ensuite mettre en ligne les bouts de code suivants.
+
+
+
+Cliquez sur *Snippets* dans le menu latéral de  l'administration de WordPress.
+
+
+
+<OptImg src="/image/gerer-snippets" alt="" caption="gérer les bouts de code" align="center" />
+
+
+
+Vous n'avez pas encore enregistré de bout de code, celui-ci sera le tout premier. Cliquez sur *Add New* en haut à droite, ou sur *En ajouter un* un peu plus bas. Voici à quoi ressemble l'écran de saisie :
+
+
+
+<OptImg src="/image/ajouter-snippet" alt="" caption="ajouter un bout de code" align="center" />
+
+
+
+Commencez par saisir un titre pour le bout de code, aussi explicite que possible.
+
+
+
+Puis insérez dans le champ code (par copier / coller) le bout de code que vous souhaitez mettre en œuvre. Le voici :
+
+<Code code={`remove\_action("wp\_head", "wp\_generator");
+function supprimer\_versions( \$src ){
+if (strpos(\$src, 'googleapis') === false):
+\$parts = explode( '?', \$src );
+return \$parts[0];
+else:
+return \$src;
+endif;
+}
+add\_filter( 'script\_loader\_src', 'supprimer\_versions', 15, 1 );
+add\_filter( 'style\_loader\_src', 'supprimer\_versions', 15, 1 );
+`} lang="php" />
+
+Ajoutez une description, des étiquettes (des mots clés). En bas de l'écran, vous pouvez définir où le code s'exécutera. Pour le bout de code qui nous intéresse, choisissez *Only run on site front-end*. Puis cliquez sur *Enregistrer et activer*. Votre bout de code sera exécuté à chaque fois qu'une personne visitera votre site.
+
+
+
+En retournant sur l'interface de gestion de l'extension, vous verrez votre snippet, activé.
+
+
+
+<OptImg src="/image/gerer-snippets-1" alt="" caption="Gestion des bouts de code" align="center" />
+
+
+
+Ci-dessous deux autres bouts de code utiles pour afficher correctement vos textes dans WordPress.
+
+
+
+* L'espace insécable n'est pas pris en charge par défaut, il vous faudra rajouter ce bout de code :
+
+<Code code={`function espace\_insecable\_tinymce( \$init ) {
+\$init['entities'] = '160,nbsp,38,amp,60,lt,62,gt';
+\$init['entity\_encoding'] = 'named';
+return \$init;
+}
+add\_filter( 'tiny\_mce\_before\_init', 'espace\_insecable\_tinymce');
+`} lang="php" />
+
+* Pour gérer les règles typographique du français (espace insécable avant le point-virgule, les deux points, les points d'interrogation et d'exclamation, les guillemets, les caractères © et ®) :
+
+<Code code={`function french\_typo(\$text)
+{
+\$french\_typo\_static\_characters = array('(c)', '(r)');
+\$french\_typo\_static\_replacements = array('©', '®');
+\$french\_typo\_dynamique\_characters = array('#s?([?!:;%»])(?!w|//)#u', '#([«])s?#u', '/(&#?[a-zA-Z0-9]+) ;/');
+\$french\_typo\_dynamique\_replacements = array(' \$1', '\$1 ', '\$1;');
+\$textarr = preg\_split('/(<.\*>|[.\*])/Us', \$text, -1, PREG\_SPLIT\_DELIM\_CAPTURE);
+\$stop = count(\$textarr);
+\$text = '';
+for(\$i = 0; \$i < \$stop; \$i++)
+{
+\$curl = \$textarr[\$i];
+if(!empty(\$curl) && '<' != \$curl[0] && '[' != \$curl[0])
+{
+\$curl = str\_replace(\$french\_typo\_static\_characters, \$french\_typo\_static\_replacements, \$curl);
+\$curl = preg\_replace(\$french\_typo\_dynamique\_characters, \$french\_typo\_dynamique\_replacements, \$curl);
+}
+\$text .= \$curl;
+}
+return \$text;
+}
+add\_filter('the\_title', 'french\_typo');
+add\_filter('the\_content', 'french\_typo');
+`} lang="php" />
+
+Juste un petit bémol dans l'utilisation de ce dernier bout de code : les smileys ne sont plus reconnus - si vous en faites usage, il vous faudra insérer le smiley lui-même après l'avoir copié ailleurs.
+
+
+
+## Et maintenant…
+
+
+
+Voila, l'installation de WordPress est terminée, vous l'avez sécurisé (a minima) et optimisé aussi. Pour une première installation, complète, sécurisée et optimisée il est vrai, on est loin des cinq minutes chrono annoncées. Mais vous verrez, avec un peu d'habitude…
+
+
+
+À présent, c'est à vous de jouer. Parcourez les autres articles sur ce site pour des conseils, des bouts de code, pour découvrir des thèmes et des extensions utiles.
+
+
+
+Et même si vous n'êtes pas passionnés par l'administration de votre site, vous vous y ferez, petit à petit - peut-être même y prendrez vous plaisir !
+
+
+
+Dites-vous que vous en êtes au tout début, que vous allez découvrir avec WordPress un macrocosme intéressant, et de fil en aiguille, sans parler de passion, vous prendrez goût à la gestion et à l'optimisation de votre site.
+
+
+
+Et vous, avez-vous déjà tenté une installation de WordPress ? Avez-vous des conseils à donner à ceux qui mettent pour la première fois les mains dans le cambouis ?
+
+
+
+Certains liens de cet article sont des liens affilié, c’est à dire que si vous prenez un hébergement en les suivant par exemple, je toucherai éventuellement une petite commission, mais vous, vous ne payerez pas un centime de plus.

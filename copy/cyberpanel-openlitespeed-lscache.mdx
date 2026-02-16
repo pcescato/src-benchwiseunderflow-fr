@@ -1,0 +1,864 @@
+---
+
+title: Configurer un VPS avec OpenLiteSpeed et LiteSpeed Cache
+lastmod: '2025-09-14T12:05:10+00:00'
+slug: cyberpanel-openlitespeed-lscache
+draft: false
+categories:
+  - Outils
+tags:
+  - Core Web Vitals
+  - hébergement
+  - Optimisation
+description: "Connaissez-vous OpenLiteSpeed, LSCache et CyberPanel ? Non ? Alors, si vous voulez booster les performances de votre site — c'est le moment de découvrir ces trois outils…"
+image: /image/litespeed.avif
+pubDate: '2021-04-15'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Êtes-vous à la recherche de performances pour votre site web ? Soyons honnêtes, nous courons tous après la performance. Alors soit vous avez accès à une solution performante, soit vous êtes à la recherche d'une solution pour booster les performances de votre site.
+
+
+
+Justement, si je vous demande quel serveur web utilise votre hébergeur, vous n'en avez peut-être pas la moindre idée…
+
+
+
+Après tout, ce qui vous intéresse, ce sont les performances. Oui mais voilà, le serveur webcou est - avec les ressources du serveur (dédié ou VPS) - un des éléments les plus importants dans la quête de notre Saint Graal.
+
+
+
+Avant d'entrer dans le vif du sujet, savez-vous ce qu'est un serveur web ?
+
+
+
+Lorsque j'ai posé la question, j'ai eu des réponses telles que "OVH" ou "Infomaniak" ???? Infomaniak et OVH sont des *hébergeurs* proposant donc d'accueillir vos données sur des serveurs web *physiques* sur lesquels est installé un *logiciel* également appelé serveur web… et c'est ce dernier serveur qui nous intéresse aujourd'hui.
+
+
+
+Pour faire court, le serveur web est le logiciel qui gère l'accès à votre site depuis un navigateur. Il sert à interpréter la demande de l'internaute pour lui renvoyer les données demandées, si elles sont effectivement stockées dans un espace accessible, ou pour indiquer qu'il ne peut pas fournir ces données à un moment donné (ce qui donne les pages d'erreur [ 404 / 410 / 500 / 503… ] que vous avez déjà certainement rencontrées).
+
+
+
+Alors ? Quel est le serveur web proposé par votre hébergeur ?
+
+
+
+Encore aujourd'hui, [d'après W3Techs](https://w3techs.com/technologies/overview/web_server), le serveur web le plus utilisé reste *Apache*, suivi de (très) près par *Nginx*. En troisième position nous trouvons *Clouflare*, qui tourne en fait sur une version customisée de Nginx. *LiteSpeed* n'est pas dans le trio de tête, il arrive en quatrième position avec un peu plus de 8% d'utilisation dans les serveurs web identifiés. Mais alors qu'Apache a perdu plus de 6% de parts du marché en un an, LiteSpeed a lui, gagné un peu plus de 1%.
+
+
+
+Et voilà notre challenger - **OpenLiteSpeed** - en fait version open source de LiteSpeed. Moins connu, mais LiteSpeed est quand même le serveur utilisé par [O2switch](https://www.o2switch.fr/) et [PlanetHoster]( https://www.planethoster.com/goph-pascal-cescato ), deux hébergeurs très performants.
+
+
+
+Nous allons nous intéresser à un environnement open source complet : un serveur web (OpenLiteSpeed), un cache intégré au serveur web (LiteSpeed Cache) et une interface d'administration (CyberPanel), à installer sur un VPS.
+
+
+
+Mais avant de voir cet environnement, il va falloir…
+
+
+
+## Choisir son VPS
+
+
+
+Pas besoin d'une recherche Google pour deviner que le terme [VPS](https://www.google.com/search?q=vps&hl=fr) va mettre en avant les VPS OVH.
+
+
+
+OVH, Ikoula, LWS, Hostinger et Ionos vont sans surprise dominer cette première page. Et ces hébergeurs satisferont la plupart de vos besoins. Le VPS à 5€ HT d'OVH est correct, c'est même un des meilleurs choix (de raison) en entrée de gamme avec une bande passante de plus du double des offres concurrentes. J'ai effectué des tests avec leur offre Starter, encore moins chère mais avec une bande passante réduite, et les résultats n'étaient, globalement, pas si mauvais que ça…
+
+
+
+Mais… parce que vous le savez, il y a toujours un mais - c'est un autre hébergeur (mon hébergeur) que je vais vous conseiller : [Contabo](https://www.tkqlhce.com/click-100146919-12454680). **Pour cinquante centimes moins cher**, vous aurez une configuration autrement plus musclée : 3 vCores, 8Go de RAM, SSD NVMe de 75Go et 200Mbps de bande passante. Contre, rappelons le quand même, 2 vCore, 2Go de RAM, 40Go d'espace disque et 500Mbps chez OVH. Et les datacenters Contabo sont eux aussi en Europe, en Allemagne ou au Royaume Uni (au choix) pour être exact. Pour la protection des données et la conformité au RGPD, difficile de faire mieux.
+
+
+
+## OpenLiteSpeed : le serveur rapide, léger, performant et gratuit
+
+
+
+Oui mais, le challenger, c'est LiteSpeed, pas OpenLiteSpeed… vous l'avez certainement compris, le second est la version open source du premier. Et dans les `headers` de votre page, OpenLiteSpeed renvoie `Server: LiteSpeed`. Ce qui rend impossible le calcul de la part de chacun de ces deux serveurs dans les statistiques.
+
+
+
+Il y a bien quelques différences entre les deux, mais ce sont des différences mineures :
+
+
+
+* le cache serveur LiteSpeed est plus puissant
+* Litespeed est 100% compatible avec Apache, OpenLiteSpeed quant à lui se "contente" de la compatibilité avec les règles de réécriture (rewrite rules)
+* Les modifications requièrent un redémarrage d'OpenLiteSpeed, Quand LiteSpeed les détecte et les applique à chaud
+* OpenLiteSpeed LiteSpeed peut être intégré aux interfaces de gestion web DirectAdmin, CyberPanel et aaPanel - LiteSpeed s'intègre également à cPanel et à Plesk (ce sont des options payantes).
+
+
+
+Mais pourquoi s'intéresser à un serveur web à la distribution plutôt confidentielle, alors que Nginx fait très bien l'affaire, seul ou couplé à Apache ?
+
+
+
+Tout simplement parce que la force d'OpenLiteSpeed est ailleurs ;)
+
+
+
+* Avec Nginx, Caddy et Cloudflare Server (qui est une version modifiée de Nginx, ne l'oublions pas), LiteSpeed fait partie des très (trop) rares serveurs web à proposer le **protocole HTTP/3**. Même si ce protocole n'est pas encore massivement adopté côté navigateurs, il est [supporté par Chrome, Firefox, Safari, Opera et même par Edge](https://caniuse.com/http3) !
+* **Le cache serveur d'OpenLiteSpeed est très performant** - et grâce à l'extension *LiteSpeed Cache* (dans le dépôt WordPress, nous la verrons plus loin dans l'article) les performances sont au moins égales à celles que l'on obtient avec WP Rocket. En aparté, ce cache intègre le balisage [ESI](https://fr.wikipedia.org/wiki/Edge_Side_Includes) (utilisé par Varnish Cache, Symfony, Fastly ou encore Akamai).
+* OpenLiteSpeed dispose d'**une interface web native** "conviviale" pour effectuer toutes les opérations que vous effectueriez en ligne de commande pour Nginx ou Apache - nous reviendrons sur cette interface dans l'article.
+
+
+
+Je vous en parlais à l'instant, justement, de…
+
+
+
+### L'interface de gestion d'OpenLiteSpeed
+
+
+
+C'est un plus et non des moindres, vous n'avez pas besoin d'effectuer la configuration de vos sites, vhosts, listeners… en mode ligne de commande depuis un terminal tel que PuTTY. Il suffit de lancer une console web sur le port 7080 : `https:[IP du serveur]:7080`. Enfin, si vous êtes accros à la ligne de commande… rien ne vous empêche de l'utiliser.
+
+
+
+L'intérêt de cette interface est moins flagrant lorsqu'OpenLiteSpeed est couplé avec CyberPanel, mais au moins pour visualiser certains réglages ou améliorer la sécurité de votre site, c'est sans commune mesure avec la ligne de commande…
+
+
+<OptImg src="/image/panneau-controle-openlitespeed-accueil" alt="Interface de gestion d'OpenLiteSpeed" caption="Interface de gestion d'OpenLiteSpeed" align="center" />
+
+
+Tout devient d'un coup bien plus simple… même si, avouons-le, il faut quelques connaissances de base en administration de site pour mener à bien l'ajout d'un site web.
+
+
+
+## LiteSpeed Cache : le cache serveur contrôlé depuis WordPress
+
+
+
+Contrairement aux extensions généralistes telles que *WP Rocket*, *WP Super Cache* ou *W3 Total Cache*, l'extension ***LiteSpeed Cache*** est dédiée à OpenLiteSpeed (et à LiteSpeed). L'extension interagit directement avec le serveur, ce qui lui permet d'optimiser au maximum les performances de votre site.
+
+
+
+
+J'ai effectué deux installations de base de WordPress : une avec OpenLiteSpeed et LS Cache et une classique avec Nginx / Apache, un cache Nginx et WP Rocket. J'ai ajouté une image, et tenté de régler les deux extensions de manière similaire (compression HTML / CSS / javascript, CSS critique et javascript en mode différé).
+
+
+
+Sans cache, la page pèse **143Ko** et génère **11 requêtes**. Avec *WP Rocket*, elle ne pèse plus "que" **138Ko** et génère **9 requêtes**. C'est déjà mieux. Mais avec *LiteSpeed Cache*, elle tombe à "seulement" **118Ko** et génère toujours **9 requêtes**. En servant la page comme "statique" on descend même à **94Ko** tout en générant une requête de plus, soit **10 requêtes**. De quoi dire que **LiteSpeed Cache est performant**, en plus d'être gratuit.
+
+
+
+Le tableau de bord de l'extension est intéressant quand on pense *Core Web Vitals* - les signaux web essentiels mis en avant par Google pour le classement.
+
+
+<OptImg src="/image/lscache-dashboard" alt="LS Cache - Tableau de bord" caption="LS Cache - Tableau de bord" align="center" />
+
+
+En 1, les indicateurs essentiels : les images et le CSS critique - l'essentiel pour un chargement rapide de la page "visible".
+
+
+
+En 2, le temps de chargement et le score PageSpeed - deux indicateurs majeurs des Web Core Vitals.
+
+
+
+En 3 et 4, les autres indicateurs. Tout ce qui est généré via QUIC.cloud, le CDN OpenLiteSpeed / LiteSpeed.
+
+
+
+### Configurer LiteSpeed Cache
+
+
+
+Si je vous dit que l'extension est utilisable telle quelle, out of the box… malheureusement non, ce n'est pas le cas. Mais pour autant, pas besoin de sortir de Saint-Cyr pour la configurer.
+
+
+
+Si son interface est moins moderne que celle de WP Rocket par exemple, elle est plus conviviale que celle de bien des extensions de cache présentes dans le dépôt WordPress, vu qu'on n'est pas agressé en permanence par des propositions de mise à jour vers une version Pro payante. Et pour cause, il n'y a pas de version payante.
+
+
+
+Voici la page pour les réglages généraux :
+
+
+<OptImg src="/image/options-generales-lscache" alt="Options générales - LiteSpeed Cache" caption="Options générales - LiteSpeed Cache" align="center" />
+
+
+Sobre, et préréglée. Vérifiez quand même juste après avoir activé l'extension, cela ne vous prendra que quelques secondes et vous ajusterez éventuellement en fonction de vos besoins.
+
+
+
+Toutes les autres réglages sont accessibles via le menu latéral gauche de l'administration WordPress, à l'entrée *LiteSpeed Cache*. Vous allez devoir passer par chaque onglet pour régler chaque paramètre à grands coups de clics. 5 minutes chrono, dans le pire des cas.
+
+
+
+En aparté, LiteSpeed a également développé des extensions de cache pour Magento, Joomla, Prestashop, OpenCart, Drupal 8, XenForo, MediaWiki, Laravel, CS.Cart et Shopware… autrement dit, pour chacun de ces frameworks et applicatifs, vous tirerez pleinement parti de la puissance d'OpenLiteSpeed. Et vous avez aussi accès à une API, ce qui fait que vous pouvez également implémenter une solution pour un tout autre environnement.
+
+
+
+## QUIC.cloud - le CDN HTTP/3 dédié à LiteSpeed & OpenLiteSpeed
+
+
+
+À l'instar de Cloudflare, QUIC.cloud implémente le protocole HTTP/3. Difficile de faire autrement, pour le CDN dédié à LiteSpeed et à OpenLiteSpeed. Le tableau de bord est très simple, il y a l'essentiel et rien d'autre. **Son utilisation pour un site WordPress est gratuite**, pour l'optimisation des images, pour la génération de CSS critiques et pour l'utilisation en tant que CDN. Exit les extensions d'optimisation d'images, QUIC.cloud gère très bien tout seul.
+
+
+<OptImg src="/image/quic-cloud-cdn" alt="QUIC.cloud CDN" caption="QUIC.cloud CDN" align="center" />
+
+
+Activé en deux clics depuis l'interface de gestion du cache dans WordPress, il ne demande que peu de réglages pour être fonctionnel. Vous n'aurez pas à passer d'écran en écran pour fignoler votre installation.
+
+
+
+## aaPanel, le panneau de contrôle alternatif
+
+
+
+Livré brut de décoffrage, [aaPanel](https://www.aapanel.com/index.html) est tout aussi intéressant et gratuit que CyberPanel, que nous verrons ensuite, mais demande à être configuré de part en part une fois installé. C'est un panneau de contrôle utilisé principalement en Asie, où il est installé sur plus de 2 millions de serveurs en production.
+
+
+
+Le défaut majeur, c'est qu'il faut tout installer et configurer manuellement. Mais c'est aussi son principal avantage. Vous pouvez installer les applications que vous souhaitez, et uniquement celles que vous souhaitez : pas besoin d'un serveur de mails ? Ne l'installez pas. Vous préférez aliSQL ou MySQL 8.0 à mariaDB ? Installez la version que vous souhaitez utiliser, voire les trois si le cœur vous en dit.
+
+
+
+*Centos* est la plateforme native d'aaPanel. Malheureusement, cette distribution n'est plus maintenue, elle a été abandonnée au profit de *Centos Stream*, avec une différence majeure : *Centos* était une version stabilisée de *RedHat Enterprise*, alors que *Centos Stream* sert de laboratoire en incluant les outils qui seront normalement intégrés dans la prochaine release de *RedHat Enterprise*.
+
+
+
+Je vous conseille d'utiliser [almalinux](https://almalinux.org/fr/) ou [Rocky Linux](https://rockylinux.org/fr/), deux distributions récentes qui reprennent l'esprit de *Centos* et sont 100% compatibles binairement avec *RedHat Entreprise*. Après avoir tenté l'installation sur l'une et sur l'autre, tout fonctionne parfaitement.
+
+
+
+Vous pouvez également utiliser aaPanel sur Debian / Ubuntu, mais certains outils (tels que le serveur de DNS) ne fonctionneront pas.
+
+
+<OptImg src="/image/aapanel-accueil" alt="aaPanel - Panneau de contrôle" caption="aaPanel - Panneau de contrôle" align="center" />
+
+
+Vous aurez à installer tout, du serveur web (avec au choix, Apache, Nginx ou OpenliteSpeed), le serveur de bases de données (MySQL 5.x, 8.0 ou MariaDB), le serveurFTP, PHP, node.js… enfin, vous avez un "conteneur", libre à vous de le configurer en fonction de vos besoins.
+
+
+
+Pour ma part, j'aime bien cette **approche minimaliste** : vous n'êtes pas encombrés par tout un ensemble d'éléments qui ne vous servent pas. Par contre, l'intégration d'OpenLiteSpeed n'est pas aussi poussée que dans CyberPanel : vous allez devoir mettre les mains dans le cambouis, aller modifier des fichiers de configuration sur le serveur en mode SSH / CLI. Dommage…
+
+
+
+## CyberPanel : le panneau de contrôle d'OpenLiteSpeed et consorts
+
+
+
+En fait, [CyberPanel](https://cyberpanel.net/) est l'un des trois panneaux de contrôle compatibles OpenLiteSpeed. Les autres, ce sont DirectAdmin (mais en plus d'être payant, il semble ne pas être aussi finement configurable - de quoi dire "il y a moins bien, mais c'est plus cher…"), et aaPanel.
+
+
+
+L'interface est agréable, même si, il faut le reconnaître, elle n'est pas aussi conviviale que celle de Plesk par exemple. Disons que l'on se trouve à mi-chemin entre la laideur et l'ergonomie cauchemardesque de cPanel et la convivialité de Plesk. Ni belle ni moche, bien au contraire ;)
+
+
+<OptImg src="/image/cyber-panel-accueil" alt="Cyber Panel - Panneau de contrôle" caption="Cyber Panel - Panneau de contrôle" align="center" />
+
+
+Créer un site web et le sécuriser avec *Let's Encrypt* est très facile. Vous choisissez la version de PHP (de 7.2 à 8.0), vous pouvez aussi décider de créer un sous-domaine réservé aux emails (mail.votre-domaine.com). Ceci-dit, le SSL proposé pour la création d'un domaine (ou d'un sous-domaine) n'est pas un wildcard sécurisant les domaines de niveaux inférieurs. **Pour chaque sous domaine créé** (dont celui réservé aux emails) il va falloir sécuriser avec *Let's Encrypt*.
+
+
+<OptImg src="/image/creer-domaine-cyber-panel" alt="Création de domaine dans CyberPanel" caption="Création de domaine dans CyberPanel" align="center" />
+
+
+Cerise sur le gâteau, après avoir créé votre premier domaine, vous pourrez créer un sous-domaine (via la même interface, CyberPanel ne fait pas la différence, a priori) dédié à l'accès à CyberPanel, en mode HTTPS sécurisé par un certificat Let's Encrypt. Il suffira, après avoir créé le sous-domaine, d'aller, dans le menu latéral, à SSL > Nom d'hôte SSL et de générer un certificat. Accéder à son panneau de contrôle via `https://cyberpanel.mondomaine.com:8090/` c'est quand même plus propre que l'accès via une URL en HTTPS non valide (auto-signé).
+
+
+
+L'installateur d'application est plutôt basique mais s'en sort bien : l'installation est propre, avec la dernière version de WordPress, sans ajout aucun, si ce n'est *LiteSpeed Cache*, mais c'est annoncé dès le départ. Et bien sûr, en anglais, il faudra donc passer par les réglages généraux pour avoir une interface et des réglages internes (date, heure, messages…) adaptés à une audience française.
+
+
+<OptImg src="/image/cyberpanel-installateur-applications" alt="CyberPanel - Installateur d'applications" caption="CyberPanel - Installateur d'applications" align="center" />
+
+
+J'ai créé le site de démo avec cette interface :
+
+
+<OptImg src="/image/cyberpanel-installer-wordpress" alt="CyberPanel - Installer WordPress" caption="CyberPanel - Installer WordPress" align="center" />
+
+
+En plus de l'installateur (qui normalement, ne devrait pas servir tous les jours), vous trouverez dans CyberPanel un autre outil beaucoup plus utile si vous gérez une lettre d'information : un outil intégré de gestion d'email marketing.
+
+
+<OptImg src="/image/cyberpanel-email-marketing" alt="Outils pour lettre d'information - CyberPanel" caption="Outils pour lettre d'information - CyberPanel" align="center" />
+
+
+Je ne l'ai pas encore testé, mais ça ne saurait tarder - et si l'essai est concluant, je n'en servirai probablement pour mes lettres d'information.
+
+
+
+### Les performances d'OpenLiteSpeed avec CyberPanel
+
+
+
+J'ai fait pointer un sous-domaine vers le serveur pour effectuer mes tests. J'ai ensuite migré mon blog pour avoir une base "en conditions réelles". La seule modification apportée, c'est le passage de *WP Rocket* à *LiteSpeed Cache*. **Le résultat est sans appel !** Surtout, souvenez-vous, que la configuration du VPS de test est bien inférieure à celle de mon hébergement actuel.
+
+
+
+Intéressons-nous tout d'abord aux tests GTmetrix :
+
+
+
+
+<OptImg src="/image/gtmetrix-plesk-820x1024" alt="Performances Tout sur WordPress avec Nginx + Apache" caption="Performances Tout sur WordPress avec Nginx + Apache" align="center" />
+
+
+
+<OptImg src="/image/gtmetrix-cyberpanel-818x1024" alt="Performances Tout sur WordPress avec OpenLiteSpeed" caption="Performances Tout sur WordPress avec OpenLiteSpeed" align="center" />
+
+
+
+
+**Page plus légère** (un gain d'un peu plus de 10%), temps de réponse inférieur, chargement **plus rapide (gain de 30%)**, meilleurs *Core Web Vitals*… tout est dit, je n'ai rien à ajouter.
+
+
+
+La sécurité n'est pas en reste, vous noterez le A+ dans le test *Qualys / SSL Labs* :
+
+
+<OptImg src="/image/qualys-toutsurwordpress-openlitespeed" alt="Test Qualys SSL Labs" caption="Test Qualys SSL Labs" align="center" />
+
+
+Alors bien sûr, j'applique ma sauce perso pour obtenir ce résultat, mais si je peux le faire (et quel que soit l'environnement : Plesk, cPanel, CyberPanel… ), vous pouvez le faire aussi.
+
+
+
+Avec mon VPS kimsufi (pour les tests tout au moins), son vCore et ses 2Go de RAM, je passe 450 visites (de la page d'accueil d'un site WordPress de base) en 15 secondes, soit 30 pages servies par seconde. Pas si mal, même si je remarque que les performances ne sont pas linéaires, en grande partie à cause du serveur, peu puissant, avec une bande passante assez faible, et non garantie. N'empêche, même en divisant par 3, on reste sur du 10 pages par seconde, soit 600 pages par minute, 3600 par heure… j'ai de la marge vu mes stats :|
+
+
+<OptImg src="/image/loader-io-1-vcore-2go-ram" alt="Charge supportée par OpenLiteSpeed" caption="Charge supportée par OpenLiteSpeed" align="center" />
+
+
+Un retour rapide sur la bande passante : les 100Mbps que vous offrent les offres d'entrée de gamme ne permettent pas des performances extraordinaires. 100Mbps équivalent à 12,5Mo. **~~Pas à 100Mo~~.**
+
+
+
+Vous divisez la bande passante maximale par le poids de la page, et vous obtenez grosso modo le nombre de pages que peut servir votre VPS en 1 seconde.
+
+
+
+Donc pour 100Mbps et une page de 500Ko : 12,5Mo / 0.5Mo **vous ne servirez jamais plus de 25 pages par seconde**. Si votre page pèse un bon Mo (ce n'est pas si rare), faites le calcul…
+
+
+
+Théoriquement, parce que la bande passante n'est pas le seul facteur à prendre en compte. Le nombre de CPU, la puissance de chaque vCore, la mémoire, les disques, le temps de réponse du serveur… **tout est important**. D'où l'importance d'optimiser vos images et vos pages plus généralement.
+
+
+
+## Installer OpenliteSpeed sur votre VPS
+
+
+
+Deux types d'installation sont possibles : soit un pack OpenLiteSpeed / PHP / MariaDB / WordPress via le script `ols1clk.sh`, sans Cyberpanel, mais il va nous manquer des briques logicielles telles qu'un serveur DNS, un serveur FTP et un serveur d'emails, ou via CyberPanel, avec tout ce dont nous avons besoin pour un serveur complet. Tout dépend de vos attentes.
+
+
+
+### Installer OpenLiteSpeed sans CyberPanel
+
+
+
+OpenLiteSpeed n'est pas gourmand, il doit tourner sur un 80486 ou un PowerPC G4 (mais si, vous trouverez un vieux PC à écran ~~catholique~~ cathodique dans le placard à grand-papa pour tester) avec 32Mo de RAM (la norme était plutôt de 4 voire de 8Mo) et un disque de 500Mo avec un système d'exploitation vaguement récent (15 à 20 ans) de type \*nix : Unix, Linux, FreeBSD, Solaris, MacOS (au choix : Debian 4+, Ubuntu 8.04+, CentOS 5+, SunOS 5.8+, FreeBSD 4.5+, MacOS 10.3+). Mais bon, attention, c'est la configuration minimale, vous n'irez pas très loin avec, et ne comptez pas installer MySQL et un serveur FTP…
+
+
+
+On va dire qu'à minima, un bon vieux Pentium avec 8Go de RAM et un SSD premier prix voire un SATA avec 5Go feront largement l'affaire et une carte Ethernet 100Mbps, si vous ne voulez pas prendre un VPS (1vCore / 2Go / 100Mbps suffisent pour tenter l'aventure, mais je vous recommande 2 vCores / 4Go de RAM / 200Mbps si vous faites une installation qui doit accueillir votre site en production).
+
+
+
+Mais quelle que soit la solution retenue, n'oubliez pas qu'il faut une installation fraîche de votre distribution linux, sous peine de rencontrer des incohérences lors de l'installation d'OpenliteSpeed.
+
+
+
+Nous allons suivre l'installation sur une distribution Debian / Ubuntu. Debian 9, 10, Ubuntu 18, 20… peu importe, la procédure est la même.
+
+
+
+Une fois logué, en tant qu'administrateur ou sous votre identifiant, vous devrez passer en `root` ou utiliser la commande `su`, ce qui revient au même.
+
+
+
+Ensuite, une commande suffit :
+
+<Code code={`wget --no-check-certificate https://raw.githubusercontent.com/litespeedtech/ols1clk/master/ols1clk.sh && bash ols1clk.sh -w
+`} lang="txt" />
+
+Vous devrez répondre, par Y si vous souhaitez poursuivre :
+
+
+<OptImg src="/image/ols1clk" alt="lancement du script ols1clk.sh" caption="lancement du script ols1clk.sh" align="center" />
+
+
+Quelques minutes plus tard, votre écran va afficher :
+
+
+<OptImg src="/image/ols1clk-fin" alt="installation via ols1clk.sh terminée" caption="installation via ols1clk.sh terminée" align="center" />
+
+
+Voilà, c'est terminé. Vous n'avez pas eu trop mal ? Non ? Alors récupérons les mots de passe :
+
+<Code code={`cat /usr/local/lsws/password
+`} lang="txt" />
+
+Les mots de passe sont en clair, entourés par des crochets :
+
+
+<OptImg src="/image/ols1clk-passwd" alt="Mots de passe OpenLiteSpeed" caption="Mots de passe OpenLiteSpeed" align="center" />
+
+
+L'identifiant et le pot de passe WebAdmin vous permettent d'accéder à la console d'OpenLiteSpeed (et ne rêvez pas, ce sont les identifiants générés aléatoirement pendant mes tests, le serveur a été réinstallé n fois +1 depuis).
+
+
+
+Vous pouvez personnaliser l'installation en renseignant chaque option dans la ligne de commande (l'aide pourrait être utile, elle est accessible via la commande `bash ols1clk.sh --help`) :
+
+
+<OptImg src="/image/ols1clk-help" alt="Options d'ols1clk.sh" caption="Options d'ols1clk.sh" align="center" />
+
+
+Donc pour installer WordPress en français depuis la ligne de commande, en renseignant votre nom de domaine, vous lancerez plutôt :
+
+<Code code={`wget --no-check-certificate https://raw.githubusercontent.com/litespeedtech/ols1clk/master/ols1clk.sh && bash ols1clk.sh --wplang fr\_FR --wordpressplus mondomaine.com
+`} lang="txt" />
+
+Vous pouvez également installer OpenLiteSpeed dans un container Docker, vous trouverez des images et les instructions nécessaires [sur le site officiel de LiteSpeed](https://docs.litespeedtech.com/cloud/docker/).
+
+
+
+### Installer CyberPanel (avec OpenLiteSpeed)
+
+
+
+CyberPanel introduit des contraintes en termes de distributions Linux compatibles : CentOS 7 & 8 (mais que nous allons laisser de côté, vu que même CentOS 8 n'est plus maintenu depuis le 9 avril 2021) et Ubuntu 18 & 20. Nous pouvons partir sur une **Ubuntu Server 20.04.2 LTS** (Long Term Support) qui sera maintenue jusqu'en avril 2025. À toutes fins utiles, vous pouvez la télécharger ici : [Get Ubuntu Server](https://ubuntu.com/download/server#releases).
+
+
+
+Une fois votre distribution installée, loguez-vous et prenez le contrôle avec `su`. Il n'y a pas grand chose à faire, juste lancer cette ligne de commande :
+
+<Code code={`sh <(curl https://cyberpanel.net/install.sh || wget -O - https://cyberpanel.net/install.sh)
+`} lang="txt" />
+
+Vous aurez à répondre à quelques questions, mais vous devriez vous en sortir :
+
+
+<OptImg src="/image/cyberpanel-install-openlitespeed" alt="Installation de CyberPanel avec OpenLiteSpeed" caption="Installation de CyberPanel avec OpenLiteSpeed" align="center" />
+
+
+Il ne reste plus qu'à attendre la fin de l'installation, plus ou moins longtemps en fonction de votre VPS.
+
+
+<OptImg src="/image/cyberpanel-install-fin" alt="Fin d'installation - CyberPanel" caption="Fin d'installation - CyberPanel" align="center" />
+
+
+il ne vous reste plus qu'à relancer le serveur, tout est maintenant en place.
+
+
+
+#### Ajustements post installation
+
+
+
+CyberPanel devient paranoïaque, dans ses dernières versions tout est désactivé par défaut dont le téléchargement de fichiers. En fonction de la version d'installation (2.4.2 actuellement) `curl` est ou n'est pas activé sur certaines versions de PHP, idem pour `intl`. On est toujours sur une configuration par défaut le plus souvent inadaptée pour WordPress : `upload_max_filesize` à 2M, `memory_limit` à 128M… Pour uniformiser la configuration des verions de PHP, j'ai préparé un script bash, `fix_php_ols.sh`.
+
+
+
+Une fois connecté en root sur votre VPS, ouvrez le fichier avec la commande suivante :
+
+
+
+```
+vim /root/fix_php_ols.sh
+```
+
+
+
+Insérez le code suivant (adaptez les premières lignes pour que la configuration soit telle que vous la souhaitez) :
+
+<Code code={`#!/bin/bash
+set -euo pipefail
+# Dépendances
+command -v apt >/dev/null || { echo "Ce script nécessite un système basé sur APT (Debian/Ubuntu)"; exit 1; }
+# Paramètres à appliquer
+declare -A PHP\_SETTINGS=(
+["file\_uploads"]="On"
+["upload\_max\_filesize"]="64M"
+["post\_max\_size"]="64M"
+["memory\_limit"]="512M"
+["max\_execution\_time"]="120"
+["upload\_tmp\_dir"]="/tmp"
+["expose\_php"]="Off"
+)
+REQUIRED\_EXTENSIONS=("curl" "mbstring" "intl" "json" "mysqli")
+LSWS\_BASE="/usr/local/lsws"
+RESTART\_REQUIRED=0
+PHP\_FOUND=()
+echo -e "\n???? Détection des versions PHP installées dans \$LSWS\_BASE..."
+for dir in "\$LSWS\_BASE"/lsphp\*/; do
+[[ -d "\$dir" ]] || continue
+php\_bin="\${dir}bin/php"
+[[ -x "\$php\_bin" ]] || continue
+version=\$("\$php\_bin" -r 'echo PHP\_MAJOR\_VERSION . "." . PHP\_MINOR\_VERSION;')
+ini\_path=\$(find "\$dir"etc/php/ -name php.ini 2>/dev/null | head -n1)
+if [[ -f "\$ini\_path" ]]; then
+PHP\_FOUND+=("\$version|\$ini\_path|\$php\_bin")
+fi
+done
+if [[ \${#PHP\_FOUND[@]} -eq 0 ]]; then
+echo "❌ Aucune version PHP trouvée."
+exit 1
+fi
+for entry in "\${PHP\_FOUND[@]}"; do
+IFS="|" read -r ver ini php <<<"\$entry"
+echo -e "\n⚙️ Configuration de PHP \$ver → \$ini"
+for key in "\${!PHP\_SETTINGS[@]}"; do
+value="\${PHP\_SETTINGS[\$key]}"
+if grep -qE "^\$key\s\*=" "\$ini"; then
+sed -i "s|^\$key\s\*=.\*|\$key = \$value|" "\$ini"
+else
+echo "\$key = \$value" >> "\$ini"
+fi
+done
+echo " ✅ Paramètres corrigés"
+echo " ???? Extensions requises :"
+for ext in "\${REQUIRED\_EXTENSIONS[@]}"; do
+if "\$php" -m | grep -qw "\$ext"; then
+echo " ✔ \$ext"
+else
+echo " ❌ \$ext ABSENT — tentative d'installation"
+apt-get install -y "php\${ver}-\${ext}" && RESTART\_REQUIRED=1 || echo " ⚠️ Échec installation php\${ver}-\${ext}"
+fi
+done
+RESTART\_REQUIRED=1
+done
+if [[ \$RESTART\_REQUIRED -eq 1 ]]; then
+echo -e "\n♻️ Redémarrage OpenLiteSpeed..."
+\$LSWS\_BASE/bin/lswsctrl restart
+else
+echo -e "\n✅ Aucun redémarrage nécessaire"
+fi
+echo -e "\n???? Terminé. Tous les \`php.ini\` corrigés et extensions vérifiées."
+`} lang="bash" />
+
+Rendez-le exécutable :
+
+
+
+```
+chmod +x /root/fix_php_ols.sh
+```
+
+
+
+Lancez-le en root :
+
+
+
+```
+./fix_php_ols.sh
+```
+
+
+
+#### Ajustements pour MariaDB
+
+
+
+Pour optimiser l'utilisation mémoire / CPU de MariaDB, je vous recommande de customiser le fichier `50-server.cnf`. Commencez par ouvrir le fichier :
+
+
+
+```
+vim /etc/mysql/mariadb.conf.d/50-server.cnf
+```
+
+
+
+Insérez dans le fichier, après la balise `[mysqld]`, en adaptant les valeurs (ici pour un VPS avec 3 vCPU et 8Go de RAM) :
+
+<Code code={`# Basique
+innodb\_read\_io\_threads = 8
+innodb\_write\_io\_threads = 8
+innodb\_thread\_concurrency = 6
+thread\_cache\_size = 50
+thread\_pool\_size = 4
+skip-name-resolve
+max\_connections = 150
+connect\_timeout = 10
+wait\_timeout = 300
+thread\_cache\_size = 100
+# Mémoire (adaptée à 8 Go total système)
+innodb\_buffer\_pool\_size = 3G
+innodb\_buffer\_pool\_instances = 2
+innodb\_log\_file\_size = 512M
+innodb\_log\_buffer\_size = 64M
+innodb\_flush\_log\_at\_trx\_commit = 2
+# Cache
+query\_cache\_type = 0
+query\_cache\_size = 0
+tmp\_table\_size = 256M
+max\_heap\_table\_size = 256M
+table\_open\_cache = 4096
+open\_files\_limit = 65535
+# Journalisation
+slow\_query\_log = 1
+slow\_query\_log\_file = /var/log/mysql/slow.log
+long\_query\_time = 1
+# Sécurité minimale
+local-infile = 0
+# Charset par défaut
+character-set-server = utf8mb4
+collation-server = utf8mb4\_unicode\_ci
+`} lang="mariadb" />
+
+Redémarrez le service :
+
+
+
+```
+systemctl restart mariadb
+```
+
+
+
+Et c'est terminé. Votre configuration de MariaDB est terminée.
+
+
+
+#### Mise à jour d'OpenLiteSpeed
+
+
+
+Dans le cas où OpenLiteSpeed ne serait pas à jour, il est toujours intéressant de passer à la dernière version pour profiter des corrections et des nouvelles fonctionnalités.
+
+
+
+Nous allons d'abord mettre actualiser le fichier de dépôt debian :
+
+<Code code={`wget -O - http://rpms.litespeedtech.com/debian/enable\_lst\_debian\_repo.sh | sudo bash
+`} lang="txt" />
+
+Ensuite, ouvrez le fichier `lst_debian_repo.list` avec `vim` :
+
+<Code code={`vim /etc/apt/sources.list.d/lst\_debian\_repo.list
+`} lang="txt" />
+
+Décommentez la seconde ligne (`x` pour supprimer le `#` puis `:x` pour enregistrer et sortir). Puis lancez cette ligne de commande :
+
+<Code code={`apt update && apt upgrade
+`} lang="txt" />
+
+Une fois la mise à jour terminée, rendez-vous dans les outils d'administration d'OpenLiteSpeed :
+
+<Code code={`cd /usr/local/lsws/admin/misc
+`} lang="txt" />
+
+Puis lancez une commande pour définir l'identifiant et le mot de passe de la console web d'OpenLiteSpeed :
+
+<Code code={`./admpass.sh
+`} lang="txt" />
+
+Voilà, le système est en place, et à jour, vous accédez à CyberPanel sur le port 8090 et après avoir ajouté une règle au pare-feu, vous accèderez à l'interface d'administration d'OpenLiteSpeed via le port 7080.
+
+
+
+Il ne reste plus qu'à configurer l'ensemble avant de profiter pleinement de votre nouveau serveur.
+
+
+
+En tout premier lieu, installez le pare-feu (*CSF*) ainsi que *ModSecurity*. Les deux sont accessibles dans l'onglet *Sécurité* de l'interface (menu latéral gauche), et s'installent en un clic.
+
+
+
+Ajoutez le port `7080` à la liste des ports autorisés, vous en aurez besoin pour accéder à la console OpenLiteSpeed.
+
+
+<OptImg src="/image/cyberpanel-csf" alt="CyberPanel - CSF (pare-feu)" caption="CyberPanel - CSF (pare-feu)" align="center" />
+
+
+Voilà, vous avez un serveur web complet (web / ftp / emails) configuré, prêt à servir ! Il ne reste plus qu'à créer votre premier domaine, à ajouter un accès FTP si besoin, un email…
+
+
+
+## Mise à jour de CyberPanel
+
+
+
+Pour éviter les failles de sécurité et profiter des améliorations logicielles, il est impératif de mettre à jour régulièrement CyberPanel. Vous pouvez effectuer cette mise à jour depuis l'interface web (menu latéral gauche : `Dashboard > Version Management`), ou en ligne de commande depuis un terminal `SSH` :
+
+<Code code={`sh <(curl https://raw.githubusercontent.com/usmannasir/cyberpanel/stable/preUpgrade.sh || wget -O - https://raw.githubusercontent.com/usmannasir/cyberpanel/stable/preUpgrade.sh)
+`} lang="txt" />
+
+Je vous propose une alternative qui vous évite toute intervention manuelle une fois mise en place… via `cron`.
+
+
+
+### Mise en place d'une mise à jour automatisée de CyberPanel
+
+
+
+Nous allons créer un script basé sur la ligne de commande précédente, avec les fonctionnalités suivantes :
+
+
+
+* **Système de verrous** : Évite les exécutions simultanées
+* **Logging complet** : Toutes les actions sont enregistrées dans un fichier log
+* **Fallback automatique** : Utilise `curl` en premier, puis `wget` en cas d'échec
+* **Vérification de connectivité** : Teste la connexion Internet avant de procéder
+* **Nettoyage automatique** : Supprime les fichiers temporaires même en cas d'erreur
+
+
+
+Depuis une console `SSH`, créez le fichier `cyberpanel_update.sh` :
+
+<Code code={`vim /usr/local/bin/cyberpanel\_update.sh
+`} lang="txt" />
+
+Insérez le code suivant dans le fichier fraîchement créé :
+
+<Code code={`#!/bin/bash
+# Script de mise à jour automatique de CyberPanel
+# Date: \$(date +%Y-%m-%d)
+# Configuration des logs
+LOG\_FILE="/var/log/cyberpanel\_update.log"
+LOCK\_FILE="/tmp/cyberpanel\_update.lock"
+# Fonction de logging
+log\_message() {
+echo "[\$(date '+%Y-%m-%d %H:%M:%S')] \$1" | tee -a "\$LOG\_FILE"
+}
+# Fonction de nettoyage
+cleanup() {
+if [ -f "\$LOCK\_FILE" ]; then
+rm -f "\$LOCK\_FILE"
+log\_message "Verrou supprimé"
+fi
+}
+# Trap pour nettoyer en cas d'interruption
+trap cleanup EXIT INT TERM
+# Vérifier si le script est déjà en cours d'exécution
+if [ -f "\$LOCK\_FILE" ]; then
+log\_message "ERREUR: Une mise à jour est déjà en cours (fichier de verrou existant)"
+exit 1
+fi
+# Créer le fichier de verrou
+touch "\$LOCK\_FILE"
+log\_message "Début de la mise à jour CyberPanel"
+# Vérifier la connectivité Internet
+if ! ping -c 1 google.com &> /dev/null; then
+log\_message "ERREUR: Pas de connexion Internet disponible"
+exit 1
+fi
+# Fonction pour exécuter la mise à jour
+execute\_update() {
+local method=\$1
+local url="https://raw.githubusercontent.com/usmannasir/cyberpanel/stable/preUpgrade.sh"
+case \$method in
+"curl")
+if command -v curl &> /dev/null; then
+log\_message "Utilisation de curl pour télécharger le script de mise à jour"
+curl -fsSL "\$url" | bash
+return \$?
+else
+log\_message "curl n'est pas disponible"
+return 1
+fi
+;;
+"wget")
+if command -v wget &> /dev/null; then
+log\_message "Utilisation de wget pour télécharger le script de mise à jour"
+wget -O - "\$url" | bash
+return \$?
+else
+log\_message "wget n'est pas disponible"
+return 1
+fi
+;;
+\*)
+log\_message "Méthode inconnue: \$method"
+return 1
+;;
+esac
+}
+# Tenter la mise à jour avec curl en premier, puis wget en fallback
+log\_message "Tentative de mise à jour avec curl..."
+if execute\_update "curl"; then
+log\_message "Mise à jour réussie avec curl"
+exit 0
+else
+log\_message "Échec avec curl, tentative avec wget..."
+if execute\_update "wget"; then
+log\_message "Mise à jour réussie avec wget"
+exit 0
+else
+log\_message "ERREUR: Échec de la mise à jour avec curl et wget"
+exit 1
+fi
+fi
+`} lang="shell" />
+
+Rendez le fichier exécutable :
+
+<Code code={`chmod +x /usr/local/bin/cyberpanel\_update.sh
+`} lang="txt" />
+
+Configurez la tâche `cron` :
+
+<Code code={`crontab -e
+`} lang="txt" />
+
+Ajoutez la ligne suivante (ou adaptez-la) :
+
+<Code code={`0 5 \* \* \* /usr/local/bin/cyberpanel\_update.sh
+`} lang="txt" />
+
+Et voilà, c'est terminé, vous n'avez plus rien à faire, la mise à jour se fera automatiquement tous les jours à 5h, sans que vous n'ayez à intervenir !
+
+
+
+Pour surveiller les logs, rien de plus simple :
+
+<Code code={`# Voir les dernières mises à jour
+sudo tail -f /var/log/cyberpanel\_update.log
+# Voir l'historique complet
+sudo cat /var/log/cyberpanel\_update.log
+`} lang="bash" />
+
+## Le mot de la fin
+
+
+
+J'ai redécouvert OpenLiteSpeed en cherchant des solutions alternatives à Plesk, que j'ai utilisé pendant plus de 5 ans mais dont le coût n'était pas négligeable.
+
+
+
+Ceci-dit, configurer un serveur pour un site en production ne s'improvise pas, cela demande un certain investissement en temps et en tests (je n'ai pas de compétences innées, hélas), j'ai donc tenté, testé, retesté, vérifié, revérifié… avant de passer deux sites sous OpenLitespeed : [Tout sur WordPress](https://tsw.ovh/), sur lequel vous êtes actuellement, et [Alla Tavola di Cescato - Cucina italiana e caffè](https://tavola-cescato.zone-test.ovh/), un blog de recettes (italiennes). Ainsi que mes réalisations les plus récentes, comme le site d'une pizzeria locale : [Zio Enzo](https://zio-enzo.eu). Et j'ai poursuivi la migration au fil du temps, en fonction de mes impératifs professionnels et familiaux.
+
+
+
+J'ai même convaincu d'autres agences web et entreprises de passer à CyberPanel / OpenLiteSpeed - ce sont maintenant des dizaines de sites autour de moi, dont des sites e-commerce et des applications web qui utilisent cette solution alternative pour des performances en hausse et un coût revu à la baisse.
+
+
+
+Attention ! Si vous avez des sites en production sur votre serveur, n'oubliez pas de le sécuriser : choisissez **un mot de passe fort** et changez-le régulièrement, **mettez CyberPanel à jour** dès qu'une mise à jour est disponible, changez le port par défaut (de 8090 à 8312 par exemple), effectuez des sauvegardes régulières - ne simplifiez pas la tâche des hackers, ce serait sommage de voir votre installation partir en fumée par négligence…
+
+
+
+Et vous, allez-vous tenter OpenLiteSpeed, avec ou sans CyberPanel ? Ou peut-être avez-vous déjà migré vers ce serveur web…
+
+
+
+Les chiffres clés :
+
+
+
+* **26** réponses au sondage dans [Fans de WordPress](https://www.facebook.com/groups/fanswp) sur Facebook
+* **25** installations / réinstallations de la distribution, d'OpenLiteSpeed, de CyberPanel, d'aaPanel… ou peut-être plus, j'ai arrêté de compter il y a longtemps déjà ;)
+* **40** heures, à la louche (entre les recherches, les tests et la rédaction)
+* **157** révisions (avec l'enregistrement automatique désactivé)
+* **150** tasses de café (ou peut-être plus) - merci à ma cafetière napolitaine trouvé sur un stand de brocante ;)

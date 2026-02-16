@@ -1,0 +1,308 @@
+---
+
+title: 'Contact Form 7 - gratuit, performant, extensible…'
+lastmod: '2024-07-16T10:00:03+00:00'
+slug: contact-form-7-puissant-formulaires-wordpress
+draft: false
+categories:
+  - Extensions
+description:  Contact Form 7 est l'une des plus basiques, des plus anciennes, des plus utilisées des extensions pour les formulaires dans WordPress. Mais aussi une des plus puissantes.
+image: /image/contact-form-7.avif
+pubDate: '2024-07-16'
+
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+Par défaut, WordPress ne gère pas les formulaires, si ce n'est pour les commentaires. Mais rassurez-vous, vous trouverez dans le dépôt WordPress des dizaines d'extensions pour pallier ce manque. Dont WPForms, Ninja Forms et… ***Contact Form 7***. C'est d'ailleurs le plus populaire, au vu de ses plus de 10 millions d'installations actives.
+
+
+
+Et pourtant, contrairement à certains de ses concurrents, il n'offre pas de constructeur dédié, et dans sa version de base, il est on ne peut plus rustique. Alors pourquoi cet engouement ?
+
+
+
+Plusieurs raisons permettent d'expliquer le succès de cette extension :
+
+
+
+* Tout d'abord, **sa simplicité**. Ce côté rustique avec une interface spartiate rassure. Mais ne vous méprenez pas ! Rustique, simple, mais puissant.
+* *Contact Form 7* est également **flexible**, grâce aux [hooks](https://developer.wordpress.org/plugins/hooks/#_ts1720891630376) WordPress. Les filtres et actions disponibles dans *Contact Form 7* autorisent une grande souplesse dans le traitement des formulaires. Pour un développeur, c'est le nec plus ultra, c'est l'assurance de pouvoir faire ce que l'on veut comme l'on veut.
+* Enfin, vous trouverez **des addons** à *Contact Form 7* dans le dépôt WordPress, pour rediriger après envoi, pour créer un formulaire séquentiel, pour gérer des types de champs supplémentaires, pour structurer via un système de grille…
+
+
+
+Lors du développement (récent) d'un CRM basé sur WordPress, j'ai été emmené à user des hooks et des addons de *Contact Form 7*, et le moins que je puisse dire, c'est qu'aucun de ses concurrents ne m'auraient permis de faire ne serait-ce que le dixième de ce que j'ai fait en l'utilisant. Et ce n'est pas faute d'avoir tenté. Seul concurrent sérieux, a priori : Gravity Forms - mais il est payant. Ce qui dans certains cas ne posera pas vraiment problème, certains des addons de *Contact Form 7* l'étant aussi. Tout est question de besoin - et de portefeuille.
+
+
+
+Ce que je vous propose, c'est de faire un tour rapide d'horizon de *Contact Form 7*, de ses hooks et de ses addons.
+
+
+
+Nous allons pour commencer par la…
+
+
+
+## Prise en main de Contact Form 7
+
+
+
+Si vous êtes un habitué de WordPress, vous savez comment installer une extension. Sinon, je vous propose de lire mon billet [Installer, activer, mettre à jour et supprimer une extension WordPress](/blog/blogging/extensions/guide-extension-wordpress/).
+
+
+
+Une fois *Contact Form 7* installé et activé, vous pouvez l'utiliser, il n'y a pas de réglages particuliers. Tout se gère formulaire par formulaire : les champs du formulaire, le contenu du message envoyé, les textes des messages de notification, et les réglages additionnels (nous reviendrons plus tard dessus).
+
+
+
+### Création d'un formulaire
+
+
+
+Rien de plus simple, cliquez sur ajouter et vous aurez un formulaire basique, de type *formulaire de contact*. L'interface minimaliste du premier onglet contient le code HTML ainsi que les shortcodes pour l'insertion des champs et boutons :
+
+<Code code={`<label> Votre nom
+[text\* your-name autocomplete:name] </label>lt;/label</label>gt;
+<label> Votre e-mail
+[email\* your-email autocomplete:email] </label>lt;/label</label>gt;
+<label> Objet
+[text\* your-subject] </label>lt;/label</label>gt;
+<label> Votre message (facultatif)
+[textarea your-message] </label>lt;/label</label>gt;
+[submit "Envoyer"]
+`} lang="txt" />
+
+Dans l'exemple ci-dessus, nous trouvons des shortcodes correspondant aux champs HTML5 `input` de type `email`, `text`, à la zone de texte (`textarea`) et au bouton de soumission. Vous avez également le champ caché, la liste déroulante, la case à cocher, le bouton radio, les champs de type téléphone, date, url, nombre, confirmation (pour accepter les conditions générales par exemple) pour ne citer que l'essentiel.
+
+
+
+C'est basique, brut de décoffrage, le balisage n'est pas un modèle du genre, mais tout y est et le formulaire est prêt à être inséré dans une page ou un article.
+
+
+
+Arrêtons nous sur la construction des tags : `[text* your-name autocomplete:name]` avec la structure `[type de champ (l'étoile indique que le champ est obligatoire) - nom du champ - critères complémentaires]`.
+
+
+
+Les critères complémentaires correspondent pour certains aux attributs de la balise HTML `input` : `class:myclass` donnera `class="myclass"`, `id:myid` donnera `id="myid"`.
+
+
+
+L'autocomplétion (critère `autocomplete`) est intéressante si vous voulez fournir **un formulaire rapide à remplir** à vos contacts : `given-name` pour le prénom, `family-name` pour le nom de famille ou tout simplement `name` pour les prénom et nom ensembles, `email` pour le courriel… vous trouverez la liste complète des autocomplétions possibles [sur une page dédiée du site Mozilla](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete).
+
+
+
+Et vous trouverez le détail de la structure des champs sur le site de Contact Form 7 à la page [How tags works](https://contactform7.com/text-fields/).
+
+
+
+En aparté, [la documentation](https://contactform7.com/docs/) (en anglais) est plutôt complète mais ne couvre que l'utilisation "classique" de l'extension. C'est sur le web qu'il faudra chercher tutoriels et howtos, en particulier pour les hooks et événements personnalisés. L'inconvénient, c'est que si l'on ne sait pas exactement ce que l'on cherche, ou si notre recherche porte sur une option peu utilisée, on peut y perdre un certain temps, pour ne pas dire un temps certain.
+
+
+
+### Les réglages de base
+
+
+
+Le second onglet permet de gérer l'envoi d'un email à un destinataire prédéfini. Tout est prévu pour un courriel bien formatté : destinataire, expéditeur, objet, en-têtes additionnels pour répondre à l'expéditeur réel du message, envoi au format texte (par défaut) ou HTML, possibilité de joindre des fichiers, envoi d'une réponse automatique…
+
+
+<OptImg src="/image/contact-form-7-email-1024x895" alt="" caption="Réglages de l'email dans Contact Form 7" align="center" />
+
+
+### Les messages (notifications)
+
+
+
+Le troisième onglet, *Messages*, permet de personnaliser chaque notification. Quand le message de l’expéditeur a bien été envoyé, par exemple, le texte par défaut est *Merci pour votre message. Il a été envoyé.* Mais vous pouvez le remplacer par le texte de votre choix, comme *Merci pour ce message, je vous répondrai dès que possible* par exemple.
+
+
+
+Des notifications sont prévues pour vous informer des événements impactants dans la saisie du formulaire : l'envoi du message (ou l'échec de l'opération), une saisie mal formattée ou manquante, l'obligation d'accepter les conditions avant soumission… c'est au total 22 messages que vous pouvez personnaliser pour chaque formulaire créé.
+
+
+
+### Les réglages additionnels
+
+
+
+Le quatrième onglet , *Réglages additionnels*, permet de modifier le comportement par défaut de *Contact Form 7* : `demo_mode: on` pour mettre le formulaire en mode démo (le courriel ne sera pas envoyé, mais vous aurez la notification de succès), `skip_mail: on` pour passer l'envoi du courriel.
+
+
+
+Voilà pour les basiques. C'est déjà bien, vous pouvez maintenant insérer votre formulaire via le bloc Gutenberg dédié :
+
+
+<OptImg src="/image/bloc-gutenberg-contact-form-7" alt="Bloc Gutenberg pour Contact Form 7" caption="Bloc Gutenberg pour Contact Form 7" align="center" />
+
+
+En ❶, vous avez l'icone du bloc tel qu'il apparait dans la liste des blocs Gutenberg. En ❷, la liste de choix du formulaire à afficher.
+
+
+
+Voici ce que vous obtiendrez :
+
+
+<OptImg src="/image/formulaire-base-contact-form7-desktop" alt="Formulaire Contact Form 7 - sur écran d'ordinateur" caption="Formulaire Contact Form 7 - sur écran d'ordinateur" align="center" />
+
+
+À noter que par défaut, le balisage étant en HTML5, les formulaires sont responsives.
+
+
+
+### Les hooks (filtres et actions)
+
+
+
+Nous avons vu le fonctionnement en utilisant l'interface de base de l'extension, mais on peut également utiliser les hooks pour aller plus loin avec *Contact Form 7*. L'un des plus utilisés est `wpcf7_before_send_mail` que l'on appellera via `add_filter ( 'wpcf7_before_send_mail', 'myfunctions_formsActions', 10, 3 );` par exemple. Et dans la fonction PHP `myfunctions_formsActions` vous mettrez le code pour traiter les données reçues avant de repartir dans la boucle des actions par défaut. Ce hook porte bien son nom, il permet de réaliser un traitement entre la soumission du formulaire et son envoi.
+
+
+
+Tenez, un cas d'utilisation : j'ai créé un formulaire pour modifier rapidement certaines valeurs dans une base de données externe en plus de la base WordPress du site. Le formulaire est envoyé (mais grâce à `skip_mail: on` il n'y a pas d'envoi de courriel), les valeurs en base de données sont modifiées en utilisant la classe `wpdb` pour la base WordPress et par l'envoi de données via cURL dans `myfunctions_formsActions()` et le traitement adéquat sur le site distant, avant l'envoi d'une notification de réussite ou d'échec. Simple et efficace.
+
+
+
+Le hook `wpcf7_add_form_tag` vous permet de créer votre propre champ de formulaire, si par exemple vous souhaitez formatter différemment un input en lui rajoutant des options non incluses dans l'interface par défaut par exemple. Comme un champ date et heure renseigné automatiquement et basé sur une valeur prédéfinie (H+24 par exemple).
+
+
+
+### Les événements DOM personnalisés
+
+
+
+Pour aller plus loin, il est aussi possible de se servir des événements DOM personnalisés. Nous n'utilisons plus PHP mais javascript :
+
+<Code code={`<script>
+document.addEventListener( 'wpcf7mailsent', function( event ) {
+// le traitement à appliquer, une redirection par exemple
+// vous pouvez par exemple utiliser les données du formulaire via event.detail.inputs
+var inputs = event.detail.inputs;
+for ( var i = 0; i < inputs.length; i++ ) {
+if ( 'your-name' == inputs[i].name ) {
+var yourname = inputs[i].value;
+}
+location = 'https://url-de-redirection.com/?nom=' + yourname;
+}
+}, false );
+</script>lt;/script</script>gt;
+`} lang="js" />
+
+Ce code peut être mis en service via l'extension [WPCode – Insert Headers and Footers + extraits de code personnalisés – Gestionnaire de code WordPress](https://fr.wordpress.org/plugins/insert-headers-and-footers/).
+
+
+<OptImg src="/image/contact-form-7-event-listener-1024x406" alt="Insertion d'un bout de code - javascript" caption="Insertion d'un bout de code - javascript" align="center" />
+
+
+Suivez les étapes de l'image : ❶ activez le bout de code, ❷ donnez-lui un nom, ❸ sélectionnez le type de code, ❹ insérez votre code, et retour en ❶ pour enregistrer.
+
+
+
+Le script peut aussi être inséré via du code PHP, en voici un exemple plus complet :
+
+<Code code={`add\_action('wp\_footer', 'mysite\_cf7\_redirect');
+function mysite\_cf7\_redirect() {
+if (function\_exists('wpcf7')) {
+echo "<script type='text/javascript'>
+document.addEventListener('wpcf7mailsent', function(event) {
+location = 'https://your-redirection-url.com'; // remplacer avec votre URL de destination
+}, false);
+</script>lt;/script</script>gt;";
+}
+}
+`} lang="php" />
+
+**Attention !** À l'étape ❸ ne choisissez pas javascript **mais PHP** !
+
+
+
+Pour en savoir plus les événements DOM personnalisés, je vous conseille de consulter la page [DOM Events](https://contactform7.com/dom-events/) sur le site de l'extension. Vous y trouverez les différents événements appelables, et le contenu de l'objet `event` associé à l'événement.
+
+
+
+Après ce bref tour d'horizon de *Contact Form 7*, vous commencez peut-être à entrevoir tout le potentiel de cette extension. Bien sûr, comparé à d'autres extensions de formulaires, on reste dans le basique. Mais c'est sans compter sur les addons gratuits et payants développés pour étendre ses fonctionnalités.
+
+
+
+## Les addons pour Contact Form 7
+
+
+
+Ce n'est pas un addon pour Contact Form 7, mais il vous permettra d'insérer vos bouts de code sans modifier le fichier functions.php (très mauvaise pratique par ailleurs), c'est [WPCode – Insert Headers and Footers + extraits de code personnalisés – Gestionnaire de code WordPress](https://fr.wordpress.org/plugins/insert-headers-and-footers/), dont nous avons parlé précédemment. Vous pourrez insérer vos bouts de code PHP, javascript, CSS ou HTML, partout sur le site, sur certaines pages, dans la partie admin uniquement, sur ordinateur ou mobile (ou sur les deux)… il vous servira donc pour Contact Form 7, mais pas que.
+
+
+
+
+### Les constructeurs de formulaire pour Contact Form 7
+
+
+
+Le constructeur de formulaire par défaut n'est pas le nec plus ultra des constructeurs, il faut le reconnaitre. Le premier vrai addon dans ma liste, c'est donc *CF7 Smart Grid Design Extension*.
+
+
+
+
+Cette extension permet de créer une grille pour chaque formulaire, et le résultat est habituellement intéressant. C'est le plus simple et le plus agréable à utiliser. Mais à l'occasion, je rencontre des bugs sans raison apparente. Sur un site, elle ne se charge pas en front-end, ce qui donne un rendu basique pour le formulaire. Sur un autre site, elle interfère avec d'autres addons. Vous pouvez tenter, mais personnellement, je suis déçu par cette extension pourtant si prometteuse.
+
+
+
+**Je préfère désormais créer mes formulaires via le [constructeur en ligne de Crocoblock](https://crocoblock.com/freemium/tools/contact-form-7-layout-builder/).** Voici une courte vidéo qui vous en expliquera le fonctionnement :
+
+
+<OptImg src="/image/crocoblock-contact-form-7-rendu" alt="Rendu du formulaire avec le constructeur Crocoblock" caption="Rendu du formulaire avec le constructeur Crocoblock" align="center" />
+
+
+### Le couteau suisse pour Contact Form 7
+
+
+
+Contact Form 7 est performant mais basique, c'est un fait. Si vous avez besoin d'un formulaire un minimum élaboré, avec un canevas, avec une logique conditionnelle, la signature de votre client, des champs préremplis, l'intégration avec WooCommerce, Telegram, Zapier, Mailchimp… alors il vous faut *Ultimate Addons for Contact Form 7*.
+
+
+
+
+Cette extension permet d'étendre les capacités de *Contact Form 7*, et **de mettre en forme plus finement son formulaire**, sans pour autant avoir la souplesse du constructeur de Crocoblock, tout au moins dans sa version gratuite. C'est un tout en un, il y a donc des fonctionnalités plus basiques que d'autres.
+
+
+
+J'ai utilisé le module de grille pour des formulaires multicolonnes, le champ signature dans un formulaire de compte rendu d'intervention chez le client, la redirection après soumission du formulaire, les champs conditionnels en fonction du public visé (le numéro SIREN n'a pas d'intérêt pour un particulier mais est obligatoire pour un professionnel)… mais il y a en plus la possibilité de créer des formulaires avec étapes (multistep), d'insérer des champs selon une logique conditionnelle, de sauvegarder les entrées du formulaire en base de donnée, et j'en passe, il y a une vingtaine de modules livrés avec la version gratuite.
+
+
+
+[La version Pro](https://cf7addons.com/#pro-addons) est encore plus complète, elle permet de créer des grilles personnalisées avec une variété de combinaisons plus importante, la possibilité de créer des formulaires interactifs, d'avoir des champs répétables, une redirection conditionnelle, de créer des listes ou des grilles de produits WooCommerce…
+
+
+
+Une licence à vie (lifetime) vaut de 99 à 199€ en fonction des promotions en cours sur le site, ce qui est raisonnable au vu des fonctionnalités proposées, d'autant que le support est très réactif : à chaque question posée, **j'ai eu une réponse dans la journée**.
+
+
+
+### Le filtre antispam
+
+
+
+Même si l'apparence est essentielle, la sécurité lui dame le pion - de mon point de vue tout au moins. C'est pour cela que j'ai installé et activé *Contact Form 7 Honeypot*.
+
+
+
+
+Pas de configuration particulière pour cette extension qui vous protège efficacement du spam. Ceci dit, si vous utilisez une autre extension pour éviter le spam et les commentaires indésirables, elle couvre peut être aussi les formulaires créés via *Contact Form 7*. L'avantage de celle-ci, **c'est qu'elle est transparente pour l'utilisateur**. Pas de CAPTCHA, pas de quiz, aucune action de l'utilisateur n'est requise.
+
+
+
+### Les autres addons
+
+
+
+En fonction de vos besoins : téléversement de plusieurs images, inscription à une liste de diffusion, champs calculés pour établir un devis, paiement via Paypal ou Stripe, connexion à *Google Sheets*, template designer pour envoyer des courriels plus accrocheurs, envoi de SMS, vous trouverez l'extension qu'il vous faut [dans le dépôt WordPress](https://wordpress.org/plugins/search/contact+form+7/) ou en cherchant sur le web - toutes les extensions ne sont pas gratuites, et certaines n'ont pas de version gratuite bridée.
+
+
+
+## Le mot de la fin
+
+
+
+*Contact Form 7* ne va pas vous éblouir par son interface *user friendly*, par les types de champs gérés ou par ses options délirantes, mais il permet de créer un formulaire qui répond à vos besoin, via des addons dans certains cas, ou en mettant les mains dans le cambouis à l'occasion, mais pour des possibilités qui vont au-delà du simple formulaire de contact, et au-delà de ce que vous proposent la plupart de ses concurrents, le tout gratuitement ou pour un coût dérisoire.

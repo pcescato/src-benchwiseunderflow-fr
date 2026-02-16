@@ -1,0 +1,112 @@
+---
+
+title: 3 solutions de backup pour garder vos données en lieu sûr
+lastmod: '2025-04-26T23:24:57+00:00'
+slug: wordpress-backup-cloud
+draft: false
+categories:
+  - Conseils
+tags:
+  - extension
+  - sauvegarde
+  - sécurité
+description : "Que faire en cas de perte de données, de hack ou de crash de votre site internet ? Restaurer à partir d'une sauvegarde récente n'est possible que si vous avez un backup externe. Sinon, il est toujours temps d'en mettre un en place…"
+image: /image/cloud-servers.avif
+pubDate: '2021-03-20'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+Les événements de ce 10 mars 2021 ont durement touché l'internet français : [l'incendie du datacenter SBG2 OVH](https://fr.wikipedia.org/wiki/Incendie_du_centre_de_donn%C3%A9es_d%27OVHcloud_%C3%A0_Strasbourg) à fait perdre, temporairement ou définitivement, de précieuses données et des milliers, pour ne pas dire des millions d'utilisateurs des services d'OVHcloud - enfin, à ceux qui n'avaient pas pensé à effectuer un backup régulier chez un autre prestataire.
+
+
+
+Vous n'avez pas été touché ? Tant mieux pour vous. Mais, pour reprendre la déclaration d'un expert en sécurité :
+
+
+<OptImg src="/image/x-cloner-storages" alt="Espaces de stockage des backups" caption="Espaces de stockage des backups" align="center" />
+
+
+Comme vous pouvez le voir, j'ai testé suffisamment de localisations pour pouvoir vérifier les capacités de l'extension. OneDrive ne permet pas de s'enregistrer avec un espace personnel, or je n'ai pas d'espace pro sur la plateforme Microsoft. J'ai par contre testé avec succès Google Drive, pour lequel un add-on gratuit est disponible dans le dépôt WordPress, un protocole S3, Backblaze, et WebDAV avec HiDrive, l'espace cloud de chez Ionos. Testé, et approuvé. Je n'ai pas vérifié les protocoles de base (local, ftp, sftp) qui ne doivent jamais poser problème, ni Dropbox qui est hors de prix comparé à Google Drive ou aux autres solutions disponibles.
+
+
+
+Je vous présenterai l'extension dans un article à part, histoire de vous expliquer plus en détail son fonctionnement.
+
+
+
+### Backup and Staging by WP Time Capsule
+
+
+
+
+[WP Time Capsule](https://wptimecapsule.com/index.php?partner=pcescato) produit vos sauvegardes en local dans votre espace d'hébergement mais stocke certaines données sur ses propres serveurs. Il serait de bon aloi qu'ils en aient une copie ailleurs dans le cloud ;)
+
+
+<OptImg src="/image/wptimecapsule-console" alt="Console déportée WP Time Capsule" caption="Console déportée WP Time Capsule" align="center" />
+
+
+Le premier point fort de cette extension, c'est sa capacité de **sauvegarde incrémentale en temps réel**. Vous effectuez une mise à jour sur votre site, hop, un backup est initié.
+
+
+
+Un second point fort, lié au stockage de certaines données sur leurs serveurs, c'est la possibilité de restaurer sur un serveur neuf en cas de crash complet. Intéressant dans le cas d'un sinistre, par exemple.
+
+
+
+Cette solution a un intérêt majeur si vous avez, par exemple, un site de e-commerce ou avec prise de rendez-vous. **Toute votre activité est en lieu sûr**, vous redémarrez là où vous vous étiez arrêtés, **sans la moindre perte de donnée**.
+
+
+
+Ces fonctionnalités ont un coût, il est de 49 € par an pour **deux sites** maximum.
+
+
+
+### Backup & Migration – WPvivid Backup and Migration Plugin
+
+
+
+
+La version gratuite de WPvivid n'apporte rien en termes de fonctionnalités par rapport à XCloner, je dirais même qu'elle ne la vaut pas. Dans sa version payante par contre, sans être aussi performante que WP Time Capsule, elle apporte son lot de petits plus qui en font un challenger sérieux. C'est donc de la version payante que nous allons parler.
+
+
+
+Premier intérêt, **la sauvegarde incrémentale**. On ne sauvegarde que les données qui ont changé depuis la sauvegarde précédente, le poids est donc largement moindre, **l'espace disque est optimisé**.
+
+
+<OptImg src="/image/wpvivid-incremental-backup-1024x520" alt="WPvivid - Backup incrémental" caption="WPvivid - Backup incrémental" align="center" />
+
+
+Second point intéressant pour certains par rapport à WP Time Capsule, il n'y a pas de données conservées en dehors du site et de l'espace de stockage dans le cloud. **L'intermédiaire est supprimé**.
+
+
+
+Pour ce qui est du prix à payer, il est de 49 € par an, comme pour WP Time Capsule, mais c'est **trois sites** dont vous pourrez sécuriser les données avec cette licence.
+
+
+
+## Calcul du coût total et bilan
+
+
+
+Vous vous en êtes aperçus au fil de l'article, les tarifs ne sont pas cauchemardesques.
+
+
+
+Une extension gratuite ou une payante à 49 €, 200 Go sur Google Drive pour 30 € par an, ou 1000 chez Ionos pour 72 € à l'année… on est entre 30 et 121 €. Comparé à ce que vous perdriez en cas de corruption des données, de hacking, d'attaque par un ransomware, de sinistre… la tranquillité a un prix, c'est certain, mais il est à la portée de toutes les bourses.
+
+
+
+Et si vous avez un VPS ou un serveur géré via Plesk ou cPanel, vous avez également d'autres options disponibles pour faire une sauvegarde complète de votre serveur. Mais là, on sort du cadre défini, savoir la sauvegarde dans WordPress.
+
+
+
+En conclusion, que dire ? Que bien sûr, on ne va pas jeter la pierre à ceux qui ont par ignorance perdu leurs données lors d'un incident, quelle qu'en soit la cause - une mauvaise manip suffit à tout casser, sans même qu'il y ait eu intention de nuire. Mais à compter d'aujourd'hui, vous n'aurez plus d'excuse si vous perdez vos données parce que vous n'avez pas voulu prendre le temps de configurer une solution de sauvegarde externe, ou parce que vous avez lésiné sur les moyens.
+
+
+
+Et vous, avez-vous mis en place une sauvegarde dans le cloud ? Quelle solution avez-vous retenue ?

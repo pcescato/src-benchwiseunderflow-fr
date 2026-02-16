@@ -1,0 +1,582 @@
+---
+
+title: Rank Math - la meilleure extension SEO pour WordPress ?
+lastmod: '2025-06-30T06:09:46+00:00'
+slug: rank-math-seo
+draft: false
+categories:
+  - Extensions
+tags:
+  - gratuit
+  - Optimisation
+  - performances
+  - SEO
+excerpt: >-
+  Rank Math, l'extension SEO gratuite qui a tout d'une grande. Il y a moins
+  bien, mais c'est plus cher…
+image: /image/rank-math.avif
+pubDate: '2020-01-13'
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+
+import OptImg from '../../components/OptImg.astro'
+
+
+La SEO pour WordPress, c'est *Yoast*. Oui, mais… il y a *Yoast*, et il y a les autres. Enfin, il y avait. Parce que maintenant, **il y a** [Rank Math](https://rankmath.com/?ref=pascalcescato1), et puis il y a les autres. Dont *Yoast*.
+
+
+
+Et même si, pour le moment, la base d'utilisateurs de *Yoast* est de loin plus importante que celle de *Rank Math*, ne vous y trompez pas. L'outsider, devenu challenger, prend ses marques et se fait sa place dans le monde de la SEO, avec **plus de 700 000 installations actives** et surtout, une note de 4,9/5 avec plus de 2 800 votes. Moins de 3% de mécontents, c'est le même niveau de satisfaction que *Yoast* ou *SEOPress*, et bien mieux que *All in One SEO*.
+
+
+
+En aparté, j'ai eu l'occasion de tester le support technique de Rank Math : **très réactif, très professionnel et vraiment efficace**. Pour une extension gratuite, j'ai eu droit à un support Premium ! Et c'est, à n'en pas douter, un point essentiel à considérer lors du choix d'une extension sensible.
+
+
+
+J'ai établi un bref comparatif de ces deux extensions dans un article récent : [Rank Math vs Yoast SEO en 25 points](/blogging/extensions/rank-math-vs-yoast-seo/). Si *Rank Math* vous a convaincu, voici un tutoriel pour le prendre en main.
+
+
+
+Avant de modifier quoi que ce soit sur votre site en ligne, commencez par tester sur une version "staging". Et [créez une sauvegarde de votre site](/blogging/sauvegarde-blog/), personne n'est à l'abri d'un bug ou d'une erreur de manipulation.
+
+
+
+## Installer Rank Math
+
+
+
+
+Installer et activer l'extension n'a rien de sorcier. Si vous n'avez jamais effectué cette tâche, je vous recommande la lecture de l'article [Installer, activer, mettre à jour et supprimer une extension WordPress](/blogging/guide-extension-wordpress/).
+
+
+
+Et après l'installation, il faut bien sûr…
+
+
+
+## Configurer Rank Math
+
+
+
+### Configuration de base
+
+
+
+Dès que vous activez l'extension, vous vous retrouvez sur un assistant de configuration.
+
+
+<OptImg src="/image/rank-math-activation" alt="Écran d'activation de Rank Math - Étape 1" caption="Écran d'activation de Rank Math - Étape 1" align="center" />
+
+
+En tout premier lieu, il va falloir créer un compte sur [Rank Math](https://rankmath.com/), ou si vous en avez déjà un, vous y connecter.
+
+
+<OptImg src="/image/rank-math-compte" alt="Rank Math - Enregistrement / Connexion" caption="Rank Math - Enregistrement / Connexion" align="center" />
+
+
+Le tableau de bord est d'une sobriété exemplaire, et très agréable à l'usage. Ceci-dit, vous n'aurez pas souvent à vous en servir.
+
+
+<OptImg src="/image/rank-math-websites-300x133" alt="Sites activés - Rank Math" caption="Sites activés - Rank Math" align="left" />
+
+
+Mais vous y retrouvez les sites connectés, vos informations personnelles, vos demandes de support technique et les préférences pour toute communication entre Rank Math et vous.
+
+
+
+Une fois que vous vous êtes enregistré et connecté à votre compte Rank Math, vous pouvez lancer la configuration de l'extension. En cliquant sur *Activate Rank Math*, vous générez une demande d'autorisation aux services *Google Analytics*, *Adsense* et *Search Console*.
+
+
+
+Google vous délivre un code d'autorisation à copier et à insérer dans le premier écran de l'assistant, qui se met automatiquement à jour au fur et à mesure.
+
+
+
+[gallery ids="10706,10707,10732"]
+
+
+
+Une fois le code d'autorisation saisi et validé, vous recevez une alerte Google par email, vous signifiant que *Rank Math* a désormais accès à certaines données de votre compte.
+
+
+
+La page se met à jour et vous indique si votre site est compatible avec *Rank Math*.
+
+
+<OptImg src="/image/rank-math-getting-started" alt="Rank Math - Compatibilité du site avec l'extension" caption="Rank Math - Compatibilité du site avec l'extension" align="center" />
+
+
+C'est maintenant que la configuration commence vraiment, avec la deuxième étape, *votre site* (*your site* en anglais) :
+
+
+<OptImg src="/image/rank-math-your-site" alt="Rank Math - Votre site" caption="Rank Math - Votre site" align="center" />
+
+
+Tout d'abord, sélectionnez le type qui représente le mieux votre site. Vous avez le choix entre 7 types : blog personnel, site d’information / blog communautaire, portfolio, site de petite entreprise, site e-commerce, autre site personnel ou autre site professionnel pour définir au mieux votre activité.
+
+
+
+Vous pouvez ensuite choisir le logo qui apparaîtra dans les résultats de recherche Google, ainsi que l'image par défaut pour les réseaux sociaux, mais vous pouvez également passer cette étape et y revenir plus tard, si vous n'avez pas encore les éléments nécessaires.
+
+
+
+Et l'étape suivante, c'est l'intégration de la *Google Search Console*.
+
+
+<OptImg src="/image/rank-math-search-console-autorisee" alt="Rank Math - Google Search Console" caption="Rank Math - Google Search Console" align="center" />
+
+
+La configuration dans l'assistant est basique mais suffisante pour générer une sitemap exploitable par Google et les autres moteurs de recherche, les réglages par défaut sont de fait ceux que je vous recommanderais de choisir.
+
+
+
+Il n'y a que l'inclusion des pages d'archives à laquelle vous devez réfléchir : si vous ne rédigez pas un résumé personnalisé (l'*extrait* dans la colonne latérale *Document* de *Gutenberg*) pour vos articles, mais que vous utilisez le bloc *Lire la suite*, il serait préférable de **ne pas l'inclure** dans la sitemap, pour éviter le contenu dupliqué.
+
+
+<OptImg src="/image/rank-math-sitemaps" alt="Rank Math - Réglage de la sitemap" caption="Rank Math - Réglage de la sitemap" align="center" />
+
+
+L'étape suivante permet d'affiner la configuration de *Rank Math*, et d'optimiser la gestion de votre site.
+
+
+
+Pas besoin par exemple de penser à l'ouverture des liens externes dans un nouvel onglet, *Rank Math* s'en occupe pour vous. Même si, je l'avoue, je ne me sers pas personnellement de cette option.
+
+
+<OptImg src="/image/rank-math-optimisation" alt="Rank Math - Optimisation" caption="Rank Math - Optimisation" align="center" />
+
+
+Voila, c'est terminé pour la configuration de base de l'extension.
+
+
+<OptImg src="/image/rank-math-ready" alt="Rank Math - configuration terminée" caption="Rank Math - configuration terminée" align="center" />
+
+
+Vous pouvez en rester là en cliquant sur *Return to dashboard*, ou vous pouvez affiner la configuration en cliquant sur *Setup Advanced Options*.
+
+
+
+### Configuration avancée
+
+
+
+La première étape de configuration avancée permet de définir les capacités par rôle : administrateur, éditeur, contributeur, abonné… mais tous, bien sûr, n'auront pas accès aux réglages de *Rank Math*. Vous pouvez passer cette étape, les réglages par défaut conviennent dans la plupart des cas.
+
+
+
+L'étape suivante permet d'activer les modules de gestion des redirections et de l'erreur 404. Il faudra terminer la configuration de ces modules depuis le tableau de bord que nous découvrirons plus loin.
+
+
+<OptImg src="/image/rank-math-404-redirections" alt="Rank Math - gestion des redirections et des erreur 404" caption="Rank Math - gestion des redirections et des erreur 404" align="center" />
+
+
+Et pour finir, nous en arrivons à la gestion des *Rich Snippets* :
+
+
+<OptImg src="/image/rank-math-schema-markup" alt="" caption="undefined" align="center" />
+
+
+Et voila, la configuration est terminée. Il reste des points de détail à régler, mais pour l'essentiel, vous pouvez déjà vous occuper de la gestion de la SEO de votre site. Ou vous pouvez encore affiner la configuration de la SEO en allant d'onglet en onglet.
+
+
+
+Et si vous utilisiez une autre extension pour la SEO avant *Rank Math*, vous pouvez également…
+
+
+
+## Migrer vers Rank Math depuis une autre extension de SEO
+
+
+
+Si vous utilisez déjà une extension SEO… autant ne pas repartir de zéro. Deux cas de figure sont possibles : vous utilisez Yoast ou All in One SEO, ou une extension moins connue telle que The SEO Framework.
+
+
+
+### Migrer depuis Yoast SEO ou All in One SEO
+
+
+
+Si vous utilisez déjà une de ces deux extensions, il est possible d'importer leurs données directement depuis *Rank Math*.
+
+
+
+Rendez-vous dans *Rank Math > Import & Export*, dans l'encart *Plugin Importers* et cliquez sur *Import*.
+
+
+<OptImg src="/image/math-rank-importer" alt="" caption="undefined" align="center" />
+
+
+Ça y est, c'est terminé, les données compatibles sont importées.
+
+
+
+### Migrer depuis The SEO Framework
+
+
+
+Pour cette extension, la démarche est un peu plus complexe, tout en restant accessible pour peu que vous suiviez mon tutoriel.
+
+
+
+Tout d'abord, il va falloir installer une extension de conversion, SEO Data Transporter.
+
+
+
+
+Une fois l'extension installée et activée, rendez-vous dans *Outils > Convert SEO Data*.
+
+
+
+L'outil est simple à prendre en main, il y a deux listes déroulantes, la première pour choisir le format initial, la seconde pour spécifier le format cible. Dans notre cas, *The SEO Framework* en origine et *Yoast SEO* en cible. Vous analysez, vous devriez obtenir un tableau listant les éléments convertibles. Vous cliquez ensuite sur *Convert* pour effectuer **une conversion non destructive**.
+
+
+<OptImg src="/image/conversion-seo" alt="" caption="Conversion de format des données SEO" align="center" />
+
+
+Nous avons nos données au format *Yoast*, il suffit de retourner dans les outils de conversion de *Rank Math* pour importer nos données correctement. Vous aurez probablement des ajustements à effectuer, mais rien en comparaison d'une mise à jour manuelle article par article.
+
+
+
+Cette extension permet également de convertir les données depuis *Praison SEO WordPress*, *SEO Title Tag* ou *Jetpack Advanced SEO* (disponible dans les versions payantes de Jetpack), en suivant le même protocole.
+
+
+
+Maintenant que les réglages essentiels sont en place, il est temps de découvrir…
+
+
+
+## Le tableau de bord de Rank Math
+
+
+
+Et c'est une bonne surprise, le tableau de bord (*Dashboard*) est un modèle de simplicité.
+
+
+<OptImg src="/image/rank-math-welcome" alt="Rank Math - Tableau de bord" caption="Rank Math - Tableau de bord" align="center" />
+
+
+A partir du tableau de bord, vous pouvez atteindre n'importe quelle section de Rank Math, les activer, les désactiver et accéder directement aux réglages lorsque vous trouvez un lien *Settings* dans la section.
+
+
+
+Vous pouvez même relancer l'assistant de configuration depuis le tableau de bord, ou accéder à l'aide, ou importer / exporter les données depuis / vers *Rank Math*.
+
+
+
+Certaines sections ne vous seront pas utiles (*BuddyPress* ou *WooCommerce* si ces extensions ne sont pas installées sur votre site par exemple), ou n'auront pas vraiment d'intérêt si votre présence est uniquement en ligne (*Local SEO & Google Knowledge Graph*).
+
+
+
+Ce dernier module permet d'afficher les coordonnées via un code court. Pour ce site par exemple, le code court `rank_math_contact_info` donne ceci :
+
+
+[rank\_math\_contact\_info]
+
+
+Le code HTML correspondant :
+
+<Code code={`<address>
+<span class="contact-address-address">Place de la libération</span>lt;/span</span>gt;
+<span class="contact-address-locality">Villeréal</span>lt;/span</span>gt;,
+<span class="contact-address-region">Nouvelle Aquitaine</span>lt;/span</span>gt;
+<span class="contact-address-postalcode">47210</span>lt;/span</span>gt;
+</address>lt;/address</address>gt;
+`} lang="html" />
+
+Pas certain par contre que l'affichage convienne pour un site en France, le format est plus, disons, un peu trop typé outre-atlantique. Pour un site à dimension internationale par contre…
+
+
+
+Nous pourrions affiner la configuration de l'extension, chaque option est configurable dans le détail, mais pour la plupart des sites, inutile d'aller plus loin.
+
+
+
+Nous allons à présent nous pencher sur…
+
+
+
+## Les modules Rank Math
+
+
+
+Certains modules méritent toute notre attention, nous allons commencer par…
+
+
+
+### AMP
+
+
+
+Le [format AMP](/blogging/conseils/blog-format-amp/) permet d'améliorer l'expérience utilisateur en fournissant des pages extrêmement légères qui se chargent donc bien plus rapidement. Si votre site dispose d'une version AMP, autant activer le module pour optimiser le référencement avec ce format.
+
+
+
+Si vous avez *AMP for WordPress* installé, vous aurez à vous rendre dans les réglages de cette extension pour configurer l'analyse SEO AMP. Rendez-vous dans *AMP > Settings*, dans l'onglet *SEO*, sélectionnez *Rank Math SEO* et activez via les boutons switch.
+
+
+<OptImg src="/image/rank-math-amp" alt="Rank Math - Réglages AMP" caption="Rank Math - Réglages AMP" align="center" />
+
+
+### 404 Monitor et Redirections
+
+
+
+Les deux modules travaillent en étroite collaboration : le premier module permet de gérer la page d'erreur 404 (page non trouvée). Chaque erreur 404 sera listée (vous en aurez la liste via le menu latéral de l'administration, *Rank Math > 404 Monitor*). Le second permet de gérer les redirections et les autres erreurs 4xx :
+
+
+
+* 301 (redirection permanente)
+* 302 (redirection temporaire)
+* 307 (redirection temporaire pour cause de maintenance)
+* l'erreur 410 (contenu supprimé)
+* l'erreur 451 (contenu non disponible pour des raisons légales)
+
+
+
+C'est ce module qui permet de décider du traitement des erreurs 404 : lorsque vous cliquez sur *Redirect*, un panneau s'affiche permettant de rediriger l'URL en erreur.
+
+
+<OptImg src="/image/rank-math-gestion-404" alt="Rank Math - redirection des erreurs 404" caption="Rank Math - redirection des erreurs 404" align="center" />
+
+
+### L'analyse SEO par Rank Math
+
+
+
+Parce que oui, Rank Math intègre un module d'analyse SEO ! Je vous l'accorde, il est plutôt basique, mais il n'est pas sans intérêt. L'information est présentée par bloc, le premier bloc présente une analyse globale, graphique :
+
+
+<OptImg src="/image/rank-math-analyse-seo-globale" alt="Rank Math - Graphiques d'analyse SEO" caption="Rank Math - Graphiques d'analyse SEO" align="center" />
+
+
+Un score global, 34 points testés, et les points passés, les points avec avertissements et les points non validés.
+
+
+
+Puis viennent les points, regroupés par section ; les indispensables en premier lieu :
+
+
+<OptImg src="/image/rank-math-basic-seo" alt="Analyse SEO Rank Math - Indispensables" caption="Analyse SEO Rank Math - Indispensables" align="center" />
+
+
+**Tous les indicateurs de cette section** doivent être validés pour optimiser le référencement de votre site.
+
+
+
+La section suivante, *Advanced SEO*, comprend un aperçu de la page d'accueil dans les résultats de recherche, et un aperçu de cette même page sur terminal mobile.
+
+
+<OptImg src="/image/rank-math-advanced-seo" alt="Analyse SEO Rank Math - Réglages avancés" caption="Analyse SEO Rank Math - Réglages avancés" align="center" />
+
+
+**Chaque point devrait être validé** dans cette section également.
+
+
+
+La troisième section est consacrée aux performances :
+
+
+<OptImg src="/image/rank-math-seo-performance" alt="Analyse SEO Rank Math - Performances" caption="Analyse SEO Rank Math - Performances" align="center" />
+
+
+Un maximum d'indicateurs au vert dans cette section sont la garantie d'un temps de chargement optimisé. Et la vitesse de chargement des pages est prise en compte par Google pour votre placement dans les résultats de recherche.
+
+
+
+L'état des lieux suivant concerne la sécurité :
+
+
+<OptImg src="/image/rank-math-seo-securite" alt="Analyse SEO Rank Math - Sécurité" caption="Analyse SEO Rank Math - Sécurité" align="center" />
+
+
+Sur ce thème, **aucune concession n'est possible** : la sécurité du site garantit à vos visiteurs la sécurité des échanges entre eux et vous. **Indispensable**, pour ne pas dire crucial dès qu'on parle de e-commerce.
+
+
+
+Pour finir, Rank Math vérifie la connexion du site aux réseaux sociaux :
+
+
+<OptImg src="/image/rank-math-seo-social" alt="Analyse SEO Rank Math - Réseaux sociaux" caption="Analyse SEO Rank Math - Réseaux sociaux" align="center" />
+
+
+En fonction de votre domaine d'activité et de votre expérience personnelle dans ce domaine, l'indicateur peut être pertinent - ou n'avoir aucun intérêt.
+
+
+
+### Le module Google Search Console
+
+
+
+Les données de la Search Console sont exploitable depuis Rank Math, qui propose plusieurs onglets à partir des données récupérées via l'API Google.
+
+
+
+L'onglet Overview (vue d'ensemble) reprend les principaux indicateurs sous forme de graphiques :
+
+
+<OptImg src="/image/rank-math-search-console-overview" alt="Rank Math - Vue d'ensemble Search Console" caption="Rank Math - Vue d'ensemble Search Console" align="center" />
+
+
+Le deuxième onglet liste les mots clés, en indiquant la position moyenne dans les pages de résultats, le CTR (acronyme de *Click Through Rate*, qui signifie en français: taux de clics), le nombre d'impressions et le nombre de clics.
+
+
+<OptImg src="/image/rank-math-search-console-analytics" alt="Rank Math - mots clés de la Search Console" caption="Rank Math - mots clés de la Search Console" align="center" />
+
+
+L'onglet *Sitemaps* donne une indication générale sur la dernière sitemap soumise via la Search Console, mais dans l'état actuel, les données fournies ne reflètent pas la réalité. Dans mon cas par exemple, je ne trouve qu'une sitemap de 2018 alors que la dernière a été soumise fin 2019.
+
+
+
+Quant au dernier onglet, *Keyword Tracker*, il n'est là que pour annoncer une fonctionnalité en cours de développement chez *Rank Math*.
+
+
+
+## L'utilisation de Rank Math dans les articles et pages
+
+
+
+Tout en haut à droite de l'éditeur Gutenberg, vous trouverez un score global pour votre article. Ne vous inquiétez pas de voir un score de 20 ou moins (sur 100) lorsque vous démarrez la rédaction. Le score va augmenter petit à petit pour approcher des 100 au fur et à mesure que vous allez ajouter du contenu (titres de sections, texte, images, liens…) de qualité.
+
+
+
+Pour vous donner un exemple, j'ai commencé cet article avec un score de 29, et au trois quarts de la rédaction, j'atteignais un score de 96, pour culminer à 99 juste avant de publier. Sans optimisation particulière, juste en suivant ma trame et en appliquant certains conseils que vous trouverez sur ce blog dans l’article [13 points essentiels pour optimiser la SEO sous WordPress](/blogging/conseils/conseils-seo-wordpress/).
+
+
+
+La galerie ci-dessous vous offre un aperçu section par section et onglet par onglet de l'outil Rank Math accessible depuis Gutenberg.
+
+
+
+[gallery ids="10803,10802,10801,10805,10806,10800,10799"]
+
+
+
+### Onglet Général
+
+
+
+#### Prévisualisation
+
+
+
+Un aperçu du rendu dans les moteurs de recherche. Lorsque vous cliquez dessus, vous ouvrez une popup vous permettant de modifier le titre SEO, le permalien et la description, et d'obtenir une prévisualisation en mode écran de bureau ou mobile, ainsi qu'une prévisualisation du rendu dans les réseaux sociaux en cas de partage sur facebook ou twitter.
+
+
+
+#### Focus Keyword
+
+
+
+Les mots clés par rapport auxquels le score va être calculé. Vous pouvez inclure plusieurs mots clés, mais le score est essentiellement basé sur le premier.
+
+
+
+Lors de la saisie d'un mot clé, Rank Math vous **suggère des mots et expressions clés**, qui peuvent être utiles pour la **longue traîne**, et pour trouver des **alternatives** au mot clé principal. Voici pour le mot *décoration* par exemple :
+
+
+<OptImg src="/image/rank-math-suggestions" alt="Suggestions de mots clés" caption="Suggestions de mots clés" align="center" />
+
+
+*Décoration*, c'est vague, *décoration de Noël*, c'est mieux (enfin, si c'est bien de décorations de Noël que vous parlez dans votre article). Et si c'est pour une chambre d'enfant, vous pouvez utiliser *décoration chambre enfant*… *Rank Math* vous indiquera quels sont les indicateurs au vert pour chacun des mots / expressions clés que vous lui soumettez.
+
+
+
+C'est aussi dans cette section que vous allez déterminer si ce contenu est un *Pillar Content*, autrement dit un contenu important à reprendre dans les suggestions de liens, lors de la rédaction d'articles ultérieurement.
+
+
+
+#### SEO Basique
+
+
+
+L'ensemble des indicateurs de cette section devraient être au vert. C'est **le minimum syndical** pour espérer une indexation correcte dans les moteurs de recherche.
+
+
+
+#### SEO Avancée
+
+
+
+Les règles reprises dans cette section sont importantes elles-aussi, elles vous donnent une bonne idée de la "valeur" de votre contenu et du respect des règles générales de construction d'un article :
+
+
+
+* le mot clé présent dans les sous-titres est une bonne pratique, il montre l'importance de ce mot dans votre contenu
+* la présence du mot clé dans la balise *alt* des images permet une meilleure indexation de ces dernières, et donc la possibilité de référencer votre article via les médias présents dans la page
+* la densité des mots clés ne doit être ni trop élevée (pour ne pas éveiller la suspicion des moteurs de recherche) ni trop basse, auquel cas Google ne trouverait probablement pas le thème principal de votre article
+* la longueur de l'URL permet d'avoir un titre bien visible, pas tronqué dans les résultats de recherche
+* Le fait de lier à des ressources externes au site donne du poids à votre contenu
+* le maillage interne a une grande importance aussi : un blog ou un site n'est pas un ensemble de pages sans lien entre elles, mais un bloc ou chaque élément est en liaison avec le reste du site
+
+
+
+#### La lisibilité du titre
+
+
+
+Rank Math est extrêmement exigeant (trop) sur ce point. On ne peut pas en toutes circonstances avoir les 4 indicateurs au vert. Le premier est par contre essentiel : tentez de placer votre mot clé en début de titre SEO (c'est quand même le sujet de l'article !).
+
+
+
+#### La lisibilité du contenu
+
+
+
+Table des matières, paragraphes courts et médias. C'est effectivement **le trio gagnant** pour que votre contenu soit facile à lire et ne fasse pas pavé indigeste que l'on s'enfile pas obligation, avec la crainte d'une indigestion en toile de fond.
+
+
+
+### Les onglets Advanced, Schema Markup et Social Media
+
+
+
+Des réglages particuliers, dont vous n'aurez peut-être jamais à vous servir : ne pas indexer une page, pourquoi pas, si elle n'a vraiment aucun intérêt pour les internautes. Mais bon… plutôt anecdotique.
+
+
+
+Si vous avez bien configuré Rank Math, vous ne devriez pas vous servir souvent de ces onglets qui ne servent qu'à outrepasser les réglages par défaut de l'extension.
+
+
+
+### Les autres mentions Rank Math
+
+
+
+Au-delà de cette barre latérale (commune à *Gutenberg* et à *Elementor*) on trouve un réglage *Rank Math* dans les propriétés du document ; si vous affectez deux catégories à un article, vous pourrez choisir la catégorie principale, qui détermine le slug et évite tout *duplicate content*, comme vous pouvez le voir dans la capture ci-dessous :
+
+
+<OptImg src="/image/rank-math-primary-category" alt="Choix de la catégorie principale" caption="Choix de la catégorie principale" align="center" />
+
+
+Vous trouverez également un résumé des propriétés SEO d'un article dans *Articles > Tous les articles* :
+
+
+<OptImg src="/image/rank-math-resume" alt="Résumé Rank Math" caption="Résumé Rank Math" align="center" />
+
+
+## Rank Math et Elementor
+
+
+
+C'est une nouveauté de janvier 2020, **Rank Math fonctionne aussi sous Elementor**, et c'est la seule extension SEO à ce jour à proposer cette intégration qui, honnêtement, facilitera l'optimisation pour les concepteurs de page.
+
+
+
+Vous le voyez dans la capture d'écran ci-dessous, vous gérez tout depuis la barre latérale… le top !
+
+
+<OptImg src="/image/rank-math-elementor" alt="Panneau Rank Math sous Elementor" caption="Panneau Rank Math sous Elementor" align="center" />
+
+
+## Conclusion
+
+
+
+Vous avez maintenant tous les éléments en main pour bien optimiser votre site, mais rappelez-vous que de toute façon cette extension n'est jamais qu'un outil destiné à vous faciliter la tâche, ce qu'elle fait remarquablement bien par ailleurs. Mais attention ! Ce n'est qu'un outil, la SEO, c'est principalement votre travail, votre contenu qui vous permettront d'obtenir un bon classement dans les moteurs de recherche quelle que soit l'extension SEO que vous utilisez.
+
+
+
+Et vous, utilisez-vous Rank Math, ou une autre extension SEO pour WordPress ? Quelles sont vos impressions par rapport à cet outil, et que vous a-t-il apporté, si vous l'utilisez ? Attention ! Maintenant, c'est à vous, via les commentaires !
