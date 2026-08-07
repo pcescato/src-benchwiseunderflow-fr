@@ -21,7 +21,7 @@ const totalPages = Math.ceil(page.total / page.size);
 const pageLinks = generatePageLinks(totalPages);
 ---
 
-<BaseLayout title="Blog">
+<BaseLayout title="Blog" noindex={!Astro.params.page}>
   <!-- Blog Navigation Cards -->
   <CardGroup cols="2">
     <!-- Archives Card -->

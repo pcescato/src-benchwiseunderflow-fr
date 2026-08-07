@@ -82,7 +82,11 @@ export default defineConfig({
         !page.includes("/notes/") &&
         !page.includes("/search/") &&
         !page.includes("/archives/") &&
-        !page.endsWith("/blog/tags/"),
+        !page.endsWith("/blog/tags/") &&
+        !page.endsWith("/blog/") &&
+        !page.endsWith("/blog/categories/") &&
+        !page.endsWith("/confidentialite/") &&
+        !page.endsWith("/mentions-legales/"),
       serialize: (item) => {
         const frontmatterDate = blogLastmods.get(item.url);
         if (frontmatterDate) item.lastmod = frontmatterDate.toISOString();
