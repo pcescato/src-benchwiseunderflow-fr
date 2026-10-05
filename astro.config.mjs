@@ -14,6 +14,32 @@ import updateConfig from "./src/integration/updateConfig.ts";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 import rehypeMermaid from "rehype-mermaid";
 
+const SITE_ORIGIN = new URL(USER_SITE).origin;
+
+// Seuls les liens vers un autre site sont concernés : les liens internes,
+// relatifs ou pointant vers notre propre domaine, restent dans l'onglet.
+function isExternalLink(node) {
+  if (node.type !== "element" || node.tagName !== "a") {
+    return false;
+  }
+  const match = /^https?:\/\/[^/]+/i.exec(String(node.properties?.href ?? ""));
+  return Boolean(match) && match[0].toLowerCase() !== SITE_ORIGIN;
+}
+
+// Les liens externes s'ouvrent dans un nouvel onglet, avec la mention ↗ qui
+// prévient visuellement (et pour les lecteurs d'écran) du changement de fenêtre.
+const rehypeLinks = [
+  [
+    rehypeExternalLinks,
+    {
+      target: "_blank",
+      rel: ["noopener", "noreferrer"],
+      content: { type: "text", value: "↗" },
+      test: isExternalLink,
+    },
+  ],
+];
+
 const BLOG_DIR = path.resolve("src/content/blog");
 const blogArticleUrls = new Set();
 const blogLastmods = new Map();
@@ -60,15 +86,7 @@ export default defineConfig({
 
     mdx({
       remarkPlugins: [remarkReadingTime],
-      rehypePlugins: [
-        rehypeMermaid,
-        [
-          rehypeExternalLinks,
-          {
-            content: { type: "text", value: "↗" },
-          },
-        ],
-      ],
+      rehypePlugins: [rehypeMermaid, ...rehypeLinks],
     }),
 
     icon(),
@@ -101,15 +119,7 @@ export default defineConfig({
 
   markdown: {
     remarkPlugins: [remarkReadingTime],
-    rehypePlugins: [
-      rehypeMermaid,
-      [
-        rehypeExternalLinks,
-        {
-          content: { type: "text", value: "↗" },
-        },
-      ],
-    ],
+    rehypePlugins: [rehypeMermaid, ...rehypeLinks],
   },
 
   vite: {
