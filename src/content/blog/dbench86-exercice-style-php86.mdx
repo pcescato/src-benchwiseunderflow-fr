@@ -1,0 +1,818 @@
+---
+title: "DBench86 – exercice de style en PHP 8.6"
+pubDate: "2026-10-06T09:00:00+02:00"
+lastmod: "2026-10-06T09:00:00+02:00"
+slug: "dbench86-exercice-style-php86"
+draft: false
+categories:
+  - "Comparatifs"
+tags:
+  - "benchmark"
+  - "performances"
+  - "SQL"
+  - "PHP"
+  - "SGBD relationnels"
+  - "open source"
+description: "Un benchmark MariaDB, PostgreSQL et SQLite, né du challenge PHPenomenal 8.6. Même machine, même dataset, mêmes requêtes, 128 Mo pour PHP : ce que le tuning change vraiment, et pourquoi il n'existe pas de bon SGBD."
+image: /image/dbench86-exercice-style-php86.avif
+---
+
+import { Code } from 'astro-expressive-code/components'
+
+> Un benchmark en prétexte à une appli en PHP 8.6 et PHP 8.6 comme prétexte à un benchmark
+
+## Tout est parti d'un benchmark
+
+Les bases de données, c'est un peu mon terrain de jeu, depuis toujours. De dBASE III+ dans les années 90 à MyScaleDB aujourd'hui, en passant par les bases de données XML dans les années 2000… j'ai toujours cherché la meilleure solution, la meilleure approche, en fonction du projet. J'ai d'ailleurs pas mal écrit sur ce sujet, et j'ai lancé [dbgrade.tech](https://dbgrade.tech) pour auditer certaines bases.
+
+Récemment, j'ai lu un rapport comparant plusieurs moteurs : MariaDB 10.3, MySQL 8.0, et PostgreSQL 12.
+
+Et plus j'avançais dans le rapport, plus quelque chose me gênait.
+
+Les moteurs n'étaient pas comparés dans les mêmes conditions, et les versions dataient de plusieurs années – 2018 et 2019, alors que nous sommes en 2026.
+
+À ce stade, qu'est-ce qu'on mesure réellement ?
+
+Le moteur de base de données ? La quantité de mémoire ? Le processeur ? Le stockage ? Une version obsolète du logiciel ?
+
+Probablement un peu tout ça à la fois.
+
+Un tel benchmark peut avoir du sens dans un contexte précis. Si je prépare une migration depuis une ancienne version de PostgreSQL, par exemple, comparer cette version à une version récente d'un autre moteur est parfaitement légitime.
+
+Mais ce n'était pas la question posée, et ce benchmark m'a laissé un goût d'inachevé.
+
+## Puis PHP 8.6 est arrivé. Sans se presser.
+
+Un peu plus tard, j'ai découvert sur daily.dev le [challenge PHPenomenal 8.6](https://www.exakat.io/phpenomenal-8-6-a-challenge-to-for-phps-next-release/) proposé par Damien Séguy à l'occasion de la sortie de PHP 8.6.
+
+Damien Séguy est une figure du paysage PHP français. Et PHP, je connais plutôt bien, je l'utilise depuis longtemps dans mes développements.
+
+Le challenge m'amusait donc – sept nouveautés du langage à faire vivre dans une vraie application, pas dans sept fichiers de démonstration isolés. Des choses comme ça :
+
+<Code code={`interface DatabaseDriver {
+    public string \$name { get; }
+}
+
+final class MariaDbDriver implements DatabaseDriver {
+    public readonly string \$name = 'MariaDB';
+}`} lang="php" />
+
+Une propriété readonly qui satisfait un contrat d'interface, sans constructeur, sans getter. Jolie idée. Encore fallait-il trouver où elle serait vraiment utile, pas juste présente.
+
+Je ne fais jamais un challenge juste pour caser quelques nouveautés d'un langage dans un programme futile. Compter les aboiements de mon chien dans la journée ou le nombre de fois où mon voisin allume la lumière le soir ne m'intéresse pas beaucoup.
+
+Quitte à écrire du code, autant qu'il serve à quelque chose. Et là, les deux sujets se sont rejoints.
+
+Pourquoi ne pas profiter du challenge PHP 8.6 pour construire un outil de comparaison de performances qui tente de comparer ce qui est réellement comparable.
+
+C'est comme ça qu'est né **DBench86**.
+
+## Comparer ce qui est comparable
+
+Sur le papier, c'est simple : dernières versions stables, même machine, mêmes données, mêmes requêtes.
+
+Dans la pratique, j'allais découvrir que le mot « équitable » est beaucoup plus compliqué qu'il n'en a l'air.
+
+### D'abord, les versions
+
+Je ne voulais pas comparer les versions stables de 2019 ou même de 2020. Quel intérêt ? Elles sont en fin de vie.
+
+DBench86 utilise donc, au moment du benchmark, **la dernière version stable disponible de chacun des trois moteurs**.
+
+Ce choix ne signifie évidemment pas que toutes les versions ont le même âge ou que les trois projets suivent le même rythme de publication. Ce qui m'intéresse est beaucoup plus simple : si aujourd'hui je dois choisir un moteur de bases de données pour une nouvelle application, quelles sont les versions que je vais raisonnablement installer ?
+
+Les versions stables actuelles.
+
+Comparer une ancienne version de PostgreSQL avec la dernière version de MariaDB peut avoir du sens si je prépare une migration. Mais ce serait un autre benchmark, répondant à une autre question.
+
+Ici, je veux comparer ce que proposent **aujourd'hui** MariaDB, PostgreSQL et SQLite.
+
+### Ensuite, la machine
+
+La deuxième règle était tout aussi évidente : DBench86 devait exécuter les différents moteurs sur **la même machine**.
+
+Pas un VPS avec 2 Go de RAM pour MariaDB et un autre avec 4 Go pour PostgreSQL. Pas deux vCPU ici et quatre là. Pas un SSD d'un côté et un NVMe de l'autre.
+
+Une seule machine.
+
+Mêmes processeurs, même mémoire, même stockage, même système d'exploitation et même version de PHP.
+
+Au moins, lorsque PostgreSQL met 200 ms là où MariaDB en met 300, je sais que les 100 ms d'écart ne viennent pas d'un processeur deux fois plus rapide.
+
+Ça paraît évident dit comme ça.
+
+Apparemment, ça ne l'est pas toujours, ou pas pour tout le monde. Certains additionnent encore des pommes et des poires quand il faudrait additionner des fruits, ou ne pas additionner du tout.
+
+### Trois moteurs, mais pas trois façons de les tester
+
+J'ai finalement retenu MariaDB, PostgreSQL et SQLite.
+
+Les deux premiers sont assez naturellement comparables : ce sont des serveurs de bases de données complets, installés sur la même machine et interrogés par la même application PHP.
+
+SQLite est un peu différent. Il n'y a pas de serveur SQLite à configurer, pas de connexion réseau, pas de service qui tourne en arrière-plan. Dans DBench86, la base est même créée en mémoire.
+
+Ça change aussi la donne sur la durabilité : MariaDB et PostgreSQL respectent `fsync` même en configuration par défaut, alors que SQLite en mémoire n'écrit rien sur disque. Ce n'est pas un biais à corriger – c'est une caractéristique réelle de ce mode, et c'en est justement une raison d'usage légitime – mais autant le dire clairement plutôt que de laisser deviner pourquoi SQLite part avec un avantage structurel sur certaines opérations.
+
+Alors, est-ce vraiment équitable ? Oui… et non.
+
+Si le but était de proclamer un vainqueur en additionnant les temps et en distribuant des médailles à la fin, probablement pas.
+
+Mais ce n'est justement pas le but.
+
+SQLite fait partie des solutions que je peux choisir pour stocker les données d'une application. Dans certains cas, il sera parfaitement adapté. Dans d'autres, l'idée même de l'utiliser sera absurde.
+
+Je ne cherche pas à savoir quel est **le meilleur moteur de bases de données**. Cette question n'a d'ailleurs pas beaucoup de sens.
+
+Je cherche à voir comment chacun se comporte face aux mêmes opérations, et surtout comment ce comportement évolue lorsque le volume de données augmente.
+
+Avec 10 000 lignes, SQLite peut très bien ridiculiser tout le monde sur certaines opérations.
+
+Avec un million ?
+
+On verra bien.
+
+### Faire travailler tout le monde sur les mêmes données
+
+J'ai choisi de générer le jeu de données moi-même, de manière déterministe.
+
+Même point de départ, même générateur, mêmes données logiques.
+
+Une recherche par clé primaire doit rechercher les mêmes clés. Une sélection sur une plage doit porter sur les mêmes bornes. Une mise à jour doit être comparable à celle exécutée par les autres moteurs.
+
+DBench86 utilise dix workloads :
+
+- recherche par clé primaire ;
+- recherche sur une colonne indexée ;
+- sélection d'une plage de données ;
+- jointure ;
+- agrégation ;
+- insertion simple ;
+- insertion par lots ;
+- insertions dans une transaction ;
+- mise à jour par clé primaire ;
+- suppression par clé primaire.
+
+Rien de particulièrement exotique.
+
+Et c'est volontaire.
+
+Je ne cherche pas la requête SQL suffisamment tordue pour mettre un moteur à genoux et pouvoir ensuite annoncer triomphalement que son voisin est vingt fois plus rapide.
+
+Je veux des opérations que l'on retrouve dans de vraies applications.
+
+### Et les requêtes SQL ?
+
+PostgreSQL, MariaDB et SQLite n'ont évidemment pas le même moteur. Ils n'ont pas le même optimiseur et pas nécessairement la même façon d'exécuter une requête.
+
+On pourrait donc commencer à adapter les requêtes : une petite optimisation pour PostgreSQL par ici, une autre pour MariaDB par là, un traitement particulier pour SQLite.
+
+Et quelques heures plus tard, on aurait trois benchmarks.
+
+Ce n'est pas ce que je voulais.
+
+DBench86 décrit le travail à effectuer avec des requêtes SQL comparables et laisse ensuite chaque moteur faire ce pour quoi il a été conçu : **les optimiser et les exécuter**.
+
+Je pourrais lancer un `EXPLAIN` et analyser les plans d'exécution. Ce serait intéressant, mais ce serait un autre sujet.
+
+À partir du moment où je corrige dans mon code les faiblesses de l'un ou de l'autre, je ne compare plus vraiment les moteurs. Je compare ma capacité à les optimiser individuellement.
+
+### Brut d'abord, optimisé ensuite
+
+Il y a en réalité deux questions intéressantes :
+
+> Qu'est-ce que j'obtiens lorsque j'installe le moteur et que je l'utilise avec sa configuration par défaut ?
+
+Et :
+
+> Qu'est-ce que j'obtiens lorsque je prends le temps de configurer correctement ce même moteur pour la machine dont je dispose ?
+
+Il me fallait donc deux campagnes : **stock**, puis **tuned**.
+
+Mais avec une règle qui ne change pas : DBench86 reste exactement le même.
+
+Mêmes versions. Même code PHP. Même configuration PDO. Même schéma. Même génération des données. Mêmes requêtes. Mêmes workloads. Même machine.
+
+**La seule variable entre les deux campagnes est la configuration des serveurs.**
+
+Simple sur le papier.
+
+Et pourtant, un peu plus tard, j'ai réussi à tomber exactement dans le piège que je voulais éviter.
+
+## À un million de lignes, tout s'arrête
+
+Les premiers essais passent bien.
+
+10 000 lignes, aucun problème. 100 000 lignes, toujours aucun problème.
+
+Alors forcément, je passe à un million. Et là :
+
+<Code code={`Fatal error: Allowed memory size of 134217728 bytes exhausted`} lang="txt" />
+
+128 Mo.
+
+La solution la plus simple aurait été de modifier `memory_limit`.
+
+512 Mo ? 1 Go ? Après tout, j'avais de la mémoire disponible.
+
+Mais attendez…
+
+J'avais justement commencé ce projet parce qu'un benchmark qui change les ressources lorsqu'elles ne l'arrangent plus m'avait agacé.
+
+J'allais quand même pas faire exactement la même chose.
+
+Et surtout, pourquoi un benchmark de bases de données aurait-il besoin de plusieurs centaines de mégaoctets de mémoire PHP pour tester une base contenant un million de lignes ?
+
+Ce ne sont pas les données que PHP doit stocker.
+
+Elles sont dans la base.
+
+### Le problème n'était pas la base de données
+
+Le problème se trouvait dans la préparation des workloads.
+
+Ma première implémentation conservait beaucoup trop d'informations en mémoire. Plus le dataset grossissait, plus la quantité de données conservée par PHP grossissait avec lui.
+
+Mais combien de valeurs avais-je réellement besoin de conserver ?
+
+Le benchmark effectue 5 warmups puis 30 mesures. 35 exécutions. Pas un million.
+
+La préparation était en quelque sorte en :
+
+<Code code={`O(nombre de lignes)`} lang="txt" />
+
+alors qu'elle pouvait être ramenée à :
+
+<Code code={`O(warmups + runs)`} lang="txt" />
+
+Avec mes paramètres habituels :
+
+<Code code={`O(35)`} lang="txt" />
+
+Un peu mieux.
+
+### Corriger le benchmark plutôt qu'augmenter la mémoire
+
+J'ai donc repris la génération du dataset.
+
+Les données sont désormais générées progressivement et insérées par lots. DBench86 ne conserve en mémoire que ce dont il aura réellement besoin pour les exécutions à venir.
+
+Le reste est envoyé à la base de données puis oublié par PHP.
+
+Je relance.
+
+10 000 lignes, ça passe.
+
+100 000, ça passe.
+
+Un million… ça passe aussi.
+
+Je n'ai pas augmenté la limite pour permettre au benchmark de survivre à un million de lignes.
+
+J'ai supprimé la raison pour laquelle il avait besoin de toute cette mémoire.
+
+## `range_select` et le piège de la fausse équité
+
+En regardant plus attentivement les tests, un autre cas a attiré mon attention : `range_select`.
+
+Sur de grandes plages, le résultat peut représenter des dizaines ou des centaines de milliers de lignes.
+
+Et là, une question apparaît :
+
+**qu'est-ce que je mesure exactement ?**
+
+Le temps nécessaire au moteur pour exécuter la requête ? Pour envoyer les résultats ? Pour que PDO les récupère ? Ou un mélange des trois ?
+
+Il aurait été très facile de conserver les chiffres.
+
+Ils avaient l'air sérieux.
+
+Il y avait une médiane, un P95, trois décimales…
+
+Donc forcément, ça devait être scientifique.
+
+Évidemment, non.
+
+J'ai audité ce workload séparément : bornes déterministes, cardinalités identiques, checksum indépendant de l'ordre pour vérifier le contenu.
+
+Il n'y a volontairement pas de `ORDER BY` : l'ordre n'est pas utilisé par le benchmark, alors pourquoi demander au moteur d'effectuer un tri dont je n'ai pas besoin ?
+
+### Une meilleure solution technique… qui répondait à la mauvaise question
+
+Pour PostgreSQL, j'ai expérimenté une récupération en streaming. Techniquement, c'était propre et efficace.
+
+Mais DBench86 commençait alors à savoir qu'il exécutait PostgreSQL et à lui appliquer un réglage particulier.
+
+J'étais en train de faire exactement ce que je m'étais interdit de faire.
+
+Pas avec de la RAM cette fois. Avec le driver.
+
+L'optimisation était bonne si mon objectif avait été de construire l'application PHP la plus efficace possible avec PostgreSQL.
+
+Mais je construisais un benchmark. J'ai donc retiré l'optimisation.
+
+MariaDB utilise le comportement PDO par défaut.
+
+PostgreSQL utilise le comportement PDO par défaut.
+
+SQLite utilise le comportement PDO par défaut.
+
+Et dans les trois cas, DBench86 consomme l'intégralité du résultat à l'intérieur de la période mesurée.
+
+### Équitable ne veut pas dire identique
+
+Un benchmark équitable ne consiste pas à faire en sorte que les trois moteurs travaillent de manière identique.
+
+Il consiste à leur poser **le même problème dans les mêmes conditions**, puis à accepter qu'ils ne le résolvent pas de la même manière.
+
+La règle est devenue :
+
+> **DBench86 ne doit pas rendre les moteurs identiques. Il doit éviter de favoriser artificiellement l'un d'entre eux.**
+
+## Stock contre tuned : cette fois, on a le droit de toucher aux réglages
+
+Pour la première campagne, je conserve les configurations telles qu'elles sont installées.
+
+Je relève d'abord ce qui existe.
+
+Et je l'archive.
+
+Dans mon cas, MariaDB démarrait notamment avec un buffer pool InnoDB de 128 Mio et un redo log de 96 Mio, avec une limite de 151 connexions.
+
+PostgreSQL avait lui aussi 128 Mio de `shared_buffers`, un `work_mem` de 4 Mio et 100 connexions possibles.
+
+Ce sont ces valeurs-là que j'ai testées.
+
+Pas celles de la documentation.
+
+**Celles réellement utilisées par les serveurs.**
+
+### Puis on optimise
+
+Pour la deuxième campagne, je m'autorise à toucher aux serveurs. La machine dispose d'un peu moins de 4 Gio de RAM, sans swap.
+
+Il fallait raisonner avec un **budget global**, pas optimiser chaque serveur comme s'il était seul sur la machine.
+
+Pour MariaDB, le buffer pool InnoDB passe de 128 à 768 Mio. Le redo log passe de 96 à 256 Mio. J'ajoute un petit cache MyISAM de 16 Mio et je réduis le nombre maximal de connexions de 151 à 32.
+
+Pour PostgreSQL, `shared_buffers` passe de 128 à 512 Mio. J'augmente certaines marges de maintenance et de WAL, j'espace les checkpoints à dix minutes, je ramène également le nombre de connexions à 32 et je réduis les limites de parallélisme.
+
+Et `work_mem` ? 4 Mio. Je n'y touche pas.
+
+Parce que `work_mem` n'est pas « la quantité de mémoire que PostgreSQL peut utiliser ». C'est une enveloppe susceptible d'être consommée plusieurs fois.
+
+Le détail complet des deux configurations, valeur par valeur, est disponible pour qui veut vérifier ou reproduire : [configuration stock](https://github.com/pcescato/phpenomenal/blob/dbench86/dbench86/docs/DATABASE_CONFIG_STOCK.md) et [configuration tuned](https://github.com/pcescato/phpenomenal/blob/dbench86/dbench86/docs/DATABASE_CONFIG_TUNED.md).
+
+### Et SQLite ?
+
+Rien.
+
+DBench86 utilise une base SQLite privée en mémoire. Je pourrais modifier des `PRAGMA` ou chercher à optimiser SQLite spécifiquement.
+
+Mais ce serait précisément ce que je ne veux pas faire.
+
+**Tuned ne veut pas dire que je dois absolument modifier quelque chose pour chaque participant.**
+
+### Optimiser, oui. Modifier la durabilité, non.
+
+Je peux rendre une base de données beaucoup plus rapide si j'accepte qu'elle soit moins sûre.
+
+Je n'ai donc pas touché aux réglages fondamentaux de durabilité.
+
+Je veux mesurer l'effet d'une configuration mieux adaptée à la machine.
+
+Pas répondre à la question :
+
+> Jusqu'à quelle vitesse peut aller une base de données si la conservation de mes données devient facultative ?
+
+## Sauf qu'un benchmark n'est pas un chronomètre
+
+Une base de données possède des caches. Le système d'exploitation possède des caches. Le stockage possède ses propres comportements.
+
+Un benchmark de 0,154 ms contre 0,168 ms ne signifie pas nécessairement que le premier moteur est 9 % plus rapide.
+
+C'est pour ça que DBench86 commence par des warmups, exclus des statistiques, puis effectue 30 runs mesurés.
+
+Je m'intéresse surtout à la médiane et au P95. La médiane donne une bonne idée du comportement habituel. Le P95 commence à raconter ce qui se passe lorsque les choses se passent un peu moins bien.
+
+## Maintenant, les chiffres.
+
+À ce stade, je n'avais plus à changer les règles.
+
+Le benchmark était écrit. Les workloads étaient définis. Les versions étaient choisies. Les configurations stock avaient été conservées et les configurations optimisées préparées.
+
+Et surtout, j'avais décidé de tout cela **avant de connaître les résultats**.
+
+Trois tailles : **10 000, 100 000 et 1 000 000 de lignes**. Dix workloads. Trente mesures, cinq warmups. Toujours **128 Mo pour PHP**.
+
+**Environnement de test**
+
+| | |
+|---|---|
+| OS | Ubuntu 26.04 LTS |
+| CPU | 2 vCPU, Intel Core Processor (Haswell, no TSX) |
+| RAM | 3,73 Gio, sans swap |
+| Stockage | 40 Go NVMe |
+| PHP | 8.6.0-dev |
+| MariaDB | 11.8.6-MariaDB-5ubuntu0.1 |
+| PostgreSQL | 18.6 (Ubuntu 18.6-0ubuntu0.26.04.1) |
+| SQLite | 3.46.1 |
+
+### Optimiser ne veut pas dire « rendre plus rapide »
+
+À 10 000 lignes, le tuning ne fait pas de miracle. Il peut même produire l'effet inverse.
+
+Sur MariaDB, `pk_select` passe d'une médiane de 0,117 ms en stock à 0,194 ms après tuning. `indexed_select` passe de 0,140 à 0,208 ms.
+
+Sur PostgreSQL, `single_insert` passe de 0,408 à 0,660 ms et `batch_insert` de 6,772 à 9,739 ms.
+
+**Augmenter des buffers n'est pas une incantation magique.**
+
+Passons à un million de lignes.
+
+| Workload MariaDB | Stock | Tuned | Rapport |
+| :--- | ---: | ---: | ---: |
+| `pk_select` | 0,753 ms | 0,158 ms | ×4,77 |
+| `indexed_select` | 0,948 ms | 0,185 ms | ×5,12 |
+| `join` | 1,190 ms | 0,322 ms | ×3,70 |
+| `range_select` | 1 061,993 ms | 353,871 ms | ×3,00 |
+| `transactional_insert` | 4,499 ms | 2,325 ms | ×1,94 |
+| `aggregation` | 2 107,764 ms | 2 067,632 ms | ×1,02 |
+
+Selon le workload, le tuning va de **presque rien** à un facteur supérieur à cinq.
+
+C'est précisément pour cela que je me méfie d'une phrase comme « MariaDB est trois fois plus rapide après optimisation ».
+
+Sur quelle requête ? À quelle taille ? Trois fois plus rapide sur quoi ?
+
+### PostgreSQL refuse gentiment de suivre le scénario
+
+À un million de lignes, `range_select` donne une médiane de **132,538 ms sur PostgreSQL stock**.
+
+Après tuning : **144,518 ms**. C'est légèrement moins bon.
+
+Et j'aime beaucoup ce résultat parce qu'il empêche de raconter une histoire trop simple.
+
+Sur `aggregation`, on passe de 1 535,921 à 1 505,447 ms.
+
+Une amélioration d'environ 2 %. Pas franchement de quoi sortir le champagne. Ce n'est même pas assez pour être interprété.
+
+### Puis il y a SQLite
+
+À un million de lignes, configuration tuned :
+
+| Workload | MariaDB | PostgreSQL | SQLite |
+| :--- | ---: | ---: | ---: |
+| `pk_select` | 0,158 | 0,122 | **0,004** |
+| `indexed_select` | 0,185 | 0,126 | **0,005** |
+| `join` | 0,322 | 0,219 | **0,016** |
+| `range_select` | 353,871 | **144,518** | 208,464 |
+| `aggregation` | 2 067,632 | 1 505,447 | **848,521** |
+| `batch_insert` | 6,681 | 7,529 | **5,157** |
+| `transactional_insert` | 2,325 | 2,746 | **0,437** |
+
+*Temps médians en millisecondes. SQLite n'a reçu aucun réglage – les deux mesures ci-dessus et dans le tableau de scaling plus bas proviennent de sessions différentes, d'où un léger écart naturel d'un run à l'autre.*
+
+À première vue, on pourrait écrire :
+
+**SQLite explose tout le monde.**
+
+Et on aurait immédiatement reproduit exactement le type de benchmark qui m'avait donné envie d'écrire DBench86.
+
+SQLite tourne dans le processus, sans échange client/serveur. Ces chiffres sont réels.
+
+Mais leur interprétation compte davantage que leur classement.
+
+Dès qu'on regarde `range_select`, PostgreSQL prend la tête. Puis `aggregation` redistribue encore les cartes.
+
+Il n'y a toujours pas de vainqueur universel.
+
+Il y a des workloads.
+
+### Ce qui m'intéresse surtout : ce qui se passe quand la base grossit
+
+Prenons `range_select`. Avec des temps médians en millisecondes, ça donne ce tableau :
+
+| Moteur | 10k | 100k | 1M |
+| :--- | ---: | ---: | ---: |
+| MariaDB stock | 2,530 | 35,317 | 1 061,993 |
+| MariaDB tuned | 2,544 | 34,852 | 353,871 |
+| PostgreSQL stock | 1,684 | 13,807 | 132,538 |
+| PostgreSQL tuned | 1,592 | 14,142 | 144,518 |
+| SQLite | 1,207 | 15,716 | 226,528 |
+
+À 10 000 lignes, MariaDB stock et tuned sont pratiquement confondus.
+
+À 100 000, toujours pratiquement rien.
+
+Puis à un million :
+
+**1 061,993 contre 353,871 ms.**
+
+Le tuning qui semblait ne servir à rien devient soudain déterminant.
+
+PostgreSQL raconte presque l'histoire inverse.
+
+C'est là que se trouve, à mon avis, le résultat principal :
+
+**les différences entre moteurs et l'effet du tuning apparaissent avec le workload et avec l'échelle.**
+
+C'est précisément ce qu'un benchmark réduit à un score final fait disparaître.
+
+### Les 128 Mo qui n'ont jamais été un problème
+
+À un million de lignes, DBench86 atteint un pic PHP de **12 MiB**, toujours avec une limite à 128 MiB.
+
+Ce n'est évidemment pas la mémoire consommée par MariaDB, PostgreSQL ou SQLite. On mesure ici la mémoire du harness PHP.
+
+Mais c'était justement l'objectif.
+
+Le dataset peut passer de 10 000 à un million de lignes sans que DBench86 ait besoin de charger un million d'objets PHP en mémoire pour faire semblant de tester la scalabilité.
+
+## Alors, quel est le meilleur ?
+
+Je pourrais terminer cet article par un classement.
+
+MariaDB gagne ici. PostgreSQL gagne là. SQLite écrase les deux autres ailleurs.
+
+Ce serait simple. **Ce serait aussi exactement ce que je voulais éviter**.
+
+Un benchmark ne répond pas à la question « quel est le meilleur SGBD ? », il répond à des questions beaucoup plus précises.
+
+Comment ces trois moteurs se comportent-ils sur la même machine, avec les mêmes ressources, sur les mêmes opérations SQL ?
+
+Que se passe-t-il lorsque le volume passe de 10 000 à 100 000, puis à un million de lignes ?
+
+Que change une configuration adaptée à la machine, sans changer le benchmark lui-même ?
+
+Et surtout : est-ce que les conclusions restent les mêmes quand l'échelle change ?
+
+La réponse est non.
+
+### Il y a trois vainqueurs
+
+SQLite est redoutable lorsqu'on reste dans son terrain naturel.
+
+PostgreSQL montre un comportement particulièrement intéressant sur certaines lectures lorsque le volume augmente.
+
+MariaDB raconte encore une autre histoire : sur certaines opérations, sa configuration stock devient pénalisante lorsque le dataset grossit, et une configuration adaptée change radicalement le résultat.
+
+Et sur d'autres, presque rien.
+
+Il n'y a pas un gagnant, **il y en a trois** – ou aucun, selon la manière dont on veut regarder les choses.
+
+### Un benchmark n'est valable que dans les conditions où on l'a réalisé
+
+DBench86 ne prétend pas avoir éliminé tous les biais. J'ai simplement essayé d'en éliminer autant que possible.
+
+Même machine, mêmes ressources.
+
+Versions stables contemporaines de chaque moteur au moment du test.
+
+Même dataset déterministe, mêmes opérations, même nombre de runs, même warmup, même limite PHP de 128 Mo.
+
+Et lorsque j'ai voulu mesurer l'effet du tuning, j'ai changé **le tuning**, pas le reste.
+
+Rien de spectaculaire là-dedans. Juste de la discipline.
+
+### Et PHP 8.6 dans tout ça ?
+
+Il ne faut quand même pas oublier que toute cette histoire a commencé par là. Enfin, presque. Il en a plutôt été le catalyseur.
+
+Je suis tombé sur le challenge PHPenomenal 8.6 organisé par Damien Séguy.
+
+J'utilise PHP depuis longtemps, j'ai même passé la certification *Zend Certified Engineer PHP 5* en 2008. Il me sert au quotidien dans des applications métier et pour étendre WordPress.
+
+Il me fallait simplement trouver une application légère qui justifie l'utilisation des nouveautés de PHP 8.6.
+
+Pas une démonstration artificielle dans laquelle j'aurais utilisé `clamp()` parce qu'il fallait absolument placer `clamp()` quelque part. On peut éventuellement créer une classe qui utilise les 7 fonctionnalités les une après les autres ou imbriquées les unes dans les autres, mais où serait l'intérêt, si ce n'est dans l'exercice de style lui-même ?
+
+DBench86 utilise les sept fonctionnalités obligatoires du challenge dans le fonctionnement de l'application : Partial Function Application, `Time\Duration`, `clamp()`, `#[\Override]` sur les constantes, les écritures sur des objets détenus par une constante, les valeurs par défaut des propriétés readonly et l'enum `SortDirection`, ainsi qu'une huitième fonctionnalité de la liste optionnelle : les `DocComments` sur les paramètres de fonctions.
+
+Et surtout, chacune a fini par trouver sa place naturellement.
+
+#### Partial Function Application : prépare l'exécution une fois
+
+La spécialisation des workloads, par exemple, tient dans cette expression :
+
+<Code code={`\$runOnThisDriver = \$this->runMeasuredWorkload(\$timer, ?, \$pdo);
+
+\$measurements = [];
+foreach (\$workloads as \$workload) {
+    \$measurement = \$runOnThisDriver(\$workload);
+    \$measurements[\$workload->name()] = \$measurement;
+}`} lang="php" />
+
+Le `?` est ici le placeholder de la Partial Function Application. Le timer et la connexion PDO sont fournis une fois ; la fonction partielle obtenue n'attend plus que le workload.
+
+La méthode appelée reste, elle, très simple :
+
+<Code code={`private function runMeasuredWorkload(
+    WorkloadTimer \$timer,
+    Workload \$workload,
+    PDO \$pdo,
+): WorkloadMeasurement {
+    return \$timer->run(\$workload, \$pdo);
+}`} lang="php" />
+
+Ce n'est donc pas une PFA ajoutée pour satisfaire le checker : c'est elle qui exprime la façon dont DBench86 applique la même mécanique de mesure à chaque workload.
+
+#### `Time\Duration` : donne une unité au timeout
+
+Le timeout arrive depuis la ligne de commande sous forme de secondes :
+
+<Code code={`\$executor = new WorkloadExecutor(
+    Duration::fromSeconds(\$timeoutSeconds)
+);`} lang="php" />
+
+Mais le temps d'exécution est mesuré avec `hrtime(true)`, donc en nanosecondes. DBench86 reconvertit cette durée avant de la comparer au timeout :
+
+<Code code={`\$endTime = hrtime(true);
+\$elapsedNanoseconds = \$endTime - \$startTime;
+
+\$elapsedDuration = Duration::fromNanoseconds(\$elapsedNanoseconds);
+\$isTimeout = !\$executionFailed &&
+             Duration::compare(\$elapsedDuration, \$this->timeout) > 0;`} lang="php" />
+
+C'est précisément le genre d'endroit où un type dédié est plus parlant qu'un nombre dont il faut se souvenir s'il représente des secondes, des millisecondes ou des nanosecondes.
+
+Le timeout reste volontairement *a posteriori* : il permet de classifier une exécution trop longue, pas d'interrompre une requête SQL en cours.
+
+#### `clamp()` : respecte les limites du moteur
+
+Les insertions par lots posent un problème très concret : tous les moteurs n'acceptent pas les mêmes limites opérationnelles.
+
+DBench86 calcule donc la limite du driver sélectionné puis borne la taille demandée :
+
+<Code code={`\$driverLimit = BatchLimitCalculator::driverLimit(
+    \$this->driver,
+    \$this->parametersPerRow
+);
+
+\$this->effectiveBatchSize = BatchLimitCalculator::effectiveBatchSize(
+    \$this->requestedBatchSize,
+    \$driverLimit
+);`} lang="php" />
+
+Et `effectiveBatchSize()` se résume finalement à :
+
+<Code code={`return clamp(\$requestedBatchSize, 1, \$commonLimit);`} lang="php" />
+
+Ici encore, la nouveauté remplace proprement une combinaison de `min()`, `max()` ou quelques branches. Et elle agit réellement sur la taille des lots envoyés à la base.
+
+#### `#[\Override]` : vérifie aussi les constantes
+
+Chaque driver possède ses propres limites. MariaDB, par exemple, spécialise celles définies par le driver abstrait :
+
+<Code code={`#[\\Override]
+const int MAX_BATCH_SIZE = 2_000;
+
+#[\\Override]
+const int MAX_BOUND_PARAMETERS = 50_000;`} lang="php" />
+
+PostgreSQL et SQLite font de même avec leurs propres valeurs.
+
+L'intérêt de `#[\Override]` sur une constante n'est pas de rendre le programme plus rapide. Il est de rendre l'intention explicite et vérifiable : ces constantes sont censées remplacer celles héritées du parent. Si le contrat change, PHP peut détecter que l'override ne correspond plus à rien.
+
+#### Une constante peut contenir un objet… qui reste mutable
+
+DBench86 conserve également ses compteurs d'exécution dans un objet référencé par une constante de namespace :
+
+<Code code={`const EXECUTION_METRICS = new ExecutionMetrics();`} lang="php" />
+
+La constante ne change pas de référence, mais les propriétés de l'objet peuvent évoluer :
+
+<Code code={`EXECUTION_METRICS->queries += 1;
+
+if (!\$executionFailed && !\$isTimeout) {
+    EXECUTION_METRICS->runsCompleted += 1;
+}
+
+if (\$executionFailed) {
+    EXECUTION_METRICS->failures += 1;
+}
+
+if (\$isTimeout) {
+    EXECUTION_METRICS->timeouts += 1;
+}`} lang="php" />
+
+La distinction est intéressante : le binding reste constant ; l'objet qu'il référence n'est pas pour autant devenu immutable.
+
+#### Des valeurs par défaut pour les propriétés `readonly`
+
+L'identité d'un driver ne change jamais au cours de son existence. Pour MariaDB, elle peut donc être déclarée directement là où elle appartient :
+
+<Code code={`class MariaDbDriver extends AbstractDriver
+{
+    public readonly string \$name = 'MariaDB';
+    public readonly string \$pdoDriver = 'mysql';
+}`} lang="php" />
+
+Même principe pour PostgreSQL et SQLite.
+
+Pas besoin d'un constructeur uniquement pour affecter deux valeurs fixes. Le caractère immuable de ces propriétés reste explicite, et leur valeur est visible directement dans la déclaration du driver.
+
+#### `SortDirection` : ne plus transporter `asc` et `desc` comme de simples chaînes
+
+Enfin, la direction de tri fournie en ligne de commande est convertie immédiatement vers le nouvel enum global `SortDirection` :
+
+<Code code={`private function validateDirection(string \$value): SortDirection
+{
+    return match (\$value) {
+        'asc' => SortDirection::Ascending,
+        'desc' => SortDirection::Descending,
+        default => throw new InvalidArgumentException(
+            "Valeur invalide pour --direction : {\$value}. Valeurs acceptées : asc, desc"
+        ),
+    };
+}`} lang="php" />
+
+Plus loin, l'affichage des résultats travaille donc avec une valeur typée :
+
+<Code code={`\$comparison = \$a['statistics'][\$sort] <=> \$b['statistics'][\$sort];
+
+return \$direction === SortDirection::Ascending
+    ? \$comparison
+    : -\$comparison;`} lang="php" />
+
+Ce n'est pas spectaculaire. C'est justement ce qui me plaît : la nouveauté disparaît presque derrière le problème qu'elle résout.
+
+#### Une fonctionnalité optionnelle qui avait sa place : les DocComments sur les paramètres
+
+Le challenge proposait également une seconde liste de fonctionnalités PHP 8.6, facultatives cette fois.
+
+Je n'ai pas cherché à toutes les utiliser.
+
+Ajouter une fonctionnalité uniquement pour pouvoir dire qu'elle est là n'aurait pas eu beaucoup de sens – et certaines n'avaient tout simplement aucun intérêt dans DBench86.
+
+En revanche, les **DocComments sur les paramètres de fonctions** avaient un véritable cas d'usage.
+
+DBench86 génère son aide en ligne de commande à partir des paramètres disponibles. Les descriptions placées directement sur ces paramètres peuvent être récupérées par réflexion et utilisées pour construire cette aide.
+
+Elles ne servent donc pas seulement à documenter le code source : **elles deviennent une partie de la description de l'interface CLI elle-même**.
+
+C'est exactement le critère que je m'étais fixé pour les nouveautés de PHP 8.6 : ne pas chercher un endroit où les placer, mais les utiliser lorsqu'elles apportent réellement quelque chose à l'application.
+
+Parmi les fonctionnalités optionnelles du challenge, celle-ci passait le test.
+
+#### Et comment faire vérifier tout ça dans une application multi-fichiers ?
+
+Restait une contrainte particulière du challenge.
+
+Le checker officiel reçoit **un fichier PHP unique** et le tokenise. Or DBench86 est une vraie petite application, répartie entre plusieurs classes et plusieurs fichiers. Le point d'entrée initial, `dbench86.php` ne contient évidemment pas les sept fonctionnalités : il charge le bootstrap et lance l'application.
+
+Je n'avais aucune envie de transformer le code source en monolithe uniquement pour le challenge.
+
+DBench86 sait donc construire lui-même sa version standalone :
+
+<Code code={`if (in_array('--build-monolith', array_slice(\$argv, 1), true)) {
+    if (count(\$argv) !== 2) {
+        fwrite(STDERR, "Error: --build-monolith must be used alone.\\n");
+        return 1;
+    }
+
+    (new MonolithBuilder(\$projectDirectory))
+        ->write(\$projectDirectory . '/dist/dbench86-monolith.php');
+
+    echo "Built dist/dbench86-monolith.php\\n";
+    return 0;
+}`} lang="php" />
+
+Le builder parcourt les sources canoniques, les assemble dans un ordre déterministe et ajoute le véritable point d'entrée de l'application :
+
+<Code code={`foreach (\$this->sourceFiles() as \$relative) {
+    \$output .= "\\n// Source: {\$relative}\\n"
+        . \$this->namespaceBlock(
+            file_get_contents(\$this->projectDirectory . '/' . \$relative)
+        );
+}`} lang="php" />
+
+Le résultat n'est pas une seconde implémentation spécialement écrite pour le challenge. C'est **la même application**, assemblée dans un fichier PHP autonome que le checker peut analyser.
+
+C'était une contrainte du challenge, elle est devenue une fonctionnalité de l'application.
+
+J'aime assez ce genre de détour.
+
+Le challenge reste ouvert jusqu'au 19 novembre 2026, date de sortie officielle de PHP 8.6. Si l'exercice vous tente – faire vivre les nouveautés du langage dans une vraie application plutôt que dans sept fichiers isolés – [l'article d'exakat.io](https://www.exakat.io/phpenomenal-8-6-a-challenge-to-for-phps-next-release/) explique les règles, et [le dépôt du challenge](https://github.com/dseguy/phpenomenal) accueille les participations.
+
+### Ce benchmark n'est pas une réponse
+
+DBench86 est maintenant sur GitHub, et [sa pull request](https://github.com/dseguy/phpenomenal/pull/5) est ouverte pour le challenge PHPenomenal 8.6.
+
+Mais je ne considère pas les chiffres de cet article comme une table de la loi.
+
+Ils décrivent **cette machine, ces versions, ces configurations, ce dataset et ces workloads**.
+
+Sur votre machine, avec votre stockage, votre quantité de RAM, vos données et surtout vos requêtes, vous obtiendrez autre chose.
+
+Et c'est très bien.
+
+Le programme existe justement pour pouvoir être relancé.
+
+Un benchmark utile ne devrait pas vous dire quel produit choisir, **il devrait vous aider à poser les bonnes questions avant de le choisir**.
+
+Au départ, je voulais simplement participer à un challenge PHP 8.6 avec quelque chose qui m'amuse.
+
+Finalement, j'ai participé au challenge, j'ai construit un outil qui permet des comparatifs qui ont du sens et je partage mon expérience avec vous.
+
+C'est déjà pas mal.
+
